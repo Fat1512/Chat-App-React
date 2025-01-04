@@ -8,11 +8,13 @@ import RegisterSection from "./features/Authentication/RegisterSection";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Test from "./ui/Test";
+import { SocketProvider } from "./hooks/useSocket";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 1000,
+      staleTime: Infinity,
     },
   },
 });
@@ -20,18 +22,26 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<AppLayout />} />
-          <Route path="/app" element={<AppLayout />} />
-
-          <Route path="/auth" element={<Authentication />}>
-            <Route path="login" element={<LoginSection />} />
-            <Route path="register" element={<RegisterSection />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <SocketProvider>
+        <ReactQueryDevtools />
+        <BrowserRouter>
+          <Routes>
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Test />} />
+            </Route>
+            <Route path="/auth" element={<Authentication />}>
+              <Route path="login" element={<LoginSection />} />
+              <Route path="register" element={<RegisterSection />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </SocketProvider>
     </QueryClientProvider>
   );
 }
