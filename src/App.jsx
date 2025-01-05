@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Test from "./ui/Test";
 import { SocketProvider } from "./hooks/useSocket";
+import MainContent from "./ui/MainContent";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,7 +34,8 @@ function App() {
                 </ProtectedRoute>
               }
             >
-              <Route index element={<Test />} />
+              {/* <Route index element={<Test />} /> */}
+              <Route index element={<MainContent />} />
             </Route>
             <Route path="/auth" element={<Authentication />}>
               <Route path="login" element={<LoginSection />} />

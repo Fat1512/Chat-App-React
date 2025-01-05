@@ -1,5 +1,26 @@
 import axios from "axios";
+import axiosRetry from "axios-retry";
 
+axios.defaults.validateStatus = (status) => status >= 200 && status <= 500;
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Throw an exception to stop further execution
+      return Promise.reject("Unauthorized");
+    }
+    // Handle other errors here
+    return Promise.reject(error);
+  }
+);
+axiosRetry(axios, {
+  retries: 0, // Number of retries (Defaults to 3)
+  retryCondition(err) {
+    return false;
+  },
+});
 export const getAuthToken = () => {
   return window.localStorage.getItem("auth_token");
 };
@@ -16,19 +37,14 @@ export const removeLocalStorageToken = () => {
   window.localStorage.removeItem("auth_token");
 };
 
-axios.defaults.baseURL = "http://localhost:8080";
-axios.defaults.headers.post["Content-Type"] = "application/json";
+export const AUTH_REQUEST = axios.create({
+  baseURL: `http://localhost:8080`,
+  headers: {
+    Authorization: `Bearer ${getAuthToken()}`,
+  },
+  timeout: 2000,
+});
 
-export async function request(url) {
-  let headers = {};
-  // if (getAuthToken() !== null && getAuthToken() !== "null") {
-  //   headers = { Authorization: `Bearer ${getAuthToken()}` };
-  // }
-
-  return axios.get(url, {
-    headers: {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwaGF0MTUxMkAiLCJpYXQiOjE3MTk0ODc2NDgsImV4cCI6MTcxOTU3NDA0OH0.-bIYug8wkV89PrBW3n_yuEnfz9UQgM9BDnUItIRiN9o",
-    },
-  });
-}
+export const API = axios.create({
+  baseURL: `http://localhost:8080`,
+});

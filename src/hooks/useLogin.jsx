@@ -1,6 +1,7 @@
 import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { loginApi } from "../services/apiUser";
+import { setLocalStorageToken } from "../utils/helper";
 
 function useLogin() {
   const navigate = useNavigate();
@@ -9,15 +10,15 @@ function useLogin() {
   const { isLoading, mutate: login } = useMutation({
     mutationFn: ({ username, password }) => loginApi({ username, password }),
     onSuccess: (user) => {
+      setLocalStorageToken(user.tokenDTO.accessToken);
+      delete user.tokenDTO;
       queryClient.setQueryData(["user"], {
         ...user,
-        isAuthenticated: true,
       });
       navigate("/");
-      alert("Successfully logged in");
     },
     onError: (err) => {
-      alert(err.message);
+      alert(err);
     },
   });
   return { isLoading, login };

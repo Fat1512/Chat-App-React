@@ -17,7 +17,8 @@ function LoginForm() {
   const [password, setPassword] = useState();
 
   function success() {
-    login(username, password);
+    // console.log(username, password);
+    login({ username, password });
   }
   function error() {
     alert("Co loi xay ra roi huhu !");

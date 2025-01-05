@@ -16,7 +16,7 @@ export const SocketProvider = function ({ children }) {
         setConnected(true);
       });
     };
-    !connected && connectWebSocket();
+    // !connected && connectWebSocket();
   }, [connected]);
 
   return (

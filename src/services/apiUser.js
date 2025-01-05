@@ -1,23 +1,28 @@
+import { API, AUTH_REQUEST } from "../utils/helper";
+
 export async function getCurrentUser() {
-  const login = JSON.parse(localStorage.getItem("loggedIn"));
-  const data = {
-    username: "username",
-    password: "password",
-    isAuthenticated: login,
-  };
+  const res = await AUTH_REQUEST.get("/api/v1/users/profile", {
+    validateStatus: () => true,
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  if (res.status != 200) throw new Error("error");
+
+  const data = res.data.data;
+  data.isAuthenticated = true;
   return data;
 }
 
 export async function loginApi({ username, password }) {
-  //   let { data, error } = await fetch("/asd");
-  //   console.log(data);
-  //   if (error) throw new Error("Wrong password or email");
+  const res = await API.post("api/v1/auth/login", {
+    username: username,
+    password: password,
+  });
 
-  //Set JWT Token
-  localStorage.setItem("loggedIn", JSON.stringify(true));
+  if (res.status != 200) throw new Error("error");
 
-  return {
-    username: "username",
-    password: "password",
-  };
+  const data = res.data.data;
+  data.isAuthenticated = true;
+  return data;
 }
