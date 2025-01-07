@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-function ChatHeader({ visible, setVisible }) {
+function ChatHeader({ visible, setVisible, name, status }) {
   return (
     <div
       className="flex rounded-lg w-full items-center bg-white py-3 px-4 cursor-pointer"
@@ -14,8 +14,8 @@ function ChatHeader({ visible, setVisible }) {
       />
       <div className="flex justify-between w-full items-center">
         <div className="flex flex-col w-full text-xl pl-4">
-          <div className="font-bold">Phat</div>
-          <div>status</div>
+          <div className="font-bold">{name}</div>
+          <div>{status.online ? `online` : `offline last seen: 12h55`}</div>
         </div>
         <div className="text-2xl px-5 cursor-pointer">
           <BsThreeDotsVertical />

@@ -7,9 +7,12 @@ import { AUTH_REQUEST } from "../../utils/helper";
 import { useEffect } from "react";
 import { chatListActions } from "../../store/chatListSlice";
 import Spinner from "../../ui/Spinner";
+import { current } from "@reduxjs/toolkit";
 
 function ChatList() {
-  const { chatList, isLoading } = useSelector((state) => state.chatListReducer);
+  const { chatList, isLoading, currentChatItemId } = useSelector(
+    (state) => state.chatListReducer
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,10 +24,14 @@ function ChatList() {
     fetchChatSummary();
   }, []);
 
+  function switchActiveChatItem(chatRoomId) {
+    if (chatRoomId === chatList.currentChatItemId) return;
+    dispatch(chatListActions.setCurrentChatRoomId(chatRoomId));
+  }
+
   if (isLoading) {
     return <Spinner />;
   }
-  console.log(chatList);
   return (
     <div className="px-3">
       <SideBarHeader className="flex items-center justify-center">
@@ -36,9 +43,13 @@ function ChatList() {
       <div>
         {chatList.map((chatItem) => (
           <ChatItem
+            currentChatItemId={currentChatItemId}
+            onClick={switchActiveChatItem}
+            id={chatItem.chatRoomId}
             key={chatItem.chatRoomId}
             userProfile={chatItem.userProfile}
             latestMessage={chatItem.lastestMessage}
+            totalUnreadMessages={chatItem.totalUnreadMessages}
           />
         ))}
       </div>

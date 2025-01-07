@@ -86,3 +86,8 @@ img {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.chat-item-active {
+  color: #fff;
+  background-color: royalblue;
+}

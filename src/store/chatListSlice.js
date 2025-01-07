@@ -3,18 +3,19 @@ import { createSlice, current } from "@reduxjs/toolkit";
 const initialState = {
   isLoading: true,
   chatList: [],
+  currentChatItemId: null, //chatRoomId
 };
 
 const chatList = createSlice({
   name: "chatList",
-  initialState,
+  initialState: initialState,
   reducers: {
     setChatList(state, action) {
-      return {
-        ...state,
-        isLoading: false,
-        chatList: action.payload,
-      };
+      state.chatList = action.payload;
+      state.isLoading = false;
+    },
+    setCurrentChatRoomId(state, action) {
+      state.currentChatItemId = action.payload;
     },
   },
 });

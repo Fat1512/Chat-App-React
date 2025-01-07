@@ -4,3 +4,8 @@ export const SIDEBAR = {
   CHAT: "CHAT",
   CHATLIST: "CHATLIST",
 };
+export const MESSAGE_STATUS = {
+  DELIVERD: "Delivered",
+  READ: "Seen",
+  SENT: "Sent",
+};

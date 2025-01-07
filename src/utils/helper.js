@@ -58,3 +58,12 @@ export function formatTime(timestamp) {
 
   return new Intl.DateTimeFormat("en-US", options).format(new Date(timestamp));
 }
+
+export function formatDate(timestamp) {
+  const options = {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  };
+  return new Intl.DateTimeFormat("en-US", options).format(new Date(timestamp));
+}
