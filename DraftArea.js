@@ -63,5 +63,21 @@ chat: {
   roomHistory: [],
 }
 
+SideBar
+  Setting
+  Contact
+  ChatList
+Chat
+  ...
+Profile
+  ---
+
+
+
+
+
+
+
+
 
 */

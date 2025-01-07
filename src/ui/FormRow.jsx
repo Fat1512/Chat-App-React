@@ -1,12 +1,19 @@
+import Input from "./Input";
 import Label from "./Label";
-import Row from "./Row";
 
-function FormRow({ label, children, addedStyle }) {
+function FormRow({ ...props }) {
   return (
-    <Row addedStyle={`py-3 text-2xl ${addedStyle}`}>
-      <Label>{label}</Label>
-      {children}
-    </Row>
+    <div className="flex py-3 text-2xl content-center flex-col">
+      <Label>{props?.label}</Label>
+      <Input
+        register={props?.register}
+        name={props?.name}
+        type={props?.type}
+        option={props?.option}
+        onChange={props?.onChange}
+        error={props?.error}
+      />
+    </div>
   );
 }
 

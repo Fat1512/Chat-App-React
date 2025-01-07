@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Children, useEffect, useState } from "react";
 import { Stomp } from "@stomp/stompjs";
 import { Outlet } from "react-router-dom";
 import useSocket from "../hooks/useSocket";
@@ -27,9 +27,7 @@ function AppLayout() {
     }
   }, [connected]);
 
-  return (
-    <Container sx={{ bgcolor: "tomato", height: "100vh" }}>hwllo</Container>
-  );
+  return <Outlet />;
 }
 
 export default AppLayout;

@@ -1,20 +1,16 @@
 import { NavLink } from "react-router-dom";
-import Heading from "../../ui/Heading";
-import Row from "../../ui/Row";
-import AuthenticationHeader from "./AuthenticationHeader";
 import LoginForm from "./LoginForm";
 import SwitchLoginType from "./SwitchLoginType";
-import useLogin from "../../hooks/useLogin";
 
 function LoginSection() {
   return (
     <>
-      <AuthenticationHeader>
-        <Heading>Login</Heading>
+      <div className="py-4">
+        <p className="text-5xl">Login</p>
         <p className="text-gray-400 text-xl py-4">
           Enter your credentials to access Yum
         </p>
-      </AuthenticationHeader>
+      </div>
       <LoginForm />
       <SwitchLoginType>
         <p>Don't have an account ?</p>

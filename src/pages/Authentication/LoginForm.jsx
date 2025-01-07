@@ -1,8 +1,6 @@
 import { NavLink } from "react-router-dom";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
-import Input from "../../ui/Input";
-import Row from "../../ui/Row";
 import Button from "../../ui/Button";
 import { useForm } from "react-hook-form";
 import useLogin from "../../hooks/useLogin";
@@ -31,40 +29,36 @@ function LoginForm() {
   function capturePassword(e) {
     setPassword(e.target.value);
   }
-
   return (
     <Form onSubmit={handleSubmit(success, error)}>
-      <FormRow addedStyle="flex-col" label={"Username"}>
-        <Input
-          register={register}
-          name="username"
-          option={{
-            required: "username is required",
-          }}
-          onChange={captureUsername}
-          error={errors?.username?.message}
-        />
-      </FormRow>
-
-      <FormRow label={"Password"} addedStyle="flex-col">
-        <Input
-          type="password"
-          register={register}
-          name="password"
-          option={{
-            required: "password is required",
-          }}
-          onChange={capturePassword}
-          error={errors?.password?.message}
-        />
-      </FormRow>
-
-      <FormRow addedStyle="justify-end">
+      <FormRow
+        label="Username"
+        type="username"
+        name="username"
+        register={register}
+        option={{
+          required: "username is required",
+        }}
+        onChange={captureUsername}
+        error={errors?.username?.message}
+      />
+      <FormRow
+        label="Password"
+        type="password"
+        name="password"
+        register={register}
+        option={{
+          required: "password is required",
+        }}
+        onChange={capturePassword}
+        error={errors?.password?.message}
+      />
+      <div className="flex justify-end text-2xl my-4">
         <NavLink to="/">Forgot password</NavLink>
-      </FormRow>
-      <FormRow>
+      </div>
+      <div className="flex">
         <Button>Login</Button>
-      </FormRow>
+      </div>
     </Form>
   );
 }

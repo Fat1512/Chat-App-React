@@ -20,7 +20,7 @@
   .loader {
     width: 48px;
     height: 48px;
-    border: 5px solid #fff;
+    border: 5px solid orange;
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;
@@ -72,4 +72,17 @@ img {
 
   /* For dark mode */
   /* filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity)); */
+}
+
+.chat-bg {
+  background-image: url("../public/Image/chat-bg.png");
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

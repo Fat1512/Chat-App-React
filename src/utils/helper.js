@@ -8,7 +8,6 @@ axios.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Throw an exception to stop further execution
       return Promise.reject("Unauthorized");
     }
     // Handle other errors here
@@ -48,3 +47,14 @@ export const AUTH_REQUEST = axios.create({
 export const API = axios.create({
   baseURL: `http://localhost:8080`,
 });
+
+export function formatTime(timestamp) {
+  const options = {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // Set timezone
+  };
+
+  return new Intl.DateTimeFormat("en-US", options).format(new Date(timestamp));
+}
