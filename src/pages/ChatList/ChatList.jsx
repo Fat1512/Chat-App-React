@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AUTH_REQUEST } from "../../utils/helper";
 import { useEffect } from "react";
 import { chatListActions } from "../../store/chatListSlice";
+import { chatActions } from "../../store/chatSlice";
+import { profileActions } from "../../store/profileSlice";
 import Spinner from "../../ui/Spinner";
 import { current } from "@reduxjs/toolkit";
 
@@ -13,6 +15,7 @@ function ChatList() {
   const { chatList, isLoading, currentChatItemId } = useSelector(
     (state) => state.chatListReducer
   );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,8 +28,9 @@ function ChatList() {
   }, []);
 
   function switchActiveChatItem(chatRoomId) {
-    if (chatRoomId === chatList.currentChatItemId) return;
+    if (chatRoomId === currentChatItemId) return;
     dispatch(chatListActions.setCurrentChatRoomId(chatRoomId));
+    dispatch(chatActions.setCurrentChatId(chatRoomId));
   }
 
   if (isLoading) {

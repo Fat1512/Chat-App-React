@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import { profileActions } from "../../store/profileSlice";
 
-function ChatHeader({ visible, setVisible, name, status }) {
+function ChatHeader({ name, status }) {
+  const { visible } = useSelector((state) => state.profileReducer);
+  const dispatch = useDispatch();
+
   return (
     <div
       className="flex rounded-lg w-full items-center bg-white py-3 px-4 cursor-pointer"
-      // onClick={() => setVisible(!visible)}
+      onClick={() => dispatch(profileActions.setVisible(!visible))}
     >
       <img
         src="https://static.vecteezy.com/system/resources/thumbnails/036/280/651/small_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg"

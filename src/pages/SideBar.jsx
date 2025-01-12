@@ -4,7 +4,7 @@ import Contact from "./Contact/Contact";
 
 function SideBar() {
   return (
-    <div className="w-[45rem]">
+    <div className="w-[40rem]">
       <ChatList />
       <Contact />
       <Setting />

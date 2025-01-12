@@ -3,7 +3,7 @@ import { createSlice, current } from "@reduxjs/toolkit";
 const initialState = {
   isLoading: true,
   chatHistory: {}, //cache fetched messages, key = chatRoomId
-  currentChat: null,
+  currentChatId: null,
   visible: false,
 };
 
@@ -14,8 +14,8 @@ const chat = createSlice({
     setVisible(state, action) {
       state.visible = action.payload;
     },
-    setCurrentChat(state, action) {
-      state.currentChat = action.payload;
+    setCurrentChatId(state, action) {
+      state.currentChatId = action.payload;
     },
     setChatHistory(state, action) {
       state.chatHistory[action.payload.chatRoomId] = action.payload;

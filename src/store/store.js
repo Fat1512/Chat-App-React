@@ -4,6 +4,7 @@ import chatReducer from "./chatSlice";
 import contactReducer from "./contactSlice";
 import profileReducer from "./profileSlice";
 import sideBarReducer from "./sideBarSlice";
+import testReducer from "./testSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     contactReducer,
     profileReducer,
     sideBarReducer,
+    testReducer
   },
 });
 

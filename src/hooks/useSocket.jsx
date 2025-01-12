@@ -1,5 +1,6 @@
-import { Stomp } from "@stomp/stompjs";
+import { Client, Stomp } from "@stomp/stompjs";
 import { createContext, useContext, useEffect, useState } from "react";
+import { getAuthToken } from "../utils/helper";
 
 const SocketContext = createContext();
 
@@ -8,15 +9,37 @@ export const SocketProvider = function ({ children }) {
   const [stompClient, setStompClient] = useState();
 
   useEffect(() => {
-    const connectWebSocket = () => {
-      const sock = new SockJS(`http://localhost:8080/ws`);
+    // const connectWebSocket = () => {
+    //   const client = new Client({
+    //     connectHeaders: {
+    //       Authorization: `Bearer ${getAuthToken()}`,
+    //     },
+    //     brokerURL: "http://127.0.0.1:8080/ws",
+    //     onConnect: (frame) => {
+    //       setStompClient(client);
+    //       setConnected(true);
+    //     },
+    //   });
+    //   client.activate();
+    // };
+    const connectWebSocket = function () {
+      const sock = new SockJS(`http://127.0.0.1:8080/ws`);
       const client = Stomp.over(sock);
-      client.connect({}, function () {
-        setStompClient(client);
-        setConnected(true);
-      });
+      client.connect(
+        {
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
+        function () {
+          setStompClient(client);
+          setConnected(true);
+          console.log("successfully connected");
+        },
+        function () {
+          console.log("error occured");
+        }
+      );
     };
-    // !connected && connectWebSocket();
+    !connected && connectWebSocket();
   }, [connected]);
 
   return (

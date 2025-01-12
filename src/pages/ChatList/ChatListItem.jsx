@@ -1,4 +1,6 @@
-import { formatTime } from "../../utils/helper";
+import { useEffect } from "react";
+import { formatTime, getAuthToken } from "../../utils/helper";
+import useSocket from "../../hooks/useSocket";
 
 function ChatItem({
   userProfile,
@@ -8,7 +10,21 @@ function ChatItem({
   currentChatItemId,
   onClick,
 }) {
-  console.log(latestMessage);
+  const { stompClient, connected } = useSocket();
+
+  useEffect(() => {
+    if (!connected) return;
+    stompClient.subscribe(
+      `/chatRoom/${id}/newMessages`,
+      (message) => {
+        console.log("co message moi");
+      },
+      {
+        Authorization: `Bearer ${getAuthToken()}`,
+      }
+    );
+  }, [stompClient]);
+
   return (
     <div
       onClick={() => onClick(id)}

@@ -6,6 +6,8 @@ import UserProfile from "./UserProfile";
 import ChatHeader from "./Chat/ChatHeader";
 import MessageInput from "./Chat/MessageInput";
 import MessageList from "./Chat/MessageList";
+import Sibling2 from "./Sibling2";
+import Sibling1 from "./Sibling1";
 
 function Main() {
   return (

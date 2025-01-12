@@ -1,4 +1,8 @@
-function UserProfile({ visible }) {
+import { useSelector } from "react-redux";
+
+function UserProfile() {
+  const { visible, profile } = useSelector((state) => state.profileReducer);
+
   return (
     <div
       className={`overflow-hidden transition-all ease-in-out text-2xl ${
@@ -10,9 +14,9 @@ function UserProfile({ visible }) {
         alt=""
         className="w-[5rem] object-contain"
       />
-      <div>name: </div>
-      <div>Username:</div>
-      <div>bio</div>
+      <div>name: {profile.name}</div>
+      <div>Username: {profile.username}</div>
+      <div>bio: {profile.bio}</div>
     </div>
   );
 }
