@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BsSearch, BsSendFill } from "react-icons/bs";
 import useSocket from "../../hooks/useSocket";
+import { AuthenticationHeader } from "../../utils/helper";
 
 function MessageInput({ chatRoomId }) {
   const { stompClient, connected } = useSocket();
@@ -9,7 +10,7 @@ function MessageInput({ chatRoomId }) {
     if (!connected) return;
     stompClient.send(
       `/app/chatRoom/${chatRoomId}/sendMessage`,
-      {},
+      AuthenticationHeader,
       JSON.stringify({
         messageType: "TEXT",
         content: message,

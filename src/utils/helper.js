@@ -1,6 +1,26 @@
 import axios from "axios";
 import axiosRetry from "axios-retry";
 
+export const getAuthToken = () => {
+  return window.localStorage.getItem("auth_token");
+};
+
+export const AuthenticationHeader = {
+  Authorization: `Bearer ${getAuthToken()}`,
+};
+
+export const setLocalStorageToken = (token) => {
+  if (token !== null) {
+    window.localStorage.setItem("auth_token", token);
+  } else {
+    window.localStorage.removeItem("auth_token");
+  }
+};
+
+export const removeLocalStorageToken = () => {
+  window.localStorage.removeItem("auth_token");
+};
+
 axios.defaults.validateStatus = (status) => status >= 200 && status <= 500;
 axios.interceptors.response.use(
   (response) => {
@@ -20,21 +40,6 @@ axiosRetry(axios, {
     return false;
   },
 });
-export const getAuthToken = () => {
-  return window.localStorage.getItem("auth_token");
-};
-
-export const setLocalStorageToken = (token) => {
-  if (token !== null) {
-    window.localStorage.setItem("auth_token", token);
-  } else {
-    window.localStorage.removeItem("auth_token");
-  }
-};
-
-export const removeLocalStorageToken = () => {
-  window.localStorage.removeItem("auth_token");
-};
 
 export const AUTH_REQUEST = axios.create({
   baseURL: `http://localhost:8080`,
@@ -66,4 +71,8 @@ export function formatDate(timestamp) {
     year: "numeric",
   };
   return new Intl.DateTimeFormat("en-US", options).format(new Date(timestamp));
+}
+
+export function getStartMiliOfDay() {
+  return new Date().setUTCHours(0, 0, 0, 0);
 }

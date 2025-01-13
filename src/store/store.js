@@ -13,8 +13,12 @@ const store = configureStore({
     contactReducer,
     profileReducer,
     sideBarReducer,
-    testReducer
+    testReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export default store;

@@ -30,9 +30,8 @@ function ChatList() {
   function switchActiveChatItem(chatRoomId) {
     if (chatRoomId === currentChatItemId) return;
     dispatch(chatListActions.setCurrentChatRoomId(chatRoomId));
-    dispatch(chatActions.setCurrentChatId(chatRoomId));
   }
-
+  console.log(chatList);
   if (isLoading) {
     return <Spinner />;
   }

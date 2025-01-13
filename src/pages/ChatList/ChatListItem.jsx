@@ -1,6 +1,13 @@
 import { useEffect } from "react";
-import { formatTime, getAuthToken } from "../../utils/helper";
+import {
+  AuthenticationHeader,
+  formatTime,
+  getAuthToken,
+  getStartMiliOfDay,
+} from "../../utils/helper";
 import useSocket from "../../hooks/useSocket";
+import { useDispatch, useSelector } from "react-redux";
+import { chatActions } from "../../store/chatSlice";
 
 function ChatItem({
   userProfile,
@@ -10,20 +17,48 @@ function ChatItem({
   currentChatItemId,
   onClick,
 }) {
-  const { stompClient, connected } = useSocket();
+  const { stompClient } = useSocket();
+  const { chatHistory } = useSelector((state) => state.chatReducer.chatHistory);
+  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   if (!connected) return;
+  //   stompClient.subscribe(
+  //     `/chatRoom/${id}/newMessages`,
+  //     (message) => {},
+  //     AuthenticationHeader
+  //   );
+  // }, [stompClient]);
 
   useEffect(() => {
-    if (!connected) return;
     stompClient.subscribe(
-      `/chatRoom/${id}/newMessages`,
+      `/topic/chatRoom/${id}/newMessages`,
       (message) => {
-        console.log("co message moi");
+        const today = getStartMiliOfDay();
+        dispatch(
+          chatActions.updateMessageHistory({
+            chatRoomId: id,
+            today: today,
+            message: JSON.parse(message.body),
+          })
+        );
+        // const messageHistory = chatHistory[id].filter(
+        //   (messageHistoryy) => messageHistoryy.day === today
+        // );
+
+        // if (messageHistory == null) {
+        //   dispatch(
+        //     chatActions.addNewMessageHistory({
+        //       chatRoomId: id,
+        //       today: today,
+        //       message: JSON.parse(message.body),
+        //     })
+        //   );
+        // } else {
+        // }
       },
-      {
-        Authorization: `Bearer ${getAuthToken()}`,
-      }
+      AuthenticationHeader
     );
-  }, [stompClient]);
+  }, []);
 
   return (
     <div

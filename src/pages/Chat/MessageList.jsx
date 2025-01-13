@@ -1,9 +1,20 @@
+import { useEffect, useRef } from "react";
+import useUser from "../../hooks/useUser";
 import { formatDate, formatTime } from "../../utils/helper";
 import MessageItem from "./MessageItem";
 
-function MessageList({ messageHistoryList, userProfile }) {
+function MessageList({ messageHistoryList }) {
+  const { isLoading, user: currentUser } = useUser();
+  const containerRef = useRef(null);
+  useEffect(() => {
+    if (containerRef.current)
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+  }, [messageHistoryList]);
   return (
-    <div className="flex flex-col text-2xl text-wrap overflow-y-scroll no-scrollbar pb-6">
+    <div
+      ref={containerRef}
+      className="flex flex-col text-2xl text-wrap overflow-y-scroll no-scrollbar pb-6"
+    >
       {messageHistoryList.map((messageHistory) => {
         return (
           <div key={+messageHistory.day} className="flex flex-col">
@@ -13,7 +24,7 @@ function MessageList({ messageHistoryList, userProfile }) {
                 <MessageItem
                   key={message.id}
                   message={message}
-                  userProfile={userProfile}
+                  currentUser={currentUser}
                 />
               );
             })}

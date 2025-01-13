@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { profileActions } from "../../store/profileSlice";
 
-function ChatHeader({ name, status }) {
-  const { visible } = useSelector((state) => state.profileReducer);
+function ChatHeader() {
+  const { visible, profile, currentProfileId } = useSelector(
+    (state) => state.profileReducer
+  );
   const dispatch = useDispatch();
-
   return (
     <div
       className="flex rounded-lg w-full items-center bg-white py-3 px-4 cursor-pointer"
@@ -20,8 +21,12 @@ function ChatHeader({ name, status }) {
       />
       <div className="flex justify-between w-full items-center">
         <div className="flex flex-col w-full text-xl pl-4">
-          <div className="font-bold">{name}</div>
-          <div>{status.online ? `online` : `offline last seen: 12h55`}</div>
+          <div className="font-bold">{profile[currentProfileId]?.name}</div>
+          <div>
+            {profile[currentProfileId]?.status?.online
+              ? `online`
+              : `offline last seen: 12h55`}
+          </div>
         </div>
         <div className="text-2xl px-5 cursor-pointer">
           <BsThreeDotsVertical />

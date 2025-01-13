@@ -8,8 +8,12 @@ import MessageInput from "./Chat/MessageInput";
 import MessageList from "./Chat/MessageList";
 import Sibling2 from "./Sibling2";
 import Sibling1 from "./Sibling1";
+import Spinner from "../ui/Spinner";
+import useSocket from "../hooks/useSocket";
 
 function Main() {
+  const { connected } = useSocket();
+  if (!connected) return <Spinner />;
   return (
     <main className="flex w-full h-screen transition-all">
       <SideBar />

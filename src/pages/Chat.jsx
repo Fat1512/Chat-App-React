@@ -2,63 +2,59 @@ import { useDispatch, useSelector } from "react-redux";
 import ChatHeader from "./Chat/ChatHeader";
 import MessageInput from "./Chat/MessageInput";
 import MessageList from "./Chat/MessageList";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { chatActions } from "../store/chatSlice";
-import { AUTH_REQUEST } from "../utils/helper";
+import {
+  AUTH_REQUEST,
+  AuthenticationHeader,
+  getStartMiliOfDay,
+} from "../utils/helper";
 import { profileActions } from "../store/profileSlice";
 import Spinner from "../ui/Spinner";
 import useSocket from "../hooks/useSocket";
 
 function Chat() {
+  const dispatch = useDispatch();
+  const { stompClient, connected } = useSocket();
   const { chatHistory, currentChatId, visible, isLoading } = useSelector(
     (state) => state.chatReducer
   );
-  const chatList = useSelector((state) => state.chatListReducer.chatList);
-  const dispatch = useDispatch();
-
-  const currentChat = chatHistory[currentChatId];
+  const { currentChatItemId } = useSelector((state) => state.chatListReducer);
 
   useEffect(() => {
     //Initial state
-    if (!currentChatId) return;
-    else if (!chatHistory[currentChatId]) {
+    if (!currentChatItemId) return;
+    else if (!chatHistory[currentChatItemId]) {
+      dispatch(chatActions.setIsLoading(true));
+
       async function fetchChatDetail() {
-        console.log("chua co");
         const res = await AUTH_REQUEST.get(
-          `/api/v1/chatrooms/${currentChatId}`
+          `/api/v1/chatrooms/${currentChatItemId}`
         );
         if (res.status != 200) throw new Error("error");
-        res.data.data.userProfile = chatList.filter(
-          (chatItem) => chatItem.chatRoomId == currentChatId
-        )[0].userProfile;
+
         dispatch(chatActions.setChatHistory(res.data.data));
+        dispatch(chatActions.setCurrentChatId(res.data.data.chatRoomId));
         dispatch(chatActions.setVisible(true));
-        dispatch(profileActions.setProfile(res.data.data.userProfile));
+        dispatch(chatActions.setIsLoading(false));
       }
       fetchChatDetail();
     } else {
-      dispatch(
-        profileActions.setProfile(chatHistory[currentChatId].userProfile)
-      );
+      dispatch(chatActions.setCurrentChatId(currentChatItemId));
     }
-  }, [currentChatId]);
+  }, [currentChatItemId]);
 
-  if (!currentChat && currentChatId !== null) return <Spinner />;
-
+  if (isLoading) return <Spinner />;
   return (
     <div className={`flex flex-col chat-bg grow h-screen ease-in-out`}>
       {visible && (
         <>
-          <ChatHeader
-            name={currentChat.userProfile.name}
-            status={currentChat.userProfile.status}
-          />
+          <ChatHeader />
           <div className="flex grow flex-col justify-end px-60 overflow-hidden">
             <MessageList
-              messageHistoryList={currentChat.messageHistory} //Object with key as day
-              userProfile={currentChat.userProfile}
+              messageHistoryList={chatHistory[currentChatId].messageHistory} //Object with key as day
             />
-            <MessageInput chatRoomId={currentChatId} />
+            <MessageInput chatRoomId={chatHistory[currentChatId].chatRoomId} />
           </div>
         </>
       )}

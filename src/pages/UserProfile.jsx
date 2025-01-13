@@ -1,7 +1,27 @@
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { profileActions } from "../store/profileSlice";
+import { useEffect } from "react";
 function UserProfile() {
-  const { visible, profile } = useSelector((state) => state.profileReducer);
+  const { visible, profile, currentProfileId } = useSelector(
+    (state) => state.profileReducer
+  );
+  const { currentChatItemId, chatList } = useSelector(
+    (state) => state.chatListReducer
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!currentChatItemId) return;
+    if (profile[currentChatItemId] != null) {
+      dispatch(profileActions.setCurrentProfileId(currentChatItemId));
+    } else {
+      const chatItem = chatList.filter(
+        (chatItem) => chatItem.chatRoomId == currentChatItemId
+      );
+      dispatch(profileActions.setProfile(chatItem[0]));
+      dispatch(profileActions.setCurrentProfileId(chatItem[0].chatRoomId));
+    }
+  }, [currentChatItemId]);
 
   return (
     <div
@@ -14,9 +34,9 @@ function UserProfile() {
         alt=""
         className="w-[5rem] object-contain"
       />
-      <div>name: {profile.name}</div>
-      <div>Username: {profile.username}</div>
-      <div>bio: {profile.bio}</div>
+      <div>name: {profile[currentProfileId]?.name}</div>
+      <div>Username: {profile[currentProfileId]?.username}</div>
+      <div>bio: {profile[currentProfileId]?.bio}</div>
     </div>
   );
 }

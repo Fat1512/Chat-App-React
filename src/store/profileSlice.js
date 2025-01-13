@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   visible: false,
   profile: {},
+  currentProfileId: null,
 };
 
 const profile = createSlice({
@@ -10,10 +11,13 @@ const profile = createSlice({
   initialState,
   reducers: {
     setProfile(state, action) {
-      state.profile = action.payload;
+      state.profile[action.payload.chatRoomId] = action.payload.userProfile;
     },
     setVisible(state, action) {
       state.visible = action.payload;
+    },
+    setCurrentProfileId(state, action) {
+      state.currentProfileId = action.payload;
     },
   },
 });
