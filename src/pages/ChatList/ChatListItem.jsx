@@ -8,7 +8,10 @@ import {
 import useSocket from "../../hooks/useSocket";
 import { useDispatch, useSelector } from "react-redux";
 import { chatActions } from "../../store/chatSlice";
-
+import { profileActions } from "../../store/profileSlice";
+import { chatListActions } from "../../store/chatListSlice";
+import useUser from "../../hooks/useUser";
+let currentTimeOut;
 function ChatItem({
   userProfile,
   latestMessage,
@@ -18,18 +21,11 @@ function ChatItem({
   onClick,
 }) {
   const { stompClient } = useSocket();
-  const { chatHistory } = useSelector((state) => state.chatReducer.chatHistory);
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   if (!connected) return;
-  //   stompClient.subscribe(
-  //     `/chatRoom/${id}/newMessages`,
-  //     (message) => {},
-  //     AuthenticationHeader
-  //   );
-  // }, [stompClient]);
+  const { isLoading, user: currentUser } = useUser();
 
   useEffect(() => {
+    // stompClient.subscribe(`/topic/chatRoom/${id}/online`,() => {}, AuthenticationHeader);
     stompClient.subscribe(
       `/topic/chatRoom/${id}/newMessages`,
       (message) => {
@@ -41,20 +37,42 @@ function ChatItem({
             message: JSON.parse(message.body),
           })
         );
-        // const messageHistory = chatHistory[id].filter(
-        //   (messageHistoryy) => messageHistoryy.day === today
-        // );
-
-        // if (messageHistory == null) {
-        //   dispatch(
-        //     chatActions.addNewMessageHistory({
-        //       chatRoomId: id,
-        //       today: today,
-        //       message: JSON.parse(message.body),
-        //     })
-        //   );
-        // } else {
-        // }
+      },
+      AuthenticationHeader
+    );
+    stompClient.subscribe(
+      `/topic/chatRoom/${id}/typing`,
+      (message) => {
+        console.log("anh qua dep trai", message);
+        currentTimeOut && clearTimeout(currentTimeOut);
+        const body = JSON.parse(message.body);
+        if (body.senderId == currentUser.id) return;
+        dispatch(
+          profileActions.setMode({
+            chatRoomId: id,
+            mode: body.mode,
+          })
+        );
+        dispatch(
+          chatListActions.setMode({
+            chatRoomId: id,
+            mode: body.mode,
+          })
+        );
+        currentTimeOut = setTimeout(() => {
+          dispatch(
+            profileActions.setMode({
+              chatRoomId: id,
+              mode: null,
+            })
+          );
+          dispatch(
+            chatListActions.setMode({
+              chatRoomId: id,
+              mode: null,
+            })
+          );
+        }, 1000);
       },
       AuthenticationHeader
     );
@@ -87,7 +105,12 @@ function ChatItem({
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <div>{latestMessage.content}</div>
+          <div>
+            {" "}
+            {userProfile.mode != null
+              ? userProfile.mode
+              : latestMessage.content}
+          </div>
           {totalUnreadMessages !== 0 && (
             <div className="rounded-full border bg-blue-500 p-3 m-0">
               {totalUnreadMessages}

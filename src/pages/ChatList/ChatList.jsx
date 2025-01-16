@@ -31,7 +31,7 @@ function ChatList() {
     if (chatRoomId === currentChatItemId) return;
     dispatch(chatListActions.setCurrentChatRoomId(chatRoomId));
   }
-  console.log(chatList);
+
   if (isLoading) {
     return <Spinner />;
   }
@@ -44,7 +44,7 @@ function ChatList() {
         <SideBarSearchInput />
       </SideBarHeader>
       <div>
-        {chatList.map((chatItem) => (
+        {Object.values(chatList).map((chatItem) => (
           <ChatItem
             currentChatItemId={currentChatItemId}
             onClick={switchActiveChatItem}

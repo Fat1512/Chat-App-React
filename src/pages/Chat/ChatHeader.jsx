@@ -22,6 +22,8 @@ function ChatHeader() {
       <div className="flex justify-between w-full items-center">
         <div className="flex flex-col w-full text-xl pl-4">
           <div className="font-bold">{profile[currentProfileId]?.name}</div>
+          {profile[currentProfileId]?.mode != null &&
+            profile[currentProfileId].mode}
           <div>
             {profile[currentProfileId]?.status?.online
               ? `online`

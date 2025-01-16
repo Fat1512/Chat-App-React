@@ -19,6 +19,10 @@ const profile = createSlice({
     setCurrentProfileId(state, action) {
       state.currentProfileId = action.payload;
     },
+    setMode(state, action) {
+      if (!state.profile[action.payload.chatRoomId]) return;
+      state.profile[action.payload.chatRoomId].mode = action.payload.mode;
+    },
   },
 });
 

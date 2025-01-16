@@ -15,11 +15,9 @@ function UserProfile() {
     if (profile[currentChatItemId] != null) {
       dispatch(profileActions.setCurrentProfileId(currentChatItemId));
     } else {
-      const chatItem = chatList.filter(
-        (chatItem) => chatItem.chatRoomId == currentChatItemId
-      );
-      dispatch(profileActions.setProfile(chatItem[0]));
-      dispatch(profileActions.setCurrentProfileId(chatItem[0].chatRoomId));
+      const chatItem = chatList[currentChatItemId];
+      dispatch(profileActions.setProfile(chatItem));
+      dispatch(profileActions.setCurrentProfileId(chatItem.chatRoomId));
     }
   }, [currentChatItemId]);
 

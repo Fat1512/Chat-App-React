@@ -2,7 +2,7 @@ import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: true,
-  chatList: [],
+  chatList: {},
   currentChatItemId: null, //chatRoomId
 };
 
@@ -11,11 +11,17 @@ const chatList = createSlice({
   initialState: initialState,
   reducers: {
     setChatList(state, action) {
-      state.chatList = action.payload;
+      action.payload.forEach((chatItem) => {
+        state.chatList[chatItem.chatRoomId] = chatItem;
+      });
       state.isLoading = false;
     },
     setCurrentChatRoomId(state, action) {
       state.currentChatItemId = action.payload;
+    },
+    setMode(state, action) {
+      state.chatList[action.payload.chatRoomId].userProfile.mode =
+        action.payload.mode;
     },
   },
 });

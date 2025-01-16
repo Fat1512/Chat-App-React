@@ -39,7 +39,7 @@ const chat = createSlice({
           .messages.push(payload.message);
       } else {
         state.chatHistory[payload.chatRoomId].messageHistory.push({
-          day: today,
+          day: payload.today,
           messages: [payload.message],
         });
       }
