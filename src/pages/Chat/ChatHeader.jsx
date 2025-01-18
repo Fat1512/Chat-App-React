@@ -3,6 +3,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { profileActions } from "../../store/profileSlice";
+import { formatTime } from "../../utils/helper";
 
 function ChatHeader() {
   const { visible, profile, currentProfileId } = useSelector(
@@ -27,7 +28,9 @@ function ChatHeader() {
           <div>
             {profile[currentProfileId]?.status?.online
               ? `online`
-              : `offline last seen: 12h55`}
+              : `offline last seen: ${formatTime(
+                  profile[currentProfileId]?.status?.lastSeen
+                )}`}
           </div>
         </div>
         <div className="text-2xl px-5 cursor-pointer">

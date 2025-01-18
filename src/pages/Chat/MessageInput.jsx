@@ -1,26 +1,27 @@
 import { useState } from "react";
 import { BsSearch, BsSendFill } from "react-icons/bs";
 import useSocket from "../../hooks/useSocket";
-import { AuthenticationHeader } from "../../utils/helper.js";
+import { AuthenticationHeader, getAuthToken } from "../../utils/helper.js";
 
 function MessageInput({ chatRoomId }) {
   const { stompClient, connected } = useSocket();
   const [message, setMessage] = useState();
   function handleSendMessage() {
     if (!connected) return;
-    stompClient.publish({
-      destination: `/app/chatRoom/${chatRoomId}/sendMessage`,
-      body: JSON.stringify({
-        messageType: "TEXT",
-        content: message,
-      }),
-    });
+    // stompClient.publish({
+    //   destination: `/app/chatRoom/${chatRoomId}/sendMessage`,
+    //   body: JSON.stringify({
+    //     messageType: "TEXT",
+    //     content: message,
+    //   }),
+    // });
   }
 
   return (
     <div className="flex shrink-0 justify-center items-center rounded-full border focus-within:border mb-5">
       <input
         onChange={(e) => {
+          console.log(getAuthToken());
           stompClient.publish({
             destination: `/app/chatRoom/${chatRoomId}/typing`,
             headers: AuthenticationHeader,

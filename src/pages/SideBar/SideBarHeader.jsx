@@ -1,4 +1,5 @@
 import useSocket from "../../hooks/useSocket";
+import { AuthenticationHeader } from "../../utils/helper";
 
 function SideBarHeader({ children, className }) {
   const { stompClient } = useSocket();
@@ -7,7 +8,11 @@ function SideBarHeader({ children, className }) {
     <header className={`h-[6rem] ${className}`}>
       <button
         onClick={() => {
-          stompClient.disconnect(() => {});
+          stompClient.publish({
+            destination: `/app/disconnect`,
+            headers: AuthenticationHeader,
+          });
+          stompClient.deactivate();
         }}
       >
         press to disconnect

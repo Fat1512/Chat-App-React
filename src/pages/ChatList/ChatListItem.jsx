@@ -43,22 +43,11 @@ function ChatItem({
     stompClient.subscribe(
       `/topic/chatRoom/${id}/typing`,
       (message) => {
-        console.log("anh qua dep trai", message);
-        currentTimeOut && clearTimeout(currentTimeOut);
         const body = JSON.parse(message.body);
+        console.log(body);
         if (body.senderId == currentUser.id) return;
-        dispatch(
-          profileActions.setMode({
-            chatRoomId: id,
-            mode: body.mode,
-          })
-        );
-        dispatch(
-          chatListActions.setMode({
-            chatRoomId: id,
-            mode: body.mode,
-          })
-        );
+        currentTimeOut && clearTimeout(currentTimeOut);
+
         currentTimeOut = setTimeout(() => {
           dispatch(
             profileActions.setMode({
@@ -73,6 +62,18 @@ function ChatItem({
             })
           );
         }, 1000);
+        dispatch(
+          profileActions.setMode({
+            chatRoomId: id,
+            mode: body.mode,
+          })
+        );
+        dispatch(
+          chatListActions.setMode({
+            chatRoomId: id,
+            mode: body.mode,
+          })
+        );
       },
       AuthenticationHeader
     );
@@ -97,7 +98,9 @@ function ChatItem({
             <span>
               {userProfile.status.online
                 ? "(online)"
-                : `(offline) last seen at ${userProfile.status.lastSeen}`}
+                : `(offline) last seen at ${formatTime(
+                    userProfile.status.lastSeen
+                  )}`}
             </span>
           </div>
           <div>

@@ -31,17 +31,32 @@ export const SocketProvider = function ({ children }) {
     const modernWebSocket = function () {
       const client = new Client({
         connectHeaders: AuthenticationHeader,
+        disconnectHeaders: AuthenticationHeader,
         brokerURL: "ws://localhost:8080/ws",
-        heartbeatOutgoing: 6000,
+        // heartbeatOutgoing: 6000,
+        heartbeatOutgoing: 0,
         onConnect: () => {
+          console.log("connected");
+          client.publish({
+            destination: `/app/connect`,
+            headers: AuthenticationHeader,
+          });
           setStompClient(client);
           setConnected(true);
         },
         onDisconnect: () => {
-          client.publish({ destination: "/app/test" });
+          console.log("disconnected");
+          // setStompClient(null);
+          // setConnected(false);
         },
       });
       client.activate();
+      window.addEventListener("beforeunload", function () {
+        client.publish({
+          destination: `/app/disconnect`,
+          headers: AuthenticationHeader,
+        });
+      });
     };
     !connected && modernWebSocket();
     // connected && disconnectWebSocket();
