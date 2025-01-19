@@ -20,31 +20,126 @@ function ChatItem({
   currentChatItemId,
   onClick,
 }) {
-  const { stompClient } = useSocket();
   const dispatch = useDispatch();
+  const { stompClient } = useSocket();
   const { isLoading, user: currentUser } = useUser();
 
   useEffect(() => {
-    // stompClient.subscribe(`/topic/chatRoom/${id}/online`,() => {}, AuthenticationHeader);
+    if (id == currentChatItemId) {
+      console.log("okla");
+      stompClient.publish({
+        destination: `/app/chatRoom/${id}/markAsRead`,
+        headers: AuthenticationHeader,
+      });
+      dispatch(
+        chatListActions.resetUnreadMessageCount({
+          chatRoomId: id,
+        })
+      );
+    } else {
+      stompClient.publish({
+        destination: `/app/chatRoom/${id}/markAsDelivered`,
+        headers: AuthenticationHeader,
+      });
+    }
+  }, [currentChatItemId, latestMessage]);
+
+  useEffect(() => {
+    //Tracking delivered message
+    stompClient.subscribe(
+      `/topic/chatRoom/${id}/message/deliveredStatus`,
+      (message) => {
+        const body = JSON.parse(message.body);
+        body.forEach((item) => {
+          dispatch(
+            chatActions.markAsDeliveredMessages({
+              chatRoomId: id,
+              senderId: item.senderId,
+            })
+          );
+        });
+      },
+      AuthenticationHeader
+    );
+
+    //Tracking message status
+    stompClient.subscribe(
+      `/topic/chatRoom/${id}/message/readStatus`,
+      (message) => {
+        const body = JSON.parse(message.body);
+        body.forEach((item) => {
+          dispatch(
+            chatActions.markAsReadMessages({
+              chatRoomId: id,
+              senderId: item.senderId,
+            })
+          );
+        });
+      },
+      AuthenticationHeader
+    );
+
+    //Tracking new upcomming messages
     stompClient.subscribe(
       `/topic/chatRoom/${id}/newMessages`,
       (message) => {
         const today = getStartMiliOfDay();
+        const body = JSON.parse(message.body);
         dispatch(
           chatActions.updateMessageHistory({
             chatRoomId: id,
             today: today,
-            message: JSON.parse(message.body),
+            message: body,
+          })
+        );
+        dispatch(
+          chatListActions.setLatestMessage({
+            chatRoomId: id,
+            latestMessage: body,
+          })
+        );
+        dispatch(
+          chatListActions.increaseUnreadMessageCount({
+            chatRoomId: id,
           })
         );
       },
       AuthenticationHeader
     );
+
+    //Tracking new online status
+    stompClient.subscribe(
+      `/topic/chatRoom/${id}/onlineStatus`,
+      (message) => {
+        const body = JSON.parse(message.body);
+        if (!body) return;
+        dispatch(
+          profileActions.setOnlineStatus({
+            chatRoomId: body.chatRoomId,
+            status: {
+              online: body.status,
+              lastSeen: body.lastSeen,
+            },
+          })
+        );
+        dispatch(
+          chatListActions.setOnlineStatus({
+            chatRoomId: body.chatRoomId,
+            status: {
+              online: body.status,
+              lastSeen: body.lastSeen,
+            },
+          })
+        );
+      },
+      AuthenticationHeader
+    );
+
+    //Tracking typing event
     stompClient.subscribe(
       `/topic/chatRoom/${id}/typing`,
       (message) => {
         const body = JSON.parse(message.body);
-        console.log(body);
         if (body.senderId == currentUser.id) return;
         currentTimeOut && clearTimeout(currentTimeOut);
 

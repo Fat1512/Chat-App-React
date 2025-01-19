@@ -23,6 +23,20 @@ const chatList = createSlice({
       state.chatList[action.payload.chatRoomId].userProfile.mode =
         action.payload.mode;
     },
+    setOnlineStatus(state, action) {
+      state.chatList[action.payload.chatRoomId].userProfile.status =
+        action.payload.status;
+    },
+    setLatestMessage(state, action) {
+      state.chatList[action.payload.chatRoomId].lastestMessage =
+        action.payload.latestMessage;
+    },
+    increaseUnreadMessageCount(state, action) {
+      state.chatList[action.payload.chatRoomId].totalUnreadMessages += 1;
+    },
+    resetUnreadMessageCount(state, action) {
+      state.chatList[action.payload.chatRoomId].totalUnreadMessages = 0;
+    },
   },
 });
 

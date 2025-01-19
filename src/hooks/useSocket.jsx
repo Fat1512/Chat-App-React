@@ -9,25 +9,6 @@ export const SocketProvider = function ({ children }) {
   const [stompClient, setStompClient] = useState();
 
   useEffect(() => {
-    // const connectWebSocket = function () {
-    //   const sock = new SockJS(`http://127.0.0.1:8080/ws`);
-    //   const client = Stomp.over(sock);
-    //   client.heartbeat.outgoing = 6000;
-
-    //   client.connect(
-    //     AuthenticationHeader,
-    //     () => {
-    //       setStompClient(client);
-    //       setConnected(true);
-    //       console.log("successfully connected");
-    //     },
-    //     () => {
-    //       console.log("error occured");
-    //     }
-    //   );
-    // };
-    // !connected && connectWebSocket();
-
     const modernWebSocket = function () {
       const client = new Client({
         connectHeaders: AuthenticationHeader,
@@ -59,7 +40,6 @@ export const SocketProvider = function ({ children }) {
       });
     };
     !connected && modernWebSocket();
-    // connected && disconnectWebSocket();
   }, [connected]);
 
   return (

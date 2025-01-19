@@ -8,20 +8,20 @@ function MessageInput({ chatRoomId }) {
   const [message, setMessage] = useState();
   function handleSendMessage() {
     if (!connected) return;
-    // stompClient.publish({
-    //   destination: `/app/chatRoom/${chatRoomId}/sendMessage`,
-    //   body: JSON.stringify({
-    //     messageType: "TEXT",
-    //     content: message,
-    //   }),
-    // });
+    stompClient.publish({
+      destination: `/app/chatRoom/${chatRoomId}/sendMessage`,
+      body: JSON.stringify({
+        messageType: "TEXT",
+        content: message,
+      }),
+      headers: AuthenticationHeader,
+    });
   }
 
   return (
     <div className="flex shrink-0 justify-center items-center rounded-full border focus-within:border mb-5">
       <input
         onChange={(e) => {
-          console.log(getAuthToken());
           stompClient.publish({
             destination: `/app/chatRoom/${chatRoomId}/typing`,
             headers: AuthenticationHeader,

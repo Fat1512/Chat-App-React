@@ -46,7 +46,7 @@ export const AUTH_REQUEST = axios.create({
   headers: {
     Authorization: `Bearer ${getAuthToken()}`,
   },
-  timeout: 2000,
+  // timeout: 2000,
 });
 
 export const API = axios.create({

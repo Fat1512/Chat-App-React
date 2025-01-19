@@ -15,12 +15,10 @@ import useSocket from "../hooks/useSocket";
 
 function Chat() {
   const dispatch = useDispatch();
-  const { stompClient, connected } = useSocket();
   const { chatHistory, currentChatId, visible, isLoading } = useSelector(
     (state) => state.chatReducer
   );
   const { currentChatItemId } = useSelector((state) => state.chatListReducer);
-
   useEffect(() => {
     //Initial state
     if (!currentChatItemId) return;

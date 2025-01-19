@@ -23,6 +23,10 @@ const profile = createSlice({
       if (!state.profile[action.payload.chatRoomId]) return;
       state.profile[action.payload.chatRoomId].mode = action.payload.mode;
     },
+    setOnlineStatus(state, action) {
+      if (!state.profile[action.payload.chatRoomId]) return;
+      state.profile[action.payload.chatRoomId].status = action.payload.status;
+    },
   },
 });
 
