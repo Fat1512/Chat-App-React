@@ -11,7 +11,7 @@ const profile = createSlice({
   initialState,
   reducers: {
     setProfile(state, action) {
-      state.profile[action.payload.chatRoomId] = action.payload.userProfile;
+      state.profile[action.payload.chatRoomId] = action.payload.roomInfo;
     },
     setVisible(state, action) {
       state.visible = action.payload;

@@ -5,7 +5,7 @@ function SideBarHeader({ children, className }) {
   const { stompClient } = useSocket();
 
   return (
-    <header className={`h-[6rem] ${className}`}>
+    <header id="sidebar-header" className={`h-[6rem] ${className}`}>
       <button
         onClick={() => {
           stompClient.publish({

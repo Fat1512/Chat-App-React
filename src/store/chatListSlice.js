@@ -20,11 +20,11 @@ const chatList = createSlice({
       state.currentChatItemId = action.payload;
     },
     setMode(state, action) {
-      state.chatList[action.payload.chatRoomId].userProfile.mode =
+      state.chatList[action.payload.chatRoomId].roomInfo.mode =
         action.payload.mode;
     },
     setOnlineStatus(state, action) {
-      state.chatList[action.payload.chatRoomId].userProfile.status =
+      state.chatList[action.payload.chatRoomId].roomInfo.status =
         action.payload.status;
     },
     setLatestMessage(state, action) {

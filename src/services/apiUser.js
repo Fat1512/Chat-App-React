@@ -14,6 +14,17 @@ export async function getCurrentUser() {
   return data;
 }
 
+export async function uploadImage(FormData) {
+  const res = await AUTH_REQUEST.post(
+    "/api/v1/users/upload-avt",
+    FormData
+  ).catch((err) => {
+    console.log(err);
+  });
+
+  if (res.status != 200) throw new Error("error");
+}
+
 export async function loginApi({ username, password }) {
   const res = await API.post("api/v1/auth/login", {
     username: username,

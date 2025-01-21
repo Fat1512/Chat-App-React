@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "../ui/Button";
 import SideBar from "./SideBar";
 import Chat from "./Chat";
-import UserProfile from "./UserProfile";
+import RoomProfile from "./RoomProfile";
 import ChatHeader from "./Chat/ChatHeader";
 import MessageInput from "./Chat/MessageInput";
 import MessageList from "./Chat/MessageList";
@@ -18,7 +18,7 @@ function Main() {
     <main className="flex w-full h-screen transition-all">
       <SideBar />
       <Chat />
-      <UserProfile />
+      <RoomProfile />
     </main>
   );
 }

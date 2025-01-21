@@ -10,6 +10,7 @@ function ChatHeader() {
     (state) => state.profileReducer
   );
   const dispatch = useDispatch();
+  console.log(profile);
   return (
     <div
       className="flex rounded-lg w-full items-center bg-white py-3 px-4 cursor-pointer"
@@ -23,14 +24,15 @@ function ChatHeader() {
       <div className="flex justify-between w-full items-center">
         <div className="flex flex-col w-full text-xl pl-4">
           <div className="font-bold">{profile[currentProfileId]?.name}</div>
-          {profile[currentProfileId]?.mode != null &&
+          {profile[currentProfileId].mode != null &&
             profile[currentProfileId].mode}
           <div>
-            {profile[currentProfileId]?.status?.online
-              ? `online`
-              : `offline last seen: ${formatTime(
-                  profile[currentProfileId]?.status?.lastSeen
-                )}`}
+            {profile[currentProfileId].roomType == "PRIVATE" &&
+              (profile[currentProfileId].status.online
+                ? `online`
+                : `offline last seen: ${formatTime(
+                    profile[currentProfileId]?.status?.lastSeen
+                  )}`)}
           </div>
         </div>
         <div className="text-2xl px-5 cursor-pointer">

@@ -13,7 +13,7 @@ import { chatListActions } from "../../store/chatListSlice";
 import useUser from "../../hooks/useUser";
 let currentTimeOut;
 function ChatItem({
-  userProfile,
+  roomInfo,
   latestMessage,
   totalUnreadMessages,
   id,
@@ -23,7 +23,6 @@ function ChatItem({
   const dispatch = useDispatch();
   const { stompClient } = useSocket();
   const { isLoading, user: currentUser } = useUser();
-
   useEffect(() => {
     if (id == currentChatItemId) {
       console.log("okla");
@@ -173,7 +172,6 @@ function ChatItem({
       AuthenticationHeader
     );
   }, []);
-
   return (
     <div
       onClick={() => onClick(id)}
@@ -182,32 +180,33 @@ function ChatItem({
       }`}
     >
       <img
-        src="https://static.vecteezy.com/system/resources/thumbnails/036/280/651/small_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg"
+        // src="https://static.vecteezy.com/system/resources/thumbnails/036/280/651/small_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg"
+        src={roomInfo.avatar}
         alt=""
         className="w-[5rem] object-contain"
       />
       <div className="flex flex-col w-full text-xl pl-4">
         <div className="flex justify-between">
           <div className="font-bold">
-            {userProfile.name}
+            {roomInfo.name}
             <span>
-              {userProfile.status.online
-                ? "(online)"
-                : `(offline) last seen at ${formatTime(
-                    userProfile.status.lastSeen
-                  )}`}
+              {roomInfo.roomType == "PRIVATE" &&
+                (roomInfo.status.online
+                  ? `(online)`
+                  : `(offline) last seen at ${formatTime(
+                      roomInfo.status.lastSeen
+                    )}`)}
             </span>
           </div>
           <div>
-            <span className="pl-2">{formatTime(latestMessage.timeSent)}</span>
+            <span className="pl-2">
+              {latestMessage?.timeSent && formatTime(latestMessage.timeSent)}
+            </span>
           </div>
         </div>
         <div className="flex justify-between items-center">
           <div>
-            {" "}
-            {userProfile.mode != null
-              ? userProfile.mode
-              : latestMessage.content}
+            {roomInfo?.mode != null ? roomInfo.mode : latestMessage.content}
           </div>
           {totalUnreadMessages !== 0 && (
             <div className="rounded-full border bg-blue-500 p-3 m-0">

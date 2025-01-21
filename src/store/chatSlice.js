@@ -25,7 +25,6 @@ const chat = createSlice({
     },
     updateMessageHistory(state, { payload }) {
       const currentState = current(state);
-      console.log("current state", currentState);
       //Check whether corresponding chatHistory has been loaded previously
       if (!currentState.chatHistory[payload.chatRoomId]) return;
 

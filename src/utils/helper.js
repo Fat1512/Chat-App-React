@@ -49,6 +49,15 @@ export const AUTH_REQUEST = axios.create({
   // timeout: 2000,
 });
 
+export const UPLOAD_REQUEST = axios.create({
+  baseURL: `http://localhost:8080`,
+  headers: {
+    Authorization: `Bearer ${getAuthToken()}`,
+    "Content-Type": "multipart/form-data",
+  },
+  // timeout: 2000,
+});
+
 export const API = axios.create({
   baseURL: `http://localhost:8080`,
 });
