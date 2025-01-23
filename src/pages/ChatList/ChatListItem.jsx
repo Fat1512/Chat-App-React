@@ -22,10 +22,8 @@ function ChatItem({
 }) {
   const dispatch = useDispatch();
   const { stompClient } = useSocket();
-  const { isLoading, user: currentUser } = useUser();
   useEffect(() => {
     if (id == currentChatItemId) {
-      console.log("okla");
       stompClient.publish({
         destination: `/app/chatRoom/${id}/markAsRead`,
         headers: AuthenticationHeader,
@@ -43,135 +41,6 @@ function ChatItem({
     }
   }, [currentChatItemId, latestMessage]);
 
-  useEffect(() => {
-    //Tracking delivered message
-    stompClient.subscribe(
-      `/topic/chatRoom/${id}/message/deliveredStatus`,
-      (message) => {
-        const body = JSON.parse(message.body);
-        body.forEach((item) => {
-          dispatch(
-            chatActions.markAsDeliveredMessages({
-              chatRoomId: id,
-              senderId: item.senderId,
-            })
-          );
-        });
-      },
-      AuthenticationHeader
-    );
-
-    //Tracking message status
-    stompClient.subscribe(
-      `/topic/chatRoom/${id}/message/readStatus`,
-      (message) => {
-        const body = JSON.parse(message.body);
-        body.forEach((item) => {
-          dispatch(
-            chatActions.markAsReadMessages({
-              chatRoomId: id,
-              senderId: item.senderId,
-            })
-          );
-        });
-      },
-      AuthenticationHeader
-    );
-
-    //Tracking new upcomming messages
-    stompClient.subscribe(
-      `/topic/chatRoom/${id}/newMessages`,
-      (message) => {
-        const today = getStartMiliOfDay();
-        const body = JSON.parse(message.body);
-        dispatch(
-          chatActions.updateMessageHistory({
-            chatRoomId: id,
-            today: today,
-            message: body,
-          })
-        );
-        dispatch(
-          chatListActions.setLatestMessage({
-            chatRoomId: id,
-            latestMessage: body,
-          })
-        );
-        dispatch(
-          chatListActions.increaseUnreadMessageCount({
-            chatRoomId: id,
-          })
-        );
-      },
-      AuthenticationHeader
-    );
-
-    //Tracking new online status
-    stompClient.subscribe(
-      `/topic/chatRoom/${id}/onlineStatus`,
-      (message) => {
-        const body = JSON.parse(message.body);
-        if (!body) return;
-        dispatch(
-          profileActions.setOnlineStatus({
-            chatRoomId: body.chatRoomId,
-            status: {
-              online: body.status,
-              lastSeen: body.lastSeen,
-            },
-          })
-        );
-        dispatch(
-          chatListActions.setOnlineStatus({
-            chatRoomId: body.chatRoomId,
-            status: {
-              online: body.status,
-              lastSeen: body.lastSeen,
-            },
-          })
-        );
-      },
-      AuthenticationHeader
-    );
-
-    //Tracking typing event
-    stompClient.subscribe(
-      `/topic/chatRoom/${id}/typing`,
-      (message) => {
-        const body = JSON.parse(message.body);
-        if (body.senderId == currentUser.id) return;
-        currentTimeOut && clearTimeout(currentTimeOut);
-
-        currentTimeOut = setTimeout(() => {
-          dispatch(
-            profileActions.setMode({
-              chatRoomId: id,
-              mode: null,
-            })
-          );
-          dispatch(
-            chatListActions.setMode({
-              chatRoomId: id,
-              mode: null,
-            })
-          );
-        }, 1000);
-        dispatch(
-          profileActions.setMode({
-            chatRoomId: id,
-            mode: body.mode,
-          })
-        );
-        dispatch(
-          chatListActions.setMode({
-            chatRoomId: id,
-            mode: body.mode,
-          })
-        );
-      },
-      AuthenticationHeader
-    );
-  }, []);
   return (
     <div
       onClick={() => onClick(id)}
@@ -200,13 +69,13 @@ function ChatItem({
           </div>
           <div>
             <span className="pl-2">
-              {latestMessage?.timeSent && formatTime(latestMessage.timeSent)}
+              {latestMessage?.timeSent && formatTime(latestMessage?.timeSent)}
             </span>
           </div>
         </div>
         <div className="flex justify-between items-center">
           <div>
-            {roomInfo?.mode != null ? roomInfo.mode : latestMessage.content}
+            {roomInfo?.mode != null ? roomInfo.mode : latestMessage?.content}
           </div>
           {totalUnreadMessages !== 0 && (
             <div className="rounded-full border bg-blue-500 p-3 m-0">

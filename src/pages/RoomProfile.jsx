@@ -24,6 +24,7 @@ function RoomProfile() {
       dispatch(profileActions.setCurrentProfileId(chatItem.chatRoomId));
     }
   }, [currentChatItemId]);
+
   return (
     <div
       className={`overflow-hidden transition-all ease-in-out text-2xl ${

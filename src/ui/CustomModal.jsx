@@ -13,7 +13,13 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-function CustomModal({ children, name, currentName, parentSelector }) {
+function CustomModal({
+  children,
+  name,
+  currentName,
+  parentSelector,
+  setNullModal,
+}) {
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState();
   useEffect(() => {
@@ -30,6 +36,7 @@ function CustomModal({ children, name, currentName, parentSelector }) {
 
   function closeModal() {
     setIsOpen(false);
+    setNullModal();
   }
   return (
     <Modal

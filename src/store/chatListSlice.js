@@ -16,6 +16,10 @@ const chatList = createSlice({
       });
       state.isLoading = false;
     },
+    setNewChatListFromAddedContact(state, action) {
+      if (state.chatList[action.payload.chatRoomId]) return;
+      state.chatList[action.payload.chatRoomId] = action.payload;
+    },
     setCurrentChatRoomId(state, action) {
       state.currentChatItemId = action.payload;
     },

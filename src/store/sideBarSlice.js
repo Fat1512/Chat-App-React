@@ -11,7 +11,11 @@ const initialState = {
 const sidebar = createSlice({
   name: "sidebar",
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentSidebar(state, action) {
+      state.currentActive = action.payload;
+    },
+  },
 });
 
 export const sidebarActions = sidebar.actions;

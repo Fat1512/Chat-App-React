@@ -14,6 +14,10 @@ import Modal from "react-modal";
 import OptionMenu from "../../ui/OptionMenu";
 import OptionItem from "../../ui/OptionItem";
 import CustomModal from "../../ui/CustomModal";
+import { AnimatePresence, motion } from "motion/react";
+import ActiveSidebar from "../../ui/ActiveSidebar";
+import { SIDEBAR } from "../../utils/constants";
+import { sidebarActions } from "../../store/sideBarSlice";
 
 const customStyles = {
   overlay: {
@@ -35,17 +39,7 @@ function ChatList() {
     (state) => state.chatListReducer
   );
   const [isOpenMenu, setOpenMenu] = useState(false);
-  const [currentModal, setOpenModal] = useState(null);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    async function fetchChatSummary() {
-      const res = await AUTH_REQUEST.get("/api/v1/chatrooms");
-      if (res.status != 200) throw new Error("error");
-      dispatch(chatListActions.setChatList(res.data.data));
-    }
-    fetchChatSummary();
-  }, []);
 
   function toggleMenu() {
     setOpenMenu(!isOpenMenu);
@@ -61,65 +55,57 @@ function ChatList() {
   }
 
   return (
-    <div className="px-3">
-      <SideBarHeader className="flex items-center justify-center relative">
-        <div className="text-2xl pr-6 cursor-pointer" onClick={toggleMenu}>
-          <BsHddStack />
-        </div>
-        {isOpenMenu && (
-          <>
-            <OptionMenu>
-              <OptionItem onClick={() => setOpenModal("setting")}>
-                setting
-              </OptionItem>
-              <OptionItem onClick={() => setOpenModal("contact")}>
-                contact
-              </OptionItem>
-              <OptionItem onClick={() => setOpenModal("darkmode")}>
-                darkmode
-              </OptionItem>
-            </OptionMenu>
-            <CustomModal
-              parentSelector={document.getElementById("sidebar-header")}
-              currentName={currentModal}
-              name="setting"
-            >
-              setting modal
-            </CustomModal>
-            <CustomModal
-              parentSelector={document.getElementById("sidebar-header")}
-              currentName={currentModal}
-              name="contact"
-            >
-              contact modal
-            </CustomModal>
-            <CustomModal
-              parentSelector={document.getElementById("sidebar-header")}
-              currentName={currentModal}
-              name="darkmode"
-            >
-              darkmode modal
-            </CustomModal>
-          </>
-        )}
+    <ActiveSidebar sidebarName={SIDEBAR.CHATLIST}>
+      <div className="px-3">
+        <SideBarHeader className="flex items-center justify-center relative">
+          <div className="text-2xl pr-6 cursor-pointer" onClick={toggleMenu}>
+            <BsHddStack />
+          </div>
 
-        <SideBarSearchInput />
-      </SideBarHeader>
-      <div>
-        {Object.values(chatList).map((chatItem) => (
-          <ChatItem
-            roomType={chatItem.roomType}
-            currentChatItemId={currentChatItemId}
-            onClick={switchActiveChatItem}
-            id={chatItem.chatRoomId}
-            key={chatItem.chatRoomId}
-            roomInfo={chatItem.roomInfo}
-            latestMessage={chatItem.lastestMessage}
-            totalUnreadMessages={chatItem.totalUnreadMessages}
-          />
-        ))}
+          {isOpenMenu && (
+            <>
+              <OptionMenu>
+                <OptionItem
+                  onClick={() =>
+                    dispatch(sidebarActions.setCurrentSidebar(SIDEBAR.SETTING))
+                  }
+                >
+                  Setting
+                </OptionItem>
+                <OptionItem
+                  onClick={() =>
+                    dispatch(sidebarActions.setCurrentSidebar(SIDEBAR.CONTACT))
+                  }
+                >
+                  Contact
+                </OptionItem>
+              </OptionMenu>
+            </>
+          )}
+
+          <SideBarSearchInput />
+        </SideBarHeader>
+        <div>
+          {Object.values(chatList).map(
+            (chatItem) =>
+              (chatItem.roomType == "GROUP" ||
+                (chatItem.roomType == "PRIVATE" &&
+                  chatItem.lastestMessage != null)) && (
+                <ChatItem
+                  roomType={chatItem.roomType}
+                  currentChatItemId={currentChatItemId}
+                  onClick={switchActiveChatItem}
+                  id={chatItem.chatRoomId}
+                  key={chatItem.chatRoomId}
+                  roomInfo={chatItem.roomInfo}
+                  latestMessage={chatItem.lastestMessage}
+                  totalUnreadMessages={chatItem.totalUnreadMessages}
+                />
+              )
+          )}
+        </div>
       </div>
-    </div>
+    </ActiveSidebar>
   );
 }
 

@@ -10,10 +10,13 @@ import Sibling2 from "./Sibling2";
 import Sibling1 from "./Sibling1";
 import Spinner from "../ui/Spinner";
 import useSocket from "../hooks/useSocket";
+import { useInView } from "motion/react";
+import useInit from "../hooks/useInit";
 
 function Main() {
   const { connected } = useSocket();
-  if (!connected) return <Spinner />;
+  const { loaded } = useInit();
+  if (!connected || !loaded) return <Spinner />;
   return (
     <main className="flex w-full h-screen transition-all">
       <SideBar />

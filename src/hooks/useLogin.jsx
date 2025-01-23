@@ -1,6 +1,6 @@
 import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { loginApi } from "../services/apiUser";
+import { loginApi } from "../services/userAPI";
 import { setLocalStorageToken } from "../utils/helper";
 
 function useLogin() {

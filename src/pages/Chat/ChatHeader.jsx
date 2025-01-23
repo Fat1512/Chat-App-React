@@ -10,7 +10,6 @@ function ChatHeader() {
     (state) => state.profileReducer
   );
   const dispatch = useDispatch();
-  console.log(profile);
   return (
     <div
       className="flex rounded-lg w-full items-center bg-white py-3 px-4 cursor-pointer"

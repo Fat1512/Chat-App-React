@@ -6,7 +6,7 @@ function SideBarHeader({ children, className }) {
 
   return (
     <header id="sidebar-header" className={`h-[6rem] ${className}`}>
-      <button
+      {/* <button
         onClick={() => {
           stompClient.publish({
             destination: `/app/disconnect`,
@@ -16,7 +16,7 @@ function SideBarHeader({ children, className }) {
         }}
       >
         press to disconnect
-      </button>
+      </button> */}
       {children}
     </header>
   );
