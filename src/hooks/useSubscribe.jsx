@@ -5,6 +5,9 @@ import { AuthenticationHeader, getStartMiliOfDay } from "../utils/helper";
 import useSocket from "./useSocket";
 import useUser from "./useUser";
 import { chatActions } from "../store/chatSlice";
+import { videoCallActions } from "../store/videoCallSlice";
+import { modalActions } from "../store/modalSlide";
+import { MODAL } from "../utils/constants";
 
 let currentTimeOut;
 function useSubscribe() {
@@ -12,6 +15,16 @@ function useSubscribe() {
   const { user: currentUser } = useUser();
   const dispatch = useDispatch();
   function subscribeAllTheMessageEvent(id) {
+    stompClient.subscribe(
+      `/topic/chatRoom/${id}/callRequest`,
+      (message) => {
+        dispatch(videoCallActions.setRequestSignal(JSON.parse(message.body)));
+        dispatch(videoCallActions.setCurrentChatRoomId(id));
+        dispatch(modalActions.setCurrentModal(MODAL.VIDEOCALL));
+      },
+      AuthenticationHeader
+    );
+
     stompClient.subscribe(
       `/topic/chatRoom/${id}/message/deliveredStatus`,
       (message) => {

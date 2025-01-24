@@ -47,7 +47,7 @@ function Chat() {
     <div className={`flex flex-col chat-bg grow h-screen ease-in-out`}>
       {visible && (
         <>
-          <ChatHeader />
+          <ChatHeader currentChatRoomId={currentChatId} />
           <div className="flex grow flex-col justify-end px-60 overflow-hidden">
             <MessageList
               messageHistoryList={chatHistory[currentChatId].messageHistory} //Object with key as day

@@ -13,7 +13,6 @@ import { current } from "@reduxjs/toolkit";
 import Modal from "react-modal";
 import OptionMenu from "../../ui/OptionMenu";
 import OptionItem from "../../ui/OptionItem";
-import CustomModal from "../../ui/CustomModal";
 import { AnimatePresence, motion } from "motion/react";
 import ActiveSidebar from "../../ui/ActiveSidebar";
 import { SIDEBAR } from "../../utils/constants";

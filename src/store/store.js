@@ -5,6 +5,8 @@ import contactReducer from "./contactSlice";
 import profileReducer from "./profileSlice";
 import sideBarReducer from "./sideBarSlice";
 import testReducer from "./testSlice";
+import videoCallReducer from "./videoCallSlice";
+import modalReducer from "./modalSlide";
 
 const store = configureStore({
   reducer: {
@@ -13,7 +15,9 @@ const store = configureStore({
     contactReducer,
     profileReducer,
     sideBarReducer,
+    videoCallReducer,
     testReducer,
+    modalReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

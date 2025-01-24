@@ -10,3 +10,6 @@ export const MESSAGE_STATUS = {
   READ: "Seen",
   SENT: "Sent",
 };
+export const MODAL = {
+  VIDEOCALL: "VIDEOCALL",
+};

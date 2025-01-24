@@ -1,32 +1,34 @@
-import { useState } from "react";
-import Button from "../ui/Button";
+import { useEffect, useState } from "react";
 import SideBar from "./SideBar";
 import Chat from "./Chat";
 import RoomProfile from "./RoomProfile";
-import ChatHeader from "./Chat/ChatHeader";
-import MessageInput from "./Chat/MessageInput";
-import MessageList from "./Chat/MessageList";
-import Sibling2 from "./Sibling2";
-import Sibling1 from "./Sibling1";
 import Spinner from "../ui/Spinner";
-import useSocket from "../hooks/useSocket";
-import { useInView } from "motion/react";
-import useInit from "../hooks/useInit";
+import Peer from "simple-peer";
 
-function Main() {
+import useSocket from "../hooks/useSocket";
+import useInit from "../hooks/useInit";
+import useVideoCall from "../hooks/useVideoCall";
+import ModalComponent from "./ModalComponent";
+
+function MainContent() {
   const { connected } = useSocket();
   const { loaded } = useInit();
+
   if (!connected || !loaded) return <Spinner />;
+
   return (
-    <main className="flex w-full h-screen transition-all">
-      <SideBar />
-      <Chat />
-      <RoomProfile />
-    </main>
+    <>
+      <main className="flex w-full h-screen transition-all">
+        <SideBar />
+        <Chat />
+        <RoomProfile />
+      </main>
+      <ModalComponent />
+    </>
   );
 }
 
-export default Main;
+export default MainContent;
 /*
 
 <div class="flex justify-start relative">
