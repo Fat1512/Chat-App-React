@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SideBar from "./SideBar";
 import Chat from "./Chat";
 import RoomProfile from "./RoomProfile";
@@ -9,15 +9,54 @@ import useSocket from "../hooks/useSocket";
 import useInit from "../hooks/useInit";
 import useVideoCall from "../hooks/useVideoCall";
 import ModalComponent from "./ModalComponent";
+import CustomModal from "../ui/CustomModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function MainContent() {
   const { connected } = useSocket();
   const { loaded } = useInit();
+  const [userStream, setUserStream] = useState();
+  const localRef = useRef();
+  const remoteRef = useRef();
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+      // localRef.current.srcObject = stream;
+      // remoteRef.current.srcObject = stream;
+    });
+  }, [userStream]);
 
   if (!connected || !loaded) return <Spinner />;
 
   return (
     <>
+      {/* <CustomModal shouldCloseOnOverlayClick={false}>
+        <div className="flex">
+          <div className="p-3 flex flex-col">
+            <span className="text-3xl text-center w-full">local video</span>
+            <video autoPlay playsInline ref={localRef} src=""></video>
+          </div>
+          {acceptRequest && (
+            <div className=" p-3 flex flex-col">
+              <span className="text-3xl text-center w-full">remote video</span>
+              <video autoPlay playsInline ref={remoteRef} src=""></video>
+            </div>
+          )}
+        </div>
+        {!acceptRequest && (
+          <div className="flex text-3xl justify-around">
+            {!caller && (
+              <div>
+                <button className="rounded-full bg-green-200 p-5">
+                  Accept
+                </button>
+              </div>
+            )}
+            <div>
+              <button className="rounded-full bg-red-200 p-5">Deny</button>
+            </div>
+          </div>
+        )}
+      </CustomModal> */}
       <main className="flex w-full h-screen transition-all">
         <SideBar />
         <Chat />

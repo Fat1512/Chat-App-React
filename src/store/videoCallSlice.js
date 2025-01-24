@@ -1,10 +1,12 @@
 import { createSlice, current } from "@reduxjs/toolkit";
+import { VIDEOCALL_STATUS } from "../utils/constants";
 
 const initialState = {
   caller: false,
   signal: null,
-  openModal: false,
   currentChatRoomId: null,
+  remoteCallerInfo: {},
+  status: VIDEOCALL_STATUS.RINGING,
 };
 
 const videoCall = createSlice({
@@ -24,6 +26,12 @@ const videoCall = createSlice({
     },
     setCurrentChatRoomId(state, action) {
       state.currentChatRoomId = action.payload;
+    },
+    setRemoteCallerInfo(state, action) {
+      state.remoteCallerInfo.name = action.payload;
+    },
+    setStatus(state, action) {
+      state.status = action.payload;
     },
   },
 });

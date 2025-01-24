@@ -13,7 +13,6 @@ import { SocketProvider } from "./hooks/useSocket";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import MainContent from "./pages/MainContent";
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

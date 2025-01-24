@@ -1,4 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
+import { MODAL } from "../utils/constants";
 
 const initialState = {
   currentModal: null,

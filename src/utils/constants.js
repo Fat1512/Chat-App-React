@@ -13,3 +13,8 @@ export const MESSAGE_STATUS = {
 export const MODAL = {
   VIDEOCALL: "VIDEOCALL",
 };
+export const VIDEOCALL_STATUS = {
+  RINGING: "Ringing...",
+  CALLING: "Calling...",
+  END: "End..",
+};

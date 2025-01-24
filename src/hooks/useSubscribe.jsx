@@ -7,25 +7,29 @@ import useUser from "./useUser";
 import { chatActions } from "../store/chatSlice";
 import { videoCallActions } from "../store/videoCallSlice";
 import { modalActions } from "../store/modalSlide";
-import { MODAL } from "../utils/constants";
+import { MODAL, VIDEOCALL_STATUS } from "../utils/constants";
 
 let currentTimeOut;
 function useSubscribe() {
   const { stompClient } = useSocket();
   const { user: currentUser } = useUser();
   const dispatch = useDispatch();
+
   function subscribeAllTheMessageEvent(id) {
-    stompClient.subscribe(
+    const x1 = stompClient.subscribe(
       `/topic/chatRoom/${id}/callRequest`,
       (message) => {
-        dispatch(videoCallActions.setRequestSignal(JSON.parse(message.body)));
+        const body = JSON.parse(message.body);
+        dispatch(videoCallActions.setRequestSignal(body.rtcSignal));
+        dispatch(videoCallActions.setRemoteCallerInfo(body.caller));
+
         dispatch(videoCallActions.setCurrentChatRoomId(id));
         dispatch(modalActions.setCurrentModal(MODAL.VIDEOCALL));
       },
       AuthenticationHeader
     );
 
-    stompClient.subscribe(
+    const x2 = stompClient.subscribe(
       `/topic/chatRoom/${id}/message/deliveredStatus`,
       (message) => {
         const body = JSON.parse(message.body);
@@ -42,7 +46,7 @@ function useSubscribe() {
     );
 
     //Tracking message status
-    stompClient.subscribe(
+    const x3 = stompClient.subscribe(
       `/topic/chatRoom/${id}/message/readStatus`,
       (message) => {
         const body = JSON.parse(message.body);
@@ -59,7 +63,7 @@ function useSubscribe() {
     );
 
     //Tracking new upcomming messages
-    stompClient.subscribe(
+    const x4 = stompClient.subscribe(
       `/topic/chatRoom/${id}/newMessages`,
       (message) => {
         const today = getStartMiliOfDay();
@@ -87,7 +91,7 @@ function useSubscribe() {
     );
 
     //Tracking new online status
-    stompClient.subscribe(
+    const x5 = stompClient.subscribe(
       `/topic/chatRoom/${id}/onlineStatus`,
       (message) => {
         const body = JSON.parse(message.body);
@@ -115,7 +119,7 @@ function useSubscribe() {
     );
 
     //Tracking typing event
-    stompClient.subscribe(
+    const x6 = stompClient.subscribe(
       `/topic/chatRoom/${id}/typing`,
       (message) => {
         const body = JSON.parse(message.body);

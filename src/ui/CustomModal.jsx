@@ -14,7 +14,7 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-function CustomModal({ children, onClose }) {
+function CustomModal({ children, onClose, shouldCloseOnOverlayClick = true }) {
   const [modalIsOpen, setIsOpen] = useState(true);
   function openModal() {
     setIsOpen(true);
@@ -30,9 +30,10 @@ function CustomModal({ children, onClose }) {
     <Modal
       isOpen={modalIsOpen}
       onAfterOpen={afterOpenModal}
-      onRequestClose={closeModal}
+      onRequestClose={closeModal ? closeModal : () => {}}
       style={customStyles}
       contentLabel="Example Modal"
+      shouldCloseOnOverlayClick={shouldCloseOnOverlayClick}
     >
       {children}
     </Modal>
