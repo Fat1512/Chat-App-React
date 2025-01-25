@@ -8,7 +8,6 @@ import RegisterSection from "./pages/Authentication/RegisterSection";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import Test from "./ui/Test";
 import { SocketProvider } from "./hooks/useSocket";
 import { Provider } from "react-redux";
 import store from "./store/store";

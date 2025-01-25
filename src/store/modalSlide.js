@@ -16,6 +16,10 @@ const modal = createSlice({
     setIsActive(state, action) {
       state.isActive = action.payload;
     },
+    resetState(state, action) {
+      state.currentModal = null;
+      state.isActive = false;
+    },
   },
 });
 

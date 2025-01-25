@@ -82,6 +82,20 @@ export function formatDate(timestamp) {
   return new Intl.DateTimeFormat("en-US", options).format(new Date(timestamp));
 }
 
+export function formatSecond(second) {
+  const h = Math.floor(second / 3600)
+    .toString()
+    .padStart(2, "0");
+  second %= 3600;
+  const m = Math.floor(second / 60)
+    .toString()
+    .padStart(2, "0");
+  second %= 60;
+  const s = second.toString().padStart(2, "0");
+
+  return `${h}:${m}:${s}`;
+}
+
 export function getStartMiliOfDay() {
   return new Date().setUTCHours(0, 0, 0, 0);
 }

@@ -1,10 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import CustomModal from "../../ui/CustomModal";
 import useVideoCall from "../../hooks/useVideoCall";
+import { AuthenticationHeader, formatSecond } from "../../utils/helper";
 
 function VideoCallModal() {
   const dispatch = useDispatch();
   const {
+    time,
+    currentChatRoomId,
+    currentUser,
+    stompClient,
     localRef,
     remoteRef,
     caller,
@@ -14,10 +19,29 @@ function VideoCallModal() {
     remoteCallerInfo,
   } = useVideoCall();
 
+  function endVideoCall() {
+    stompClient.publish({
+      destination: `/app/chatRoom/${currentChatRoomId}/callEnded`,
+      body: JSON.stringify({
+        senderId: currentUser.id,
+        duration: time,
+      }),
+      headers: AuthenticationHeader,
+    });
+  }
+
+  function denyVideoCall() {
+    stompClient.publish({
+      destination: `/app/chatRoom/${currentChatRoomId}/callDenied`,
+      headers: AuthenticationHeader,
+    });
+  }
+
   return (
     <CustomModal shouldCloseOnOverlayClick={false}>
-      <div className="flex justify-center text-3xl">
+      <div className="flex justify-between text-3xl">
         <p>{status}</p>
+        <p>{formatSecond(time)}</p>
       </div>
       <div className="flex">
         <div className="p-3 flex flex-col">
@@ -26,9 +50,7 @@ function VideoCallModal() {
         </div>
         {acceptRequest && (
           <div className=" p-3 flex flex-col">
-            <span className="text-3xl text-center w-full">
-              {remoteCallerInfo.name}
-            </span>
+            <span className="text-3xl text-center w-full">VideoCall</span>
             <video autoPlay playsInline ref={remoteRef} src=""></video>
           </div>
         )}
@@ -45,7 +67,12 @@ function VideoCallModal() {
           </div>
         )}
         <div>
-          <button className="rounded-full bg-red-200 p-5">Deny</button>
+          <button
+            onClick={acceptRequest ? endVideoCall : denyVideoCall}
+            className="rounded-full bg-red-200 p-5"
+          >
+            {acceptRequest ? `End call` : `Deny`}
+          </button>
         </div>
       </div>
     </CustomModal>

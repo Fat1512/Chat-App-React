@@ -11,6 +11,7 @@ import { chatActions } from "../../store/chatSlice";
 import { profileActions } from "../../store/profileSlice";
 import { chatListActions } from "../../store/chatListSlice";
 import useUser from "../../hooks/useUser";
+import { MESSAGE_TYPE } from "../../utils/constants";
 let currentTimeOut;
 function ChatItem({
   roomInfo,
@@ -40,6 +41,16 @@ function ChatItem({
       });
     }
   }, [currentChatItemId, latestMessage]);
+  let displayMessageContent;
+  if (latestMessage.messageType == MESSAGE_TYPE.TEXT) {
+    displayMessageContent = latestMessage?.content;
+  }
+  if (latestMessage.messageType == MESSAGE_TYPE.VIDEOCALL) {
+    displayMessageContent = "Video call";
+  }
+  if (roomInfo?.mode != null) {
+    displayMessageContent = roomInfo?.mode;
+  }
 
   return (
     <div
@@ -74,9 +85,7 @@ function ChatItem({
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <div>
-            {roomInfo?.mode != null ? roomInfo.mode : latestMessage?.content}
-          </div>
+          <div>{displayMessageContent}</div>
           {totalUnreadMessages !== 0 && (
             <div className="rounded-full border bg-blue-500 p-3 m-0">
               {totalUnreadMessages}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BsSearch, BsSendFill } from "react-icons/bs";
 import useSocket from "../../hooks/useSocket";
 import { AuthenticationHeader, getAuthToken } from "../../utils/helper.js";
+import { MESSAGE_TYPE } from "../../utils/constants.js";
 
 function MessageInput({ chatRoomId }) {
   const { stompClient, connected } = useSocket();
@@ -11,7 +12,7 @@ function MessageInput({ chatRoomId }) {
     stompClient.publish({
       destination: `/app/chatRoom/${chatRoomId}/sendMessage`,
       body: JSON.stringify({
-        messageType: "TEXT",
+        messageType: MESSAGE_TYPE.TEXT,
         content: message,
       }),
       headers: AuthenticationHeader,

@@ -18,3 +18,13 @@ export const VIDEOCALL_STATUS = {
   CALLING: "Calling...",
   END: "End..",
 };
+export const MESSAGE_TYPE = {
+  TEXT: "TEXT",
+  VIDEOCALL: "VIDEOCALL",
+  VOICECALL: "VOICECALL",
+  IMAGE: "IMAGE",
+  FILE: "FILE",
+};
+export const REJECT_REASON = {
+  MISSED: "MISSED",
+};

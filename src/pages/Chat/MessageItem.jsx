@@ -1,9 +1,10 @@
-import { MESSAGE_STATUS } from "../../utils/constants";
-import { formatTime } from "../../utils/helper";
+import { MESSAGE_STATUS, MESSAGE_TYPE } from "../../utils/constants";
+import { formatSecond, formatTime } from "../../utils/helper";
 
 function MessageItem({ message, currentUser }) {
   const deliveredStatus = message.deliveredStatus;
   const readStatus = message.readStatus;
+
   let status = null;
   if (deliveredStatus) {
     status = MESSAGE_STATUS.DELIVERD;
@@ -14,13 +15,27 @@ function MessageItem({ message, currentUser }) {
   if (!readStatus && !deliveredStatus) {
     status = MESSAGE_STATUS.SENT;
   }
+
   return (
     <div
       className={`max-w-[30rem] bg-white my-3 rounded-lg p-4 ${
         message.senderId == currentUser.id ? "self-end" : "self-start"
       }`}
     >
-      <p>{message.content}</p>
+      {message.messageType == MESSAGE_TYPE.TEXT && <p>{message.content}</p>}
+      {message.messageType == MESSAGE_TYPE.VIDEOCALL && (
+        <>
+          <p>
+            {message.senderId == currentUser.id
+              ? `Outgoing Call`
+              : `Incoming Call`}
+          </p>
+          <p>duration: {formatSecond(message?.callDetails?.callDuration)}</p>
+          {message?.callDetails?.callRejectReason && (
+            <p>{message.callDetails.callRejectReason}</p>
+          )}
+        </>
+      )}
       <div
         className={`flex ${
           message.senderId == currentUser.id

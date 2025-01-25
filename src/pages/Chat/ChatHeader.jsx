@@ -4,11 +4,13 @@ import { formatTime } from "../../utils/helper";
 import { modalActions } from "../../store/modalSlide";
 import { MODAL } from "../../utils/constants";
 import { videoCallActions } from "../../store/videoCallSlice";
+import useUser from "../../hooks/useUser";
 
 function ChatHeader({ currentChatRoomId }) {
   const { visible, profile, currentProfileId } = useSelector(
     (state) => state.profileReducer
   );
+  const { user: currentUser } = useUser();
   const dispatch = useDispatch();
   return (
     <div className="flex rounded-lg w-full items-center bg-white py-3 px-4">
@@ -41,8 +43,8 @@ function ChatHeader({ currentChatRoomId }) {
         <button
           className="p-3 bg-slate-300 rounded-lg"
           onClick={() => {
+            dispatch(videoCallActions.setCaller(currentUser.id));
             dispatch(videoCallActions.setCurrentChatRoomId(currentChatRoomId));
-            dispatch(videoCallActions.setCaller(true));
             dispatch(modalActions.setCurrentModal(MODAL.VIDEOCALL));
           }}
         >

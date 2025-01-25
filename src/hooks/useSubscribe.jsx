@@ -20,10 +20,9 @@ function useSubscribe() {
       `/topic/chatRoom/${id}/callRequest`,
       (message) => {
         const body = JSON.parse(message.body);
-        dispatch(videoCallActions.setRequestSignal(body.rtcSignal));
-        dispatch(videoCallActions.setRemoteCallerInfo(body.caller));
-
-        dispatch(videoCallActions.setCurrentChatRoomId(id));
+        dispatch(
+          videoCallActions.setRequestCaller({ ...body, chatRoomId: id })
+        );
         dispatch(modalActions.setCurrentModal(MODAL.VIDEOCALL));
       },
       AuthenticationHeader
