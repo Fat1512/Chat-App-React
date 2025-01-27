@@ -4,11 +4,25 @@ import { sidebarActions } from "../../store/sideBarSlice";
 import ActiveSidebar from "../../ui/ActiveSidebar";
 import { SIDEBAR } from "../../utils/constants";
 import useUploadAvatar from "../../hooks/useUploadAvatar";
+import useLogout from "../../hooks/useLogout";
+import toast from "react-hot-toast";
 
 function Setting() {
   const { user } = useUser();
-  const { isLoading, uploadAvatar } = useUploadAvatar();
+  const { isLoading, processFormData, uploadAvatar } = useUploadAvatar();
+  const { logout } = useLogout();
   const dispatch = useDispatch();
+
+  function handleUploadAvatar(file) {
+    toast.success("Uploading");
+
+    const processedFormData = processFormData(file);
+    uploadAvatar(processedFormData, {
+      onSuccess: (data) => {
+        user.avt = data;
+      },
+    });
+  }
 
   return (
     <ActiveSidebar sidebarName={SIDEBAR.SETTING}>
@@ -16,17 +30,28 @@ function Setting() {
         onClick={() =>
           dispatch(sidebarActions.setCurrentSidebar(SIDEBAR.CHATLIST))
         }
-        className="text-2xl p-3 full-rounded cursor-pointer bg-slate-200"
+        className="text-2xl p-5 cursor-pointer bg-slate-200"
       >
-        back button
+        Back
       </div>
-      <div>
-        <input type="file" onChange={(e) => uploadAvatar(e.target.files[0])} />
-      </div>
-      <div>
-        <p>id: {user.id}</p>
-        <p>bio: {user.bio}</p>
+
+      <div className="text-3xl text-center">
         <img src={user.avt} alt="" />
+        <div>
+          <input
+            type="file"
+            onChange={(e) => handleUploadAvatar(e.target.files[0])}
+            className="py-5"
+          />
+        </div>
+        <p className="py-2">Id: {user.id}</p>
+        <p>Bio: {user.bio}</p>
+        <button
+          className="rounded-full bg-orange-300 mt-5 p-5"
+          onClick={logout}
+        >
+          Logout
+        </button>
       </div>
     </ActiveSidebar>
   );

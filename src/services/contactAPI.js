@@ -7,7 +7,7 @@ export async function addContact({ username, name }) {
       username: username,
       name: name,
     },
-    AuthenticationHeader
+    AuthenticationHeader()
   ).catch((err) => {
     console.log(err);
   });

@@ -56,8 +56,8 @@ function ChatList() {
   return (
     <ActiveSidebar sidebarName={SIDEBAR.CHATLIST}>
       <div className="px-3">
-        <SideBarHeader className="flex items-center justify-center relative">
-          <div className="text-2xl pr-6 cursor-pointer" onClick={toggleMenu}>
+        <SideBarHeader className="flex items-center justify-around px-3 relative">
+          <div className="text-2xl px-6 cursor-pointer" onClick={toggleMenu}>
             <BsHddStack />
           </div>
 
@@ -81,7 +81,6 @@ function ChatList() {
               </OptionMenu>
             </>
           )}
-
           <SideBarSearchInput />
         </SideBarHeader>
         <div>

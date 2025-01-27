@@ -4,6 +4,8 @@ import { formatTime } from "../../utils/helper";
 import { modalActions } from "../../store/modalSlide";
 import { MODAL } from "../../utils/constants";
 import { videoCallActions } from "../../store/videoCallSlice";
+import { BiSolidPhoneCall } from "react-icons/bi";
+
 import useUser from "../../hooks/useUser";
 
 function ChatHeader({ currentChatRoomId }) {
@@ -13,7 +15,7 @@ function ChatHeader({ currentChatRoomId }) {
   const { user: currentUser } = useUser();
   const dispatch = useDispatch();
   return (
-    <div className="flex rounded-lg w-full items-center bg-white py-3 px-4">
+    <div className="flex rounded-lg cursor-pointer w-full items-center bg-white py-3 px-4">
       <div
         className="flex w-full items-center"
         onClick={() => dispatch(profileActions.setVisible(!visible))}
@@ -41,14 +43,14 @@ function ChatHeader({ currentChatRoomId }) {
       </div>
       <div className="text-2xl px-5 cursor-pointer">
         <button
-          className="p-3 bg-slate-300 rounded-lg"
+          className="p-3 text-4xl rounded-lg"
           onClick={() => {
             dispatch(videoCallActions.setCaller(currentUser.id));
             dispatch(videoCallActions.setCurrentChatRoomId(currentChatRoomId));
             dispatch(modalActions.setCurrentModal(MODAL.VIDEOCALL));
           }}
         >
-          Call
+          <BiSolidPhoneCall />
         </button>
       </div>
     </div>

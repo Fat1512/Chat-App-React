@@ -61,7 +61,7 @@ function useVideoCall() {
           callerName: currentUser.name,
           rtcSignal: data,
         }),
-        headers: AuthenticationHeader,
+        headers: AuthenticationHeader(),
       });
     });
 
@@ -88,7 +88,7 @@ function useVideoCall() {
 
         startTimer();
       },
-      AuthenticationHeader
+      AuthenticationHeader()
     );
 
     peer.on("close", () => {
@@ -102,7 +102,7 @@ function useVideoCall() {
     return () => {
       peer.destroy();
       stompClient.unsubscribe(subObj.id, {
-        AuthenticationHeader,
+        ...AuthenticationHeader(),
       });
     };
   }, [userStream, caller]);
@@ -126,7 +126,7 @@ function useVideoCall() {
           callerName: currentUser.name,
           rtcSignal: data,
         }),
-        headers: AuthenticationHeader,
+        headers: AuthenticationHeader(),
       });
     });
     startTimer();
@@ -178,15 +178,15 @@ function useVideoCall() {
                 callDuration: body.duration,
               },
             }),
-            headers: AuthenticationHeader,
+            headers: AuthenticationHeader(),
           });
         }
       },
-      AuthenticationHeader
+      AuthenticationHeader()
     );
     return () =>
       stompClient.unsubscribe(subObj.id, {
-        AuthenticationHeader,
+        ...AuthenticationHeader(),
       });
   }, [userStream, remoteCallerInfo]);
 
@@ -211,16 +211,16 @@ function useVideoCall() {
                 callRejectReason: REJECT_REASON.BUSY,
               },
             }),
-            headers: AuthenticationHeader,
+            headers: AuthenticationHeader(),
           });
         }
       },
-      AuthenticationHeader
+      AuthenticationHeader()
     );
 
     return () =>
       stompClient.unsubscribe(subObj.id, {
-        AuthenticationHeader,
+        ...AuthenticationHeader(),
       });
   }, [userStream]);
 

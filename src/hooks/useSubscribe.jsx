@@ -16,7 +16,7 @@ function useSubscribe() {
   const dispatch = useDispatch();
 
   function subscribeAllTheMessageEvent(id) {
-    const x1 = stompClient.subscribe(
+    const s1 = stompClient.subscribe(
       `/topic/chatRoom/${id}/callRequest`,
       (message) => {
         const body = JSON.parse(message.body);
@@ -25,10 +25,10 @@ function useSubscribe() {
         );
         dispatch(modalActions.setCurrentModal(MODAL.VIDEOCALL));
       },
-      AuthenticationHeader
+      AuthenticationHeader()
     );
 
-    const x2 = stompClient.subscribe(
+    const s2 = stompClient.subscribe(
       `/topic/chatRoom/${id}/message/deliveredStatus`,
       (message) => {
         const body = JSON.parse(message.body);
@@ -41,11 +41,11 @@ function useSubscribe() {
           );
         });
       },
-      AuthenticationHeader
+      AuthenticationHeader()
     );
 
     //Tracking message status
-    const x3 = stompClient.subscribe(
+    const s3 = stompClient.subscribe(
       `/topic/chatRoom/${id}/message/readStatus`,
       (message) => {
         const body = JSON.parse(message.body);
@@ -58,11 +58,11 @@ function useSubscribe() {
           );
         });
       },
-      AuthenticationHeader
+      AuthenticationHeader()
     );
 
     //Tracking new upcomming messages
-    const x4 = stompClient.subscribe(
+    const s4 = stompClient.subscribe(
       `/topic/chatRoom/${id}/newMessages`,
       (message) => {
         const today = getStartMiliOfDay();
@@ -86,11 +86,11 @@ function useSubscribe() {
           })
         );
       },
-      AuthenticationHeader
+      AuthenticationHeader()
     );
 
     //Tracking new online status
-    const x5 = stompClient.subscribe(
+    const s5 = stompClient.subscribe(
       `/topic/chatRoom/${id}/onlineStatus`,
       (message) => {
         const body = JSON.parse(message.body);
@@ -114,11 +114,11 @@ function useSubscribe() {
           })
         );
       },
-      AuthenticationHeader
+      AuthenticationHeader()
     );
 
     //Tracking typing event
-    const x6 = stompClient.subscribe(
+    const s6 = stompClient.subscribe(
       `/topic/chatRoom/${id}/typing`,
       (message) => {
         const body = JSON.parse(message.body);
@@ -152,7 +152,7 @@ function useSubscribe() {
           })
         );
       },
-      AuthenticationHeader
+      AuthenticationHeader()
     );
   }
   return { subscribeAllTheMessageEvent };

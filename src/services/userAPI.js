@@ -1,4 +1,4 @@
-import { API, AUTH_REQUEST } from "../utils/helper";
+import { API, AUTH_REQUEST, setLocalStorageToken } from "../utils/helper";
 
 export async function getCurrentUser() {
   const res = await AUTH_REQUEST.get("/api/v1/users/profile", {
@@ -19,15 +19,32 @@ export async function uploadEditAvatar(FormData) {
   return res.data.data;
 }
 
-export async function loginApi({ username, password }) {
+export async function loginAPI({ username, password }) {
   const res = await API.post("api/v1/auth/login", {
     username: username,
     password: password,
   });
 
-  if (res.status != 200) throw new Error("error");
+  if (res.status != 200) throw new Error(res.data.message);
 
   const data = res.data.data;
   data.isAuthenticated = true;
+  setLocalStorageToken(data.tokenDTO.accessToken);
+
   return data;
+}
+
+export async function registerAPI({
+  name,
+  username,
+  password,
+  repeatPassword,
+}) {
+  const res = await API.post("api/v1/auth/register", {
+    name: name,
+    username: username,
+    password: password,
+    confirmedPassword: repeatPassword,
+  });
+  if (res.status != 200 && res.status != 201) throw new Error(res.data.message);
 }

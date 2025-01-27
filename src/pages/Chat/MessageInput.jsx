@@ -9,8 +9,7 @@ import {
   generateUUID,
   getAuthToken,
 } from "../../utils/helper.js";
-import { IMAGE_LIMIT_SIZE, MESSAGE_TYPE } from "../../utils/constants.js";
-import { useReducedMotion } from "motion/react";
+import { MESSAGE_TYPE } from "../../utils/constants.js";
 import useUploadMessageImage from "../../hooks/useUploadMessageImage.jsx";
 import useSendMessage from "../../hooks/useSendMessage.jsx";
 
@@ -105,7 +104,7 @@ function MessageInput({ chatRoomId }) {
         </>
       )}
 
-      <div className="flex shrink-0 justify-center items-center rounded-full border focus-within:border mb-5">
+      <div className="flex shrink-0 justify-center items-center rounded-full border focus-within:border my-5">
         <span
           className="text-4xl px-4 cursor-pointer"
           onClick={(e) => e.currentTarget.querySelector("#uploadFile")?.click()}
@@ -126,7 +125,7 @@ function MessageInput({ chatRoomId }) {
           onChange={(e) => {
             stompClient.publish({
               destination: `/app/chatRoom/${chatRoomId}/typing`,
-              headers: AuthenticationHeader,
+              headers: AuthenticationHeader(),
             });
           }}
           disabled={isSelectedImage}

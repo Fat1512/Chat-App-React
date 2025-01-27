@@ -16,6 +16,7 @@ import { NavLink } from "react-router-dom";
 import { addContact } from "../../services/contactAPI";
 import { contactActions } from "../../store/contactSlice";
 import { chatListActions } from "../../store/chatListSlice";
+import useSubscribe from "../../hooks/useSubscribe";
 
 const customStyles = {
   content: {
@@ -36,11 +37,10 @@ function Contact() {
   const { contactList, isLoading } = useSelector(
     (state) => state.contactReducer
   );
-  const [username, setUsername] = useState();
-  const [name, setName] = useState();
+  const { subscribeAllTheMessageEvent } = useSubscribe();
+
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
-
   const [modalIsOpen, setIsOpen] = useState(false);
 
   function captureName(e) {
@@ -64,19 +64,19 @@ function Contact() {
     setIsOpen(false);
   }
 
-  async function success() {
+  async function success({ username, name }) {
     const data = await addContact({ username, name });
+
+    subscribeAllTheMessageEvent(data.chatRoomId);
     dispatch(contactActions.setContactList([data]));
     dispatch(
-      chatListActions.setNewChatListFromAddedContact([
-        {
-          chatRoomId: data.chatRoomId,
-          roomType: "PRIVATE",
-          lastestMessage: null,
-          totalUnreadMessages: 0,
-          roomInfo: data.roomInfo,
-        },
-      ])
+      chatListActions.setNewChatListFromAddedContact({
+        chatRoomId: data.chatRoomId,
+        roomType: "PRIVATE",
+        lastestMessage: null,
+        totalUnreadMessages: 0,
+        roomInfo: data.roomInfo,
+      })
     );
   }
   function error() {
@@ -116,7 +116,6 @@ function Contact() {
             option={{
               required: "name is required",
             }}
-            onChange={captureName}
             error={errors?.name?.message}
           />
           <FormRow
@@ -127,7 +126,6 @@ function Contact() {
             option={{
               required: "username is required",
             }}
-            onChange={captureUsername}
             error={errors?.username?.message}
           />
           <div className="flex justify-end text-2xl my-4">

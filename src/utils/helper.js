@@ -5,8 +5,10 @@ export const getAuthToken = () => {
   return window.localStorage.getItem("auth_token");
 };
 
-export const AuthenticationHeader = {
-  Authorization: `Bearer ${getAuthToken()}`,
+export const AuthenticationHeader = function () {
+  return {
+    Authorization: `Bearer ${getAuthToken()}`,
+  };
 };
 
 export const setLocalStorageToken = (token) => {
@@ -43,20 +45,20 @@ axiosRetry(axios, {
 
 export const AUTH_REQUEST = axios.create({
   baseURL: `http://localhost:8080`,
-  headers: {
-    Authorization: `Bearer ${getAuthToken()}`,
-  },
-  // timeout: 2000,
 });
 
-export const UPLOAD_REQUEST = axios.create({
-  baseURL: `http://localhost:8080`,
-  headers: {
-    Authorization: `Bearer ${getAuthToken()}`,
-    "Content-Type": "multipart/form-data",
+AUTH_REQUEST.interceptors.request.use(
+  (config) => {
+    const token = getAuthToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
   },
-  // timeout: 2000,
-});
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const API = axios.create({
   baseURL: `http://localhost:8080`,

@@ -10,7 +10,7 @@ function SideBarHeader({ children, className }) {
         onClick={() => {
           stompClient.publish({
             destination: `/app/disconnect`,
-            headers: AuthenticationHeader,
+            headers: AuthenticationHeader(),
           });
           stompClient.deactivate();
         }}

@@ -4,29 +4,32 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import useRegister from "../../hooks/useRegister";
 
 function RegisterForm() {
   const { register, handleSubmit, formState, getValues } = useForm();
   const { errors } = formState;
 
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
-  const [repeatPassword, setRepeatPassword] = useState();
+  const { isLoading, register: registerUser } = useRegister();
 
-  function f() {
-    console.log("ads");
+  function registerr({ name, username, password, repeatPassword }) {
+    registerUser({ name, username, password, repeatPassword });
   }
-  function captureUsername(e) {
-    setUsername(e.target.value);
-  }
-  function capturePassword(e) {
-    setPassword(e.target.value);
-  }
-  function captureConfirmedPassword(e) {
-    setRepeatPassword(e.target.value);
-  }
+
+  function error() {}
+
   return (
-    <Form onSubmit={handleSubmit(f)}>
+    <Form onSubmit={handleSubmit(registerr, error)}>
+      <FormRow
+        label="Name"
+        type="text"
+        name="name"
+        register={register}
+        option={{
+          required: "name is required",
+        }}
+        error={errors?.name?.message}
+      />
       <FormRow
         label="Username"
         type="username"
@@ -35,7 +38,6 @@ function RegisterForm() {
         option={{
           required: "username is required",
         }}
-        onChange={captureUsername}
         error={errors?.username?.message}
       />
       <FormRow
@@ -44,9 +46,8 @@ function RegisterForm() {
         name="password"
         register={register}
         option={{
-          required: "username is required",
+          required: "password is required",
         }}
-        onChange={capturePassword}
         error={errors?.password?.message}
       />
       <FormRow
@@ -55,18 +56,17 @@ function RegisterForm() {
         name="repeatPassword"
         register={register}
         option={{
-          required: "password is required",
+          required: "repeat password is required",
           validate: (value) =>
             value === getValues().password || "password doesn't match",
         }}
-        onChange={captureConfirmedPassword}
         error={errors?.repeatPassword?.message}
       />
       <div className="flex justify-end text-2xl my-4">
         <NavLink to="/">Forgot password</NavLink>
       </div>
       <div className="flex">
-        <Button>Login</Button>
+        <Button disabled={isLoading}>Register</Button>
       </div>
     </Form>
   );

@@ -11,8 +11,8 @@ export const SocketProvider = function ({ children }) {
   useEffect(() => {
     const modernWebSocket = function () {
       const client = new Client({
-        connectHeaders: AuthenticationHeader,
-        disconnectHeaders: AuthenticationHeader,
+        connectHeaders: AuthenticationHeader(),
+        disconnectHeaders: AuthenticationHeader(),
         brokerURL: "ws://localhost:8080/ws",
         // heartbeatOutgoing: 6000,
         heartbeatOutgoing: 0,
@@ -20,7 +20,7 @@ export const SocketProvider = function ({ children }) {
           console.log("connected");
           client.publish({
             destination: `/app/connect`,
-            headers: AuthenticationHeader,
+            headers: AuthenticationHeader(),
           });
           setStompClient(client);
           setConnected(true);
@@ -33,9 +33,10 @@ export const SocketProvider = function ({ children }) {
       });
       client.activate();
       window.addEventListener("beforeunload", function () {
+        console.log("disconnection");
         client.publish({
           destination: `/app/disconnect`,
-          headers: AuthenticationHeader,
+          headers: AuthenticationHeader(),
         });
       });
     };

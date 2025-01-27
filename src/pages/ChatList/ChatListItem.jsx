@@ -27,7 +27,7 @@ function ChatItem({
     if (id == currentChatItemId) {
       stompClient.publish({
         destination: `/app/chatRoom/${id}/markAsRead`,
-        headers: AuthenticationHeader,
+        headers: AuthenticationHeader(),
       });
       dispatch(
         chatListActions.resetUnreadMessageCount({
@@ -37,7 +37,7 @@ function ChatItem({
     } else {
       stompClient.publish({
         destination: `/app/chatRoom/${id}/markAsDelivered`,
-        headers: AuthenticationHeader,
+        headers: AuthenticationHeader(),
       });
     }
   }, [currentChatItemId, latestMessage]);
@@ -55,7 +55,7 @@ function ChatItem({
   return (
     <div
       onClick={() => onClick(id)}
-      className={`flex rounded-lg w-full items-center py-3 cursor-pointer hover:bg-slate-300 px-4 ${
+      className={`flex rounded-lg w-full h-[7rem] items-center py-3 cursor-pointer hover:bg-slate-300 px-4 ${
         currentChatItemId == id ? "chat-item-active" : ""
       }`}
     >

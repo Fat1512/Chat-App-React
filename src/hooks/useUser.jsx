@@ -5,6 +5,7 @@ function useUser() {
   const { isLoading, data: user } = useQuery({
     queryKey: ["user"],
     queryFn: getCurrentUser,
+    retry: 0,
   });
   return { isLoading, user };
 }

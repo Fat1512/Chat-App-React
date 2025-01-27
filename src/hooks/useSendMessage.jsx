@@ -7,11 +7,10 @@ function useSendMessage() {
 
   function sendMessage(message, chatRoomId) {
     try {
-      console.log(chatRoomId);
       stompClient.publish({
         destination: `/app/chatRoom/${chatRoomId}/sendMessage`,
         body: JSON.stringify(message),
-        headers: AuthenticationHeader,
+        headers: AuthenticationHeader(),
       });
     } catch (err) {
       toast.error(err.message);

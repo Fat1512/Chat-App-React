@@ -26,6 +26,8 @@
     display: inline-block;
     box-sizing: border-box;
     margin: auto;
+    justify-items: center;
+    align-items: center;
     aspect-ratio: 1;
     animation: rotation 1s linear infinite;
   }

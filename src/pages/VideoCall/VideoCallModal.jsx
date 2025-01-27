@@ -27,14 +27,14 @@ function VideoCallModal({ currentModal }) {
         senderId: currentUser.id,
         duration: time,
       }),
-      headers: AuthenticationHeader,
+      headers: AuthenticationHeader(),
     });
   }
 
   function denyVideoCall() {
     stompClient.publish({
       destination: `/app/chatRoom/${currentChatRoomId}/callDenied`,
-      headers: AuthenticationHeader,
+      headers: AuthenticationHeader(),
     });
   }
 

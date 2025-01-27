@@ -6,7 +6,7 @@ import useUser from "./useUser";
 
 function useUploadAvatar() {
   //   const { currentUser } = useUser();
-  const { isLoading, mutate: updateAvatarFn } = useMutation({
+  const { isLoading, mutate: uploadAvatar } = useMutation({
     mutationFn: (formData) => uploadEditAvatar(formData),
     onSuccess: () => {
       toast.success("Uploaded successfully");
@@ -16,7 +16,9 @@ function useUploadAvatar() {
     },
   });
 
-  function uploadAvatar(file) {
+  function processFormData(file) {
+    const formData = new FormData();
+
     if (!file.type.startsWith("image/")) {
       toast.error("Only image is allowed !");
       return;
@@ -27,12 +29,11 @@ function useUploadAvatar() {
       return;
     }
 
-    let formData = new FormData();
     formData.append("file", file);
-    updateAvatarFn(formData);
+    return formData;
   }
 
-  return { isLoading, uploadAvatar };
+  return { isLoading, processFormData, uploadAvatar };
 }
 
 export default useUploadAvatar;

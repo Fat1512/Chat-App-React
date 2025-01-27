@@ -1,7 +1,8 @@
-function Button({ children, onClick }) {
+function Button({ children, onClick, disabled = false }) {
   return (
     <button
       onClick={onClick}
+      disabled={disabled}
       className="text-2xl py-4 px-6 bg-orange-500 rounded-lg text-white w-full"
     >
       {children}
