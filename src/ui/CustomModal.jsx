@@ -14,8 +14,14 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-function CustomModal({ children, onClose, shouldCloseOnOverlayClick = true }) {
-  const [modalIsOpen, setIsOpen] = useState(true);
+function CustomModal({
+  children,
+  onClose,
+  modal,
+  currentModal,
+  shouldCloseOnOverlayClick = true,
+}) {
+  const [modalIsOpen, setIsOpen] = useState(modal == currentModal);
   function openModal() {
     setIsOpen(true);
   }

@@ -1,5 +1,8 @@
 import { MESSAGE_STATUS, MESSAGE_TYPE } from "../../utils/constants";
 import { formatSecond, formatTime } from "../../utils/helper";
+import ImageMessage from "./ImageMessage";
+import TextMessage from "./TextMessage";
+import VideoMessage from "./VideoMessage";
 
 function MessageItem({ message, currentUser }) {
   const deliveredStatus = message.deliveredStatus;
@@ -22,19 +25,14 @@ function MessageItem({ message, currentUser }) {
         message.senderId == currentUser.id ? "self-end" : "self-start"
       }`}
     >
-      {message.messageType == MESSAGE_TYPE.TEXT && <p>{message.content}</p>}
+      {message.messageType == MESSAGE_TYPE.TEXT && (
+        <TextMessage content={message.content} />
+      )}
       {message.messageType == MESSAGE_TYPE.VIDEOCALL && (
-        <>
-          <p>
-            {message.senderId == currentUser.id
-              ? `Outgoing Call`
-              : `Incoming Call`}
-          </p>
-          <p>duration: {formatSecond(message?.callDetails?.callDuration)}</p>
-          {message?.callDetails?.callRejectReason && (
-            <p>{message.callDetails.callRejectReason}</p>
-          )}
-        </>
+        <VideoMessage message={message} currentUserId={currentUser.id} />
+      )}
+      {message.messageType == MESSAGE_TYPE.IMAGE && (
+        <ImageMessage images={message.imageUrl} />
       )}
       <div
         className={`flex ${

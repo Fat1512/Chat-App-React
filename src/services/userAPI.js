@@ -3,8 +3,6 @@ import { API, AUTH_REQUEST } from "../utils/helper";
 export async function getCurrentUser() {
   const res = await AUTH_REQUEST.get("/api/v1/users/profile", {
     validateStatus: () => true,
-  }).catch((err) => {
-    console.log(err);
   });
 
   if (res.status != 200) throw new Error("error");
@@ -14,15 +12,11 @@ export async function getCurrentUser() {
   return data;
 }
 
-export async function uploadImage(FormData) {
-  const res = await AUTH_REQUEST.post(
-    "/api/v1/users/upload-avt",
-    FormData
-  ).catch((err) => {
-    console.log(err);
-  });
+export async function uploadEditAvatar(FormData) {
+  const res = await AUTH_REQUEST.post("/api/v1/users/upload-avt", FormData);
+  if (res.status != 200) throw new Error("Error when uploading");
 
-  if (res.status != 200) throw new Error("error");
+  return res.data.data;
 }
 
 export async function loginApi({ username, password }) {

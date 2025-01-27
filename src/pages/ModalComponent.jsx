@@ -4,7 +4,13 @@ import { MODAL } from "../utils/constants";
 
 function ModalComponent() {
   const { currentModal } = useSelector((state) => state.modalReducer);
-  return <>{currentModal == MODAL.VIDEOCALL && <VideoCallModal />}</>;
+  return (
+    <>
+      {currentModal == MODAL.VIDEOCALL && (
+        <VideoCallModal currentModal={currentModal} />
+      )}
+    </>
+  );
 }
 
 export default ModalComponent;

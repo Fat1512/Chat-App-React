@@ -1,4 +1,5 @@
 export const API_URL = `http://localhost:8080`;
+
 export const SIDEBAR = {
   SETTING: "SETTING",
   CHAT: "CHAT",
@@ -27,4 +28,7 @@ export const MESSAGE_TYPE = {
 };
 export const REJECT_REASON = {
   MISSED: "MISSED",
+  BUSY: "BUSY",
 };
+
+export const IMAGE_LIMIT_SIZE = 20000000; //20MB

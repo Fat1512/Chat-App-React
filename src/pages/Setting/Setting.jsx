@@ -3,18 +3,13 @@ import useUser from "../../hooks/useUser";
 import { sidebarActions } from "../../store/sideBarSlice";
 import ActiveSidebar from "../../ui/ActiveSidebar";
 import { SIDEBAR } from "../../utils/constants";
-import { uploadImage } from "../../services/userAPI";
+import useUploadAvatar from "../../hooks/useUploadAvatar";
 
 function Setting() {
   const { user } = useUser();
+  const { isLoading, uploadAvatar } = useUploadAvatar();
   const dispatch = useDispatch();
-  function change(event) {
-    console.log(event.target.files, event.target.extraFileData);
-    const currentFile = event.target.files[0];
-    let formData = new FormData();
-    formData.append("file", currentFile);
-    uploadImage(formData);
-  }
+
   return (
     <ActiveSidebar sidebarName={SIDEBAR.SETTING}>
       <div
@@ -26,7 +21,7 @@ function Setting() {
         back button
       </div>
       <div>
-        <input type="file" onChange={change} />
+        <input type="file" onChange={(e) => uploadAvatar(e.target.files[0])} />
       </div>
       <div>
         <p>id: {user.id}</p>

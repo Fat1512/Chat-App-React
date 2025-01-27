@@ -1,7 +1,6 @@
 import ChatList from "./ChatList/ChatList";
 import Setting from "./Setting/Setting";
 import Contact from "./Contact/Contact";
-import { uploadImage } from "../services/userAPI";
 import { useState } from "react";
 
 function SideBar() {

@@ -69,13 +69,12 @@ function useVideoCall() {
       remoteRef.current.srcObject = stream;
     });
 
-    stompClient.subscribe(
+    const subObj = stompClient.subscribe(
       `/topic/chatRoom/${currentChatRoomId}/callAccepted`,
       (message) => {
         const body = JSON.parse(message.body);
         peer.signal(body.rtcSignal);
 
-        setAcceptRequest(true);
         dispatch(
           videoCallActions.setRemoteCallerInfo({
             callerId: body.callerId,
@@ -100,7 +99,12 @@ function useVideoCall() {
       dispatch(videoCallActions.resetState());
       stopTimer();
     });
-    return () => peer.destroy();
+    return () => {
+      peer.destroy();
+      stompClient.unsubscribe(subObj.id, {
+        AuthenticationHeader,
+      });
+    };
   }, [userStream, caller]);
 
   //Receiving other users' calling request
@@ -147,7 +151,9 @@ function useVideoCall() {
       })
     );
     dispatch(videoCallActions.setStatus(VIDEOCALL_STATUS.CALLING));
-    return () => peer.destroy();
+    return () => {
+      peer.destroy();
+    };
   }, [userStream, acceptRequest]);
 
   //Listen to Ended calling
@@ -202,7 +208,7 @@ function useVideoCall() {
               messageType: MESSAGE_TYPE.VIDEOCALL,
               callDetails: {
                 callType: MESSAGE_TYPE.VIDEOCALL,
-                callRejectReason: REJECT_REASON.MISSED,
+                callRejectReason: REJECT_REASON.BUSY,
               },
             }),
             headers: AuthenticationHeader,

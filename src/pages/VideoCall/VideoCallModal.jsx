@@ -2,8 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import CustomModal from "../../ui/CustomModal";
 import useVideoCall from "../../hooks/useVideoCall";
 import { AuthenticationHeader, formatSecond } from "../../utils/helper";
+import { MODAL } from "../../utils/constants";
 
-function VideoCallModal() {
+function VideoCallModal({ currentModal }) {
   const dispatch = useDispatch();
   const {
     time,
@@ -38,7 +39,11 @@ function VideoCallModal() {
   }
 
   return (
-    <CustomModal shouldCloseOnOverlayClick={false}>
+    <CustomModal
+      currentModal={currentModal}
+      modal={MODAL.VIDEOCALL}
+      shouldCloseOnOverlayClick={false}
+    >
       <div className="flex justify-between text-3xl">
         <p>{status}</p>
         <p>{formatSecond(time)}</p>
