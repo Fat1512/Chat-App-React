@@ -88,7 +88,8 @@ function ChatList() {
             (chatItem) =>
               (chatItem.roomType == "GROUP" ||
                 (chatItem.roomType == "PRIVATE" &&
-                  chatItem.lastestMessage != null)) && (
+                  chatItem.lastestMessage != null) ||
+                chatItem.roomType == "CHATBOT") && (
                 <ChatItem
                   roomType={chatItem.roomType}
                   currentChatItemId={currentChatItemId}

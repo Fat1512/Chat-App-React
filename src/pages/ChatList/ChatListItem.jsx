@@ -24,6 +24,7 @@ function ChatItem({
   const dispatch = useDispatch();
   const { stompClient } = useSocket();
   useEffect(() => {
+    if (roomInfo.roomType == "CHATBOT") return;
     if (id == currentChatItemId) {
       stompClient.publish({
         destination: `/app/chatRoom/${id}/markAsRead`,
@@ -41,6 +42,7 @@ function ChatItem({
       });
     }
   }, [currentChatItemId, latestMessage]);
+
   let displayMessageContent;
   if (latestMessage.messageType == MESSAGE_TYPE.TEXT) {
     displayMessageContent = latestMessage?.content;
@@ -48,6 +50,10 @@ function ChatItem({
   if (latestMessage.messageType == MESSAGE_TYPE.VIDEOCALL) {
     displayMessageContent = "Video call";
   }
+  if (latestMessage.messageType == MESSAGE_TYPE.IMAGE) {
+    displayMessageContent = "Image";
+  }
+
   if (roomInfo?.mode != null) {
     displayMessageContent = roomInfo?.mode;
   }
@@ -65,7 +71,7 @@ function ChatItem({
         alt=""
         className="w-[5rem] object-contain"
       />
-      <div className="flex flex-col w-full text-xl pl-4">
+      <div className="flex flex-col w-full text-2xl pl-4">
         <div className="flex justify-between">
           <div className="font-bold">
             {roomInfo.name}
@@ -84,7 +90,7 @@ function ChatItem({
             </span>
           </div>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center text-xl">
           <div>{displayMessageContent}</div>
           {totalUnreadMessages !== 0 && (
             <div className="rounded-full border bg-blue-500 p-3 m-0">

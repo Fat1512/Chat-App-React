@@ -12,6 +12,7 @@ import {
 import { MESSAGE_TYPE } from "../../utils/constants.js";
 import useUploadMessageImage from "../../hooks/useUploadMessageImage.jsx";
 import useSendMessage from "../../hooks/useSendMessage.jsx";
+import toast from "react-hot-toast";
 
 // id : {
 //   url:
@@ -19,7 +20,7 @@ import useSendMessage from "../../hooks/useSendMessage.jsx";
 // }
 
 function MessageInput({ chatRoomId }) {
-  const { stompClient, connected } = useSocket();
+  const { stompClient } = useSocket();
   const [selectedImgs, setSelectedImgs] = useState({});
   const { isLoading, uploadImages, processFormData } = useUploadMessageImage();
   const { sendMessage } = useSendMessage();
@@ -30,7 +31,7 @@ function MessageInput({ chatRoomId }) {
   function handleSendImages() {
     const files = Object.values(selectedImgs).map((img) => img.obj);
     const processedFormData = processFormData(files, chatRoomId);
-
+    toast.success("sending");
     uploadImages(processedFormData, {
       onSuccess: (data) => {
         sendMessage(

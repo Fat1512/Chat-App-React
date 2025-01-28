@@ -13,14 +13,12 @@ function RoomProfile() {
     (state) => state.chatReducer
   );
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (!currentChatItemId) return;
     if (profile[currentChatItemId] != null) {
       dispatch(profileActions.setCurrentProfileId(currentChatItemId));
     } else {
       const chatItem = chatList[currentChatItemId];
-      console.log(chatList);
       dispatch(profileActions.setProfile(chatItem));
       dispatch(profileActions.setCurrentProfileId(chatItem.chatRoomId));
     }

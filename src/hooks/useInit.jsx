@@ -5,6 +5,12 @@ import { contactActions } from "../store/contactSlice";
 import { AUTH_REQUEST } from "../utils/helper";
 import { useDispatch } from "react-redux";
 import useSubscribe from "./useSubscribe";
+import { chatActions } from "../store/chatSlice";
+import {
+  INIT_CHATBOT_CHAT_INFO,
+  INIT_CHATBOT_CHATLIST_INFO,
+} from "../utils/constants";
+import { profileActions } from "../store/profileSlice";
 
 function useInit() {
   const { connected } = useSocket();
@@ -16,8 +22,12 @@ function useInit() {
       const res = await AUTH_REQUEST.get("/api/v1/chatrooms");
       if (res.status != 200) throw new Error("error");
       const data = res.data.data;
-      dispatch(chatListActions.setChatList(data));
 
+      //Add chatBot room
+      data.unshift(INIT_CHATBOT_CHATLIST_INFO);
+      dispatch(chatListActions.setChatList(data));
+      dispatch(profileActions.setProfile(INIT_CHATBOT_CHATLIST_INFO));
+      dispatch(chatActions.setChatHistory(INIT_CHATBOT_CHAT_INFO));
       data.forEach((chatRoomItem) => {
         const id = chatRoomItem.chatRoomId;
         subscribeAllTheMessageEvent(id);
