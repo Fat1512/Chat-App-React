@@ -5,6 +5,7 @@ import Button from "../../ui/Button";
 import { useForm } from "react-hook-form";
 import useLogin from "../../hooks/useLogin";
 import { useRef, useState } from "react";
+import Spinner from "../../ui/Spinner";
 import toast from "react-hot-toast";
 
 function LoginForm() {
@@ -12,15 +13,14 @@ function LoginForm() {
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
 
-  function loging({ username, password }) {
+  function logging({ username, password }) {
     login({ username, password });
   }
   function error() {
     toast.error("Error occured");
   }
-
   return (
-    <Form onSubmit={handleSubmit(loging, error)}>
+    <Form onSubmit={handleSubmit(logging, error)}>
       <FormRow
         label="Username"
         type="username"
@@ -45,7 +45,7 @@ function LoginForm() {
         <NavLink to="/">Forgot password</NavLink>
       </div>
       <div className="flex">
-        <Button disabled={isLoading}>Login</Button>
+        {isLoading ? <Spinner /> : <Button disabled={isLoading}>Login</Button>}
       </div>
     </Form>
   );

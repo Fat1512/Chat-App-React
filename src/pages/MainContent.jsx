@@ -9,7 +9,6 @@ import ModalComponent from "./ModalComponent";
 function MainContent() {
   const { connected } = useSocket();
   const { loaded } = useInit();
-
   if (!connected || !loaded) return <Spinner />;
 
   return (

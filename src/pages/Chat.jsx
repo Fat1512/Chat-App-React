@@ -43,7 +43,7 @@ function Chat() {
       dispatch(chatActions.setVisible(true));
     }
   }, [currentChatItemId]);
-  console.log(chatHistory);
+
   if (isLoading) return <Spinner />;
   return (
     <div className={`flex flex-col chat-bg grow h-screen ease-in-out`}>

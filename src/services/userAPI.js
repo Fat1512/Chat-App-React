@@ -1,6 +1,6 @@
 import { API, AUTH_REQUEST, setLocalStorageToken } from "../utils/helper";
 
-export async function getCurrentUser() {
+export async function getCurrentUserAPI() {
   const res = await AUTH_REQUEST.get("/api/v1/users/profile", {
     validateStatus: () => true,
   });
@@ -12,7 +12,7 @@ export async function getCurrentUser() {
   return data;
 }
 
-export async function uploadEditAvatar(FormData) {
+export async function uploadEditAvatarAPI(FormData) {
   const res = await AUTH_REQUEST.post("/api/v1/users/upload-avt", FormData);
   if (res.status != 200) throw new Error("Error when uploading");
 
@@ -46,5 +46,10 @@ export async function registerAPI({
     password: password,
     confirmedPassword: repeatPassword,
   });
+  if (res.status != 200 && res.status != 201) throw new Error(res.data.message);
+}
+
+export async function logoutAPI() {
+  const res = await AUTH_REQUEST.post("api/v1/auth/logout");
   if (res.status != 200 && res.status != 201) throw new Error(res.data.message);
 }

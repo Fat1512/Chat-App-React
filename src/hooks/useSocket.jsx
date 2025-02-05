@@ -7,7 +7,6 @@ const SocketContext = createContext();
 export const SocketProvider = function ({ children }) {
   const [connected, setConnected] = useState(false);
   const [stompClient, setStompClient] = useState();
-
   useEffect(() => {
     const modernWebSocket = function () {
       const client = new Client({
@@ -22,6 +21,7 @@ export const SocketProvider = function ({ children }) {
             destination: `/app/connect`,
             headers: AuthenticationHeader(),
           });
+
           setStompClient(client);
           setConnected(true);
         },

@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { uploadEditAvatar } from "../services/userAPI";
+import { uploadEditAvatarAPI } from "../services/userAPI";
 import toast from "react-hot-toast";
 import { IMAGE_LIMIT_SIZE } from "../utils/constants";
 import useUser from "./useUser";
@@ -7,7 +7,7 @@ import useUser from "./useUser";
 function useUploadAvatar() {
   //   const { currentUser } = useUser();
   const { isLoading, mutate: uploadAvatar } = useMutation({
-    mutationFn: (formData) => uploadEditAvatar(formData),
+    mutationFn: (formData) => uploadEditAvatarAPI(formData),
     onSuccess: () => {
       toast.success("Uploaded successfully");
     },

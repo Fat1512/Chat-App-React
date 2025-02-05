@@ -1,7 +1,11 @@
 import { useDispatch } from "react-redux";
 import { chatListActions } from "../store/chatListSlice";
 import { profileActions } from "../store/profileSlice";
-import { AuthenticationHeader, getStartMiliOfDay } from "../utils/helper";
+import {
+  AuthenticationHeader,
+  getAuthToken,
+  getStartMiliOfDay,
+} from "../utils/helper";
 import useSocket from "./useSocket";
 import useUser from "./useUser";
 import { chatActions } from "../store/chatSlice";

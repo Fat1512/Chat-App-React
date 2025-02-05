@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 function useLogin() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
   const { isLoading, mutate: login } = useMutation({
     mutationFn: ({ username, password }) => loginAPI({ username, password }),
     onSuccess: (user) => {
@@ -18,7 +17,6 @@ function useLogin() {
       navigate("/");
     },
     onError: (err) => {
-      console.log(err);
       toast.error("Wrong credential");
     },
   });

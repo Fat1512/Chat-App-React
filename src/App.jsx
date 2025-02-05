@@ -5,6 +5,7 @@ import ProtectedRoute from "./ui/ProtectedRoute";
 import Authentication from "./pages/Authentication";
 import LoginSection from "./pages/Authentication/LoginSection";
 import RegisterSection from "./pages/Authentication/RegisterSection";
+import NotFound from "./pages/NotFound";
 import { Toaster } from "react-hot-toast";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -13,6 +14,7 @@ import { SocketProvider } from "./hooks/useSocket";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import MainContent from "./pages/MainContent";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -45,6 +47,7 @@ function App() {
             <Route path="login" element={<LoginSection />} />
             <Route path="register" element={<RegisterSection />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
       <Toaster
