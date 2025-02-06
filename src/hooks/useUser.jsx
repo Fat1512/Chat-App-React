@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getCurrentUserAPI } from "../services/userAPI";
-import { getAuthToken } from "../utils/helper";
+import { getAccessToken } from "../utils/helper";
 
 function useUser() {
   const { isLoading, data: user } = useQuery({

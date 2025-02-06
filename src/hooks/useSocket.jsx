@@ -1,6 +1,6 @@
 import { Client, Stomp } from "@stomp/stompjs";
 import { createContext, useContext, useEffect, useState } from "react";
-import { AuthenticationHeader, getAuthToken } from "../utils/helper";
+import { AuthenticationHeader, getAccessToken } from "../utils/helper";
 
 const SocketContext = createContext();
 
@@ -16,7 +16,6 @@ export const SocketProvider = function ({ children }) {
         // heartbeatOutgoing: 6000,
         heartbeatOutgoing: 0,
         onConnect: () => {
-          console.log("connected");
           client.publish({
             destination: `/app/connect`,
             headers: AuthenticationHeader(),
@@ -29,6 +28,9 @@ export const SocketProvider = function ({ children }) {
           console.log("disconnected");
           // setStompClient(null);
           // setConnected(false);
+        },
+        onStompError: (err) => {
+          console.log(err);
         },
       });
       client.activate();

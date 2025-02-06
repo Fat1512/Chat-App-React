@@ -11,6 +11,8 @@ function useLogin() {
     mutationFn: ({ username, password }) => loginAPI({ username, password }),
     onSuccess: (user) => {
       // delete user.tokenDTO;
+      setLocalStorageToken(user.tokenDTO);
+
       queryClient.setQueryData(["user"], {
         ...user,
       });

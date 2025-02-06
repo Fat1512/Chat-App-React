@@ -3,7 +3,7 @@ import { chatListActions } from "../store/chatListSlice";
 import { profileActions } from "../store/profileSlice";
 import {
   AuthenticationHeader,
-  getAuthToken,
+  getAccessToken,
   getStartMiliOfDay,
 } from "../utils/helper";
 import useSocket from "./useSocket";

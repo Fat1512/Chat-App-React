@@ -3,7 +3,7 @@ import SideBarHeader from "../SideBar/SideBarHeader";
 import SideBarSearchInput from "../SideBar/SideBarSearchInput";
 import ChatItem from "./ChatListItem";
 import { useDispatch, useSelector } from "react-redux";
-import { AUTH_REQUEST } from "../../utils/helper";
+import { AUTH_REQUEST } from "../../utils/axiosConfig";
 import { useEffect, useState } from "react";
 import { chatListActions } from "../../store/chatListSlice";
 import { chatActions } from "../../store/chatSlice";

@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import useSocket from "./useSocket";
 import { chatListActions } from "../store/chatListSlice";
 import { contactActions } from "../store/contactSlice";
-import { AUTH_REQUEST, AuthenticationHeader } from "../utils/helper";
+import { AuthenticationHeader } from "../utils/helper";
+import { AUTH_REQUEST } from "../utils/axiosConfig";
 import { useDispatch } from "react-redux";
 import useSubscribe from "./useSubscribe";
 import { chatActions } from "../store/chatSlice";
@@ -13,14 +14,13 @@ import {
 import { profileActions } from "../store/profileSlice";
 import useUser from "./useUser";
 import { current } from "@reduxjs/toolkit";
-import { getAuthToken } from "../utils/helper";
+import { getAccessToken } from "../utils/helper";
 import useLogout from "./useLogout";
 
 function useInit() {
   const { stompClient, connected } = useSocket();
   const { subscribeAllTheMessageEvent } = useSubscribe();
   const { user: currentUser } = useUser();
-  const { logout } = useLogout();
 
   const [loaded, setLoaded] = useState();
 
@@ -47,15 +47,6 @@ function useInit() {
       if (res.status != 200) throw new Error("error");
       dispatch(contactActions.setContactList(res.data.data));
     }
-    function publishLoginEvent() {
-      stompClient.publish({
-        destination: `/app/login/${currentUser.id}/send`,
-        body: JSON.stringify({
-          authentication: AuthenticationHeader().Authorization,
-        }),
-        headers: AuthenticationHeader(),
-      });
-    }
     function subscribeLoginEvent() {
       stompClient.subscribe(
         `/topic/login/${currentUser.id}/send`,
@@ -63,7 +54,7 @@ function useInit() {
           const token = JSON.parse(message.body);
 
           if (token.authentication != AuthenticationHeader().Authorization) {
-            window.location.reload();
+            // window.location.reload();
           }
         },
         AuthenticationHeader()
@@ -71,7 +62,6 @@ function useInit() {
     }
     if (connected) {
       subscribeLoginEvent();
-      publishLoginEvent();
       fetchChatSummary();
       fetchContacts();
       setLoaded(true);

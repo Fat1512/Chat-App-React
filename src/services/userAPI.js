@@ -1,9 +1,7 @@
-import { API, AUTH_REQUEST, setLocalStorageToken } from "../utils/helper";
-
+import { setLocalStorageToken } from "../utils/helper";
+import { AUTH_REQUEST, API } from "../utils/axiosConfig";
 export async function getCurrentUserAPI() {
-  const res = await AUTH_REQUEST.get("/api/v1/users/profile", {
-    validateStatus: () => true,
-  });
+  const res = await AUTH_REQUEST.get("/api/v1/users/profile");
 
   if (res.status != 200) throw new Error("error");
 
@@ -26,10 +24,9 @@ export async function loginAPI({ username, password }) {
   });
 
   if (res.status != 200) throw new Error(res.data.message);
-
   const data = res.data.data;
+
   data.isAuthenticated = true;
-  setLocalStorageToken(data.tokenDTO.accessToken);
 
   return data;
 }

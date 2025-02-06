@@ -1,68 +1,28 @@
-import axios from "axios";
-import axiosRetry from "axios-retry";
+export const getAccessToken = () => {
+  const token = window.localStorage.getItem("auth_token");
+  if (token == null) return null;
+  return JSON.parse(token).accessToken;
+};
 
-export const getAuthToken = () => {
-  return window.localStorage.getItem("auth_token");
+export const getRefreshToken = () => {
+  const token = window.localStorage.getItem("auth_token");
+  if (token == null) return null;
+  return JSON.parse(token).refreshToken;
 };
 
 export const AuthenticationHeader = function () {
   return {
-    Authorization: `Bearer ${getAuthToken()}`,
+    Authorization: `Bearer ${getAccessToken()}`,
   };
 };
 
 export const setLocalStorageToken = (token) => {
-  if (token !== null) {
-    window.localStorage.setItem("auth_token", token);
-  } else {
-    window.localStorage.removeItem("auth_token");
-  }
+  window.localStorage.setItem("auth_token", JSON.stringify(token));
 };
 
 export const removeLocalStorageToken = () => {
   window.localStorage.removeItem("auth_token");
 };
-
-axios.defaults.validateStatus = (status) => status >= 200 && status <= 500;
-axios.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      return Promise.reject("Unauthorized");
-    }
-    // Handle other errors here
-    return Promise.reject(error);
-  }
-);
-axiosRetry(axios, {
-  retries: 0, // Number of retries (Defaults to 3)
-  retryCondition(err) {
-    return false;
-  },
-});
-
-export const AUTH_REQUEST = axios.create({
-  baseURL: `http://localhost:8080`,
-});
-
-AUTH_REQUEST.interceptors.request.use(
-  (config) => {
-    const token = getAuthToken();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-export const API = axios.create({
-  baseURL: `http://localhost:8080`,
-});
 
 export function generateUUID() {
   return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>

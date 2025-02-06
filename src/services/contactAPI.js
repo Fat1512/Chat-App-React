@@ -1,5 +1,5 @@
-import { AUTH_REQUEST, AuthenticationHeader } from "../utils/helper";
-
+import { AuthenticationHeader } from "../utils/helper";
+import { AUTH_REQUEST } from "../utils/axiosConfig";
 export async function addContact({ username, name }) {
   const res = await AUTH_REQUEST.post(
     "/api/v1/contacts/create-contact",

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import {
   AuthenticationHeader,
   formatTime,
-  getAuthToken,
+  getAccessToken,
   getStartMiliOfDay,
 } from "../../utils/helper";
 import useSocket from "../../hooks/useSocket";

@@ -9,20 +9,23 @@ function useLogout() {
 
   const { mutate: logout } = useMutation({
     mutationFn: async function () {
-      await logoutAPI();
-      stompClient.publish({
-        destination: `/app/disconnect`,
-        headers: AuthenticationHeader(),
-      });
-      stompClient.deactivate();
-      removeLocalStorageToken();
-      window.location.reload();
+      try {
+        await logoutAPI();
+      } catch (err) {
+      } finally {
+        stompClient.publish({
+          destination: `/app/disconnect`,
+          headers: AuthenticationHeader(),
+        });
+        stompClient.deactivate();
+        removeLocalStorageToken();
+        window.location.reload();
+      }
     },
     onSuccess: () => {
       toast.success("logged out !");
     },
     onError: (err) => {
-      console.log(message);
       toast.error(err.message);
     },
   });

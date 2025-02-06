@@ -4,11 +4,8 @@ import MessageInput from "./Chat/MessageInput";
 import MessageList from "./Chat/MessageList";
 import { useEffect, useRef } from "react";
 import { chatActions } from "../store/chatSlice";
-import {
-  AUTH_REQUEST,
-  AuthenticationHeader,
-  getStartMiliOfDay,
-} from "../utils/helper";
+import { AuthenticationHeader, getStartMiliOfDay } from "../utils/helper";
+import { AUTH_REQUEST } from "../utils/axiosConfig";
 import { profileActions } from "../store/profileSlice";
 import Spinner from "../ui/Spinner";
 import useSocket from "../hooks/useSocket";

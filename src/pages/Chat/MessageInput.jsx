@@ -4,11 +4,11 @@ import { AiOutlineUpload } from "react-icons/ai";
 
 import useSocket from "../../hooks/useSocket";
 import {
-  AUTH_REQUEST,
   AuthenticationHeader,
   generateUUID,
-  getAuthToken,
+  getAccessToken,
 } from "../../utils/helper.js";
+import { AUTH_REQUEST } from "../../utils/axiosConfig.js";
 import { MESSAGE_TYPE } from "../../utils/constants.js";
 import useUploadMessageImage from "../../hooks/useUploadMessageImage.jsx";
 import useSendMessage from "../../hooks/useSendMessage.jsx";
