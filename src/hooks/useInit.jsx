@@ -13,19 +13,14 @@ import {
 } from "../utils/constants";
 import { profileActions } from "../store/profileSlice";
 import useUser from "./useUser";
-import { current } from "@reduxjs/toolkit";
-import { getAccessToken } from "../utils/helper";
-import useLogout from "./useLogout";
 
 function useInit() {
-  const { stompClient, connected } = useSocket();
-  const { subscribeAllTheMessageEvent } = useSubscribe();
+  const { reconnecting, reconnectCount, stompClient, connected } = useSocket();
+  const { resubscribeAllTheMessageEvent, subscribeAllTheMessageEvent } =
+    useSubscribe();
   const { user: currentUser } = useUser();
-
   const [loaded, setLoaded] = useState();
-
   const dispatch = useDispatch();
-
   useEffect(() => {
     async function fetchChatSummary() {
       const res = await AUTH_REQUEST.get("/api/v1/chatrooms");
@@ -54,7 +49,7 @@ function useInit() {
           const token = JSON.parse(message.body);
 
           if (token.authentication != AuthenticationHeader().Authorization) {
-            // window.location.reload();
+            window.location.reload();
           }
         },
         AuthenticationHeader()
@@ -67,6 +62,11 @@ function useInit() {
       setLoaded(true);
     }
   }, [connected]);
+
+  useEffect(() => {
+    if (reconnectCount == 0 || reconnecting) return;
+    currentUser.chatRoomIds.forEach((id) => resubscribeAllTheMessageEvent(id));
+  }, [stompClient]);
 
   return { loaded };
 }

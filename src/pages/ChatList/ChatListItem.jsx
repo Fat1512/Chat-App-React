@@ -25,7 +25,7 @@ function ChatItem({
   const { stompClient } = useSocket();
   useEffect(() => {
     if (roomInfo.roomType == "CHATBOT") return;
-    if (id == currentChatItemId) {
+    if (id == currentChatItemId && stompClient._stompHandler) {
       stompClient.publish({
         destination: `/app/chatRoom/${id}/markAsRead`,
         headers: AuthenticationHeader(),
@@ -41,7 +41,7 @@ function ChatItem({
         headers: AuthenticationHeader(),
       });
     }
-  }, [currentChatItemId, latestMessage]);
+  }, [currentChatItemId, latestMessage, stompClient]);
 
   let displayMessageContent;
   if (latestMessage.messageType == MESSAGE_TYPE.TEXT) {

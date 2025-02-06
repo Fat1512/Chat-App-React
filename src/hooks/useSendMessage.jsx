@@ -7,6 +7,8 @@ function useSendMessage() {
 
   function sendMessage(message, chatRoomId) {
     try {
+      console.log(stompClient._stompHandler, stompClient);
+      if (!stompClient._stompHandler) return;
       stompClient.publish({
         destination: `/app/chatRoom/${chatRoomId}/sendMessage`,
         body: JSON.stringify(message),

@@ -12,11 +12,13 @@ import { chatActions } from "../store/chatSlice";
 import { videoCallActions } from "../store/videoCallSlice";
 import { modalActions } from "../store/modalSlide";
 import { MODAL, VIDEOCALL_STATUS } from "../utils/constants";
+import { useState } from "react";
 
 let currentTimeOut;
 function useSubscribe() {
   const { stompClient } = useSocket();
   const { user: currentUser } = useUser();
+  const [currentSubscribedEvents, setCurrentSubscribedEvents] = useState();
   const dispatch = useDispatch();
 
   function subscribeAllTheMessageEvent(id) {
@@ -71,6 +73,7 @@ function useSubscribe() {
       (message) => {
         const today = getStartMiliOfDay();
         const body = JSON.parse(message.body);
+        console.log(body);
         dispatch(
           chatListActions.setLatestMessage({
             chatRoomId: id,
@@ -158,8 +161,19 @@ function useSubscribe() {
       },
       AuthenticationHeader()
     );
+    setCurrentSubscribedEvents(Array.of(s1, s2, s3, s4, s5, s6));
   }
-  return { subscribeAllTheMessageEvent };
+
+  function resubscribeAllTheMessageEvent(id) {
+    currentSubscribedEvents.forEach((event) => {
+      stompClient.unsubscribe(event.id, {
+        ...AuthenticationHeader(),
+      });
+    });
+    subscribeAllTheMessageEvent(id);
+  }
+
+  return { subscribeAllTheMessageEvent, resubscribeAllTheMessageEvent };
 }
 
 export default useSubscribe;
