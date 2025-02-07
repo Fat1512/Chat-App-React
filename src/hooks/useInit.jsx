@@ -6,32 +6,27 @@ import { AuthenticationHeader } from "../utils/helper";
 import { AUTH_REQUEST } from "../utils/axiosConfig";
 import { useDispatch } from "react-redux";
 import useSubscribe from "./useSubscribe";
-import { chatActions } from "../store/chatSlice";
-import {
-  INIT_CHATBOT_CHAT_INFO,
-  INIT_CHATBOT_CHATLIST_INFO,
-} from "../utils/constants";
-import { profileActions } from "../store/profileSlice";
 import useUser from "./useUser";
 
 function useInit() {
-  const { reconnecting, reconnectCount, stompClient, connected } = useSocket();
+  const { reconnectCount, stompClient, connected } = useSocket();
   const { resubscribeAllTheMessageEvent, subscribeAllTheMessageEvent } =
     useSubscribe();
   const { user: currentUser } = useUser();
   const [loaded, setLoaded] = useState();
   const dispatch = useDispatch();
+
   useEffect(() => {
     async function fetchChatSummary() {
       const res = await AUTH_REQUEST.get("/api/v1/chatrooms");
       if (res.status != 200) throw new Error("error");
       const data = res.data.data;
 
-      //Add chatBot room
-      data.unshift(INIT_CHATBOT_CHATLIST_INFO);
+      // Add chatBot room
+      // data.unshift(INIT_CHATBOT_CHATLIST_INFO);
       dispatch(chatListActions.setChatList(data));
-      dispatch(profileActions.setProfile(INIT_CHATBOT_CHATLIST_INFO));
-      dispatch(chatActions.setChatHistory(INIT_CHATBOT_CHAT_INFO));
+      // dispatch(profileActions.setProfile(INIT_CHATBOT_CHATLIST_INFO));
+      // dispatch(chatActions.setChatHistory(INIT_CHATBOT_CHAT_INFO));
       data.forEach((chatRoomItem) => {
         const id = chatRoomItem.chatRoomId;
         subscribeAllTheMessageEvent(id);
@@ -63,10 +58,10 @@ function useInit() {
     }
   }, [connected]);
 
-  useEffect(() => {
-    if (reconnectCount == 0 || reconnecting) return;
-    currentUser.chatRoomIds.forEach((id) => resubscribeAllTheMessageEvent(id));
-  }, [stompClient]);
+  // useEffect(() => {
+  //   if (stompClient?._stompHandler || reconnectCount == 0) return;
+  //   currentUser.chatRoomIds.forEach((id) => resubscribeAllTheMessageEvent(id));
+  // }, [stompClient, reconnectCount]);
 
   return { loaded };
 }

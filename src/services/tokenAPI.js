@@ -13,7 +13,7 @@ export async function refreshToken() {
       },
     }
   );
-  if (res.status != 200) throw new Error("Error when uploading");
+  if (res.status != 200) throw new Error("Error fetching");
 
   return res.data.data;
 }

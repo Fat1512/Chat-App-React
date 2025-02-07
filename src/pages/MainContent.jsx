@@ -7,28 +7,12 @@ import useSocket from "../hooks/useSocket";
 import useInit from "../hooks/useInit";
 import ModalComponent from "./ModalComponent";
 function MainContent() {
-  const { stompClient, connected } = useSocket();
   const { loaded } = useInit();
+  const { connected } = useSocket();
   if (!connected || !loaded) return <Spinner />;
 
   return (
     <>
-      <button
-        className="text-2xl p-3"
-        onClick={() => {
-          stompClient.deactivate();
-        }}
-      >
-        click to disconnect
-      </button>
-      <button
-        className="text-2xl p-3"
-        onClick={() => {
-          stompClient.activate();
-        }}
-      >
-        click to connect
-      </button>
       <main className="flex w-full h-screen transition-all">
         <SideBar />
         <Chat />

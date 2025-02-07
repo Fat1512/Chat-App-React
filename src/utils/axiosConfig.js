@@ -40,7 +40,7 @@ AUTH_REQUEST.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const { response, config: originalRequest } = error;
+    const { response, config } = error;
     if (response.status == 401 || response.status == 403) {
       if (!isRefresh) {
         isRefresh = true;
@@ -53,18 +53,27 @@ AUTH_REQUEST.interceptors.response.use(
               .then((res) => req.resolve(res))
               .catch((err) => req.reject(err));
           });
+
+          config.headers["Authorization"] = `Bearer ${token.accessToken}`;
+
           retryQueue.length = 0;
 
-          return AUTH_REQUEST(originalRequest);
+          return AUTH_REQUEST(config);
+          /**
+           * 2 types of error:
+           *  + Already Existed by fetching by socket: 400
+           *  + Already Expired refresh token: 401, 500
+           */
         } catch (err) {
-          window.location.href = "http://localhost:5173/auth/login";
+          console.log("Error here");
+          return Promise.reject(error);
         } finally {
           isRefresh = false;
         }
       }
 
       return new Promise((resolve, reject) => {
-        retryQueue.push({ config: originalRequest, resolve, reject });
+        retryQueue.push({ config: config, resolve, reject });
       });
     }
     return Promise.reject(error);

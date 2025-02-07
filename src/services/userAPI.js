@@ -1,5 +1,6 @@
 import { setLocalStorageToken } from "../utils/helper";
 import { AUTH_REQUEST, API } from "../utils/axiosConfig";
+
 export async function getCurrentUserAPI() {
   const res = await AUTH_REQUEST.get("/api/v1/users/profile");
 

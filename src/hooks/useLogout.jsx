@@ -6,20 +6,20 @@ import { useMutation } from "@tanstack/react-query";
 import { loginAPI, logoutAPI } from "../services/userAPI";
 function useLogout() {
   const { stompClient } = useSocket();
-
+  const navigate = useNavigate();
   const { mutate: logout } = useMutation({
     mutationFn: async function () {
       try {
-        await logoutAPI();
-      } catch (err) {
-      } finally {
         stompClient.publish({
           destination: `/app/disconnect`,
           headers: AuthenticationHeader(),
         });
+        await logoutAPI();
+      } catch (err) {
+      } finally {
         stompClient.deactivate();
         removeLocalStorageToken();
-        window.location.reload();
+        navigate("/auth/login");
       }
     },
     onSuccess: () => {

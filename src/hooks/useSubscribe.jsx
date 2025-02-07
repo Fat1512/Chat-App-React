@@ -18,7 +18,7 @@ let currentTimeOut;
 function useSubscribe() {
   const { stompClient } = useSocket();
   const { user: currentUser } = useUser();
-  const [currentSubscribedEvents, setCurrentSubscribedEvents] = useState();
+  const [currentSubscribedEvents, setCurrentSubscribedEvents] = useState([]);
   const dispatch = useDispatch();
 
   function subscribeAllTheMessageEvent(id) {
@@ -102,6 +102,7 @@ function useSubscribe() {
       (message) => {
         const body = JSON.parse(message.body);
         if (!body) return;
+        console.log(body);
         dispatch(
           profileActions.setOnlineStatus({
             chatRoomId: body.chatRoomId,
@@ -164,16 +165,16 @@ function useSubscribe() {
     setCurrentSubscribedEvents(Array.of(s1, s2, s3, s4, s5, s6));
   }
 
-  function resubscribeAllTheMessageEvent(id) {
-    currentSubscribedEvents.forEach((event) => {
-      stompClient.unsubscribe(event.id, {
-        ...AuthenticationHeader(),
-      });
-    });
-    subscribeAllTheMessageEvent(id);
-  }
+  // function resubscribeAllTheMessageEvent(id) {
+  //   currentSubscribedEvents.forEach((event) => {
+  //     stompClient.unsubscribe(event.id, {
+  //       ...AuthenticationHeader(),
+  //     });
+  //   });
+  //   subscribeAllTheMessageEvent(id);
+  // }
 
-  return { subscribeAllTheMessageEvent, resubscribeAllTheMessageEvent };
+  return { subscribeAllTheMessageEvent };
 }
 
 export default useSubscribe;
