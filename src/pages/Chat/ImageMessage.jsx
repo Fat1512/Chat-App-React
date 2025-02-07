@@ -1,5 +1,4 @@
 function ImageMessage({ images }) {
-  console.log;
   return (
     <div className="pb-6">
       {images.map((url) => (

@@ -73,7 +73,6 @@ function useSubscribe() {
       (message) => {
         const today = getStartMiliOfDay();
         const body = JSON.parse(message.body);
-        console.log(body);
         dispatch(
           chatListActions.setLatestMessage({
             chatRoomId: id,
@@ -102,7 +101,6 @@ function useSubscribe() {
       (message) => {
         const body = JSON.parse(message.body);
         if (!body) return;
-        console.log(body);
         dispatch(
           profileActions.setOnlineStatus({
             chatRoomId: body.chatRoomId,

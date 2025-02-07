@@ -2,7 +2,7 @@ import axios from "axios";
 import axiosRetry from "axios-retry";
 import { getAccessToken, setLocalStorageToken } from "./helper";
 import { refreshToken } from "../services/tokenAPI";
-import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "./APIUrl";
 
 let retryQueue = [];
 let isRefresh = false;
@@ -15,11 +15,11 @@ axiosRetry(axios, {
 });
 
 export const API = axios.create({
-  baseURL: `http://localhost:8080`,
+  baseURL: BASE_URL,
 });
 
 export const AUTH_REQUEST = axios.create({
-  baseURL: `http://localhost:8080`,
+  baseURL: BASE_URL,
 });
 
 AUTH_REQUEST.interceptors.request.use(

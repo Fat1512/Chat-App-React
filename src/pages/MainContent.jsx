@@ -6,6 +6,7 @@ import Spinner from "../ui/Spinner";
 import useSocket from "../hooks/useSocket";
 import useInit from "../hooks/useInit";
 import ModalComponent from "./ModalComponent";
+
 function MainContent() {
   const { loaded } = useInit();
   const { connected } = useSocket();

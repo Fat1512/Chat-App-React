@@ -8,7 +8,6 @@ function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLoading && !user?.isAuthenticated) {
-      console.log("redirect to login", user);
       removeLocalStorageToken();
       navigate("/auth/login");
     }
@@ -17,7 +16,6 @@ function ProtectedRoute({ children }) {
   if (isLoading || !user?.isAuthenticated) {
     return <Spinner />;
   }
-  console.log("already fetched user");
   return children;
 }
 

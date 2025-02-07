@@ -60,7 +60,6 @@ function MessageInput({ chatRoomId }) {
 
   function handleImageChange(e) {
     const files = Object.values(e.target.files);
-
     const fileObjects = files.reduce((acc, file) => {
       const uuid = generateUUID(); // Assume generateUUID() exists
       acc[uuid] = {

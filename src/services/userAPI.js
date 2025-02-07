@@ -13,7 +13,7 @@ export async function getCurrentUserAPI() {
 
 export async function uploadEditAvatarAPI(FormData) {
   const res = await AUTH_REQUEST.post("/api/v1/users/upload-avt", FormData);
-  if (res.status != 200) throw new Error("Error when uploading");
+  if (res.status != 200) throw new Error(res.data.message);
 
   return res.data.data;
 }
