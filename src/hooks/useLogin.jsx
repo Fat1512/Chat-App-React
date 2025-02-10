@@ -19,7 +19,7 @@ function useLogin() {
       navigate("/");
     },
     onError: (err) => {
-      toast.error("Wrong credential");
+      toast.error(err.response.data.message);
     },
   });
   return { isLoading, login };

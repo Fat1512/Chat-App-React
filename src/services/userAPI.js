@@ -23,7 +23,7 @@ export async function loginAPI({ username, password }) {
     username: username,
     password: password,
   });
-
+  console.log(res);
   if (res.status != 200) throw new Error(res.data.message);
   const data = res.data.data;
 

@@ -8,11 +8,9 @@ export async function addContact({ username, name }) {
       name: name,
     },
     AuthenticationHeader()
-  ).catch((err) => {
-    console.log(err);
-  });
-
-  if (res.status != 200) throw new Error("error");
+  );
+  console.log(res);
+  if (res.status != 200) throw new Error(res.response.data.message);
 
   return res.data.data;
 }

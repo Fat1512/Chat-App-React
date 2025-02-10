@@ -8,6 +8,7 @@ import {
 } from "../utils/helper";
 import { refreshToken } from "../services/tokenAPI";
 import toast from "react-hot-toast";
+import { BASE_URL } from "../utils/APIUrl";
 
 const SocketContext = createContext();
 
@@ -23,7 +24,7 @@ export const SocketProvider = function ({ children }) {
         connectHeaders: AuthenticationHeader(),
         reconnectDelay: 2000,
         disconnectHeaders: AuthenticationHeader(),
-        brokerURL: "ws://localhost:8080/ws",
+        brokerURL: `${BASE_URL}/ws`,
         // heartbeatOutgoing: 6000,
         heartbeatOutgoing: 0,
         onConnect: () => {

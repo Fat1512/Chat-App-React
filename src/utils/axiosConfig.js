@@ -65,7 +65,6 @@ AUTH_REQUEST.interceptors.response.use(
            *  + Already Expired refresh token: 401, 500
            */
         } catch (err) {
-          console.log("Error here");
           return Promise.reject(error);
         } finally {
           isRefresh = false;

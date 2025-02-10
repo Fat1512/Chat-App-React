@@ -17,6 +17,7 @@ import { addContact } from "../../services/contactAPI";
 import { contactActions } from "../../store/contactSlice";
 import { chatListActions } from "../../store/chatListSlice";
 import useSubscribe from "../../hooks/useSubscribe";
+import toast from "react-hot-toast";
 
 const customStyles = {
   content: {
@@ -65,23 +66,25 @@ function Contact() {
   }
 
   async function success({ username, name }) {
-    const data = await addContact({ username, name });
+    try {
+      const data = await addContact({ username, name });
 
-    subscribeAllTheMessageEvent(data.chatRoomId);
-    dispatch(contactActions.setContactList([data]));
-    dispatch(
-      chatListActions.setNewChatListFromAddedContact({
-        chatRoomId: data.chatRoomId,
-        roomType: "PRIVATE",
-        lastestMessage: null,
-        totalUnreadMessages: 0,
-        roomInfo: data.roomInfo,
-      })
-    );
+      subscribeAllTheMessageEvent(data.chatRoomId);
+      dispatch(contactActions.setContactList([data]));
+      dispatch(
+        chatListActions.setNewChatListFromAddedContact({
+          chatRoomId: data.chatRoomId,
+          roomType: "PRIVATE",
+          lastestMessage: null,
+          totalUnreadMessages: 0,
+          roomInfo: data.roomInfo,
+        })
+      );
+    } catch (err) {
+      toast.error(err.response.data.message);
+    }
   }
-  function error() {
-    alert("them khong thanh cong");
-  }
+  function error() {}
   if (isLoading) return <Spinner />;
   return (
     <ActiveSidebar sidebarName={SIDEBAR.CONTACT}>

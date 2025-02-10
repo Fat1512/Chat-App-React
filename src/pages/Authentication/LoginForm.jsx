@@ -16,8 +16,9 @@ function LoginForm() {
   function logging({ username, password }) {
     login({ username, password });
   }
-  function error() {
-    toast.error("Error occured");
+  function error({ username, password }) {
+    // console.log(err);
+    // toast.error(err.message);
   }
   return (
     <Form onSubmit={handleSubmit(logging, error)}>
