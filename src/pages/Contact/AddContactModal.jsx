@@ -36,11 +36,7 @@ function AddContactModal({ currentModal }) {
 
   return (
     <>
-      <CustomModal
-        currentModal={currentModal}
-        modal={MODAL.ADDCONTACT}
-        shouldCloseOnOverlayClick={true}
-      >
+      <CustomModal modal={MODAL.ADDCONTACT} shouldCloseOnOverlayClick={true}>
         <Form onSubmit={handleSubmit(success, error)}>
           <FormRow
             label="Name"

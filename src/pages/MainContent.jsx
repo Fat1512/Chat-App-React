@@ -7,11 +7,20 @@ import useInit from "../hooks/useInit";
 import ModalComponent from "./ModalComponent";
 import Chat from "./Chat/Chat";
 import CustomModal from "../ui/CustomModal";
+import FullPage from "../ui/FullPage";
 
 function MainContent() {
   const { loaded } = useInit();
   const { connected } = useSocket();
-  if (!connected || !loaded) return <Spinner />;
+  if (!connected || !loaded) {
+    return (
+      <>
+        <FullPage>
+          <Spinner />
+        </FullPage>
+      </>
+    );
+  }
 
   return (
     <>

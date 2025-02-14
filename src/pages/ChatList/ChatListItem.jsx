@@ -93,7 +93,7 @@ function ChatItem({
         <div className="flex justify-between items-center text-xl">
           <div>{displayMessageContent}</div>
           {totalUnreadMessages !== 0 && (
-            <div className="rounded-full border bg-blue-500 p-3 m-0">
+            <div className="rounded-full border bg-blue-400 p-3 m-0">
               {totalUnreadMessages}
             </div>
           )}

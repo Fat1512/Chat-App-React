@@ -4,7 +4,7 @@ import useVideoCall from "../../hooks/useVideoCall";
 import { AuthenticationHeader, formatSecond } from "../../utils/helper";
 import { MODAL } from "../../utils/constants";
 
-function VideoCallModal({ currentModal }) {
+function VideoCallModal() {
   const {
     time,
     currentChatRoomId,
@@ -38,11 +38,7 @@ function VideoCallModal({ currentModal }) {
   }
 
   return (
-    <CustomModal
-      currentModal={currentModal}
-      modal={MODAL.VIDEOCALL}
-      shouldCloseOnOverlayClick={false}
-    >
+    <CustomModal modal={MODAL.VIDEOCALL} shouldCloseOnOverlayClick={false}>
       <div className="flex justify-between text-3xl">
         <p>{status}</p>
         <p>{formatSecond(time)}</p>

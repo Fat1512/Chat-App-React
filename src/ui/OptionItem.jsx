@@ -1,7 +1,11 @@
-function OptionItem({ children, onClick }) {
+function OptionItem({ icon, content, onClick }) {
   return (
-    <div onClick={onClick} className="w-full p-3 border border-1">
-      {children}
+    <div
+      onClick={onClick}
+      className="hover:bg-slate-100 w-full p-3 rounded-xl flex text-2xl"
+    >
+      <div className="pr-4">{icon}</div>
+      <div>{content}</div>
     </div>
   );
 }

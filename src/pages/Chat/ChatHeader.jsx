@@ -15,7 +15,7 @@ function ChatHeader({ currentChatRoomId }) {
   const { user: currentUser } = useUser();
   const dispatch = useDispatch();
   return (
-    <div className="flex rounded-lg cursor-pointer w-full items-center bg-white py-3 px-4">
+    <div className="flex rounded-lg cursor-pointer w-full items-center bg-white py-3 px-4 border border-1">
       <div
         className="flex w-full items-center"
         onClick={() => dispatch(profileActions.setVisible(!visible))}

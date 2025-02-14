@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import useUser from "../hooks/useUser";
 import Spinner from "../ui/Spinner";
 import { removeLocalStorageToken } from "../utils/helper";
+import FullPage from "./FullPage";
+
 function ProtectedRoute({ children }) {
   const { isLoading, user } = useUser();
   const navigate = useNavigate();
@@ -15,9 +17,9 @@ function ProtectedRoute({ children }) {
 
   if (isLoading || !user?.isAuthenticated) {
     return (
-      <div className="flex h-screen">
+      <FullPage>
         <Spinner />
-      </div>
+      </FullPage>
     );
   }
   return children;

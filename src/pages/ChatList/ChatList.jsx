@@ -20,21 +20,6 @@ import { sidebarActions } from "../../store/sideBarSlice";
 import ChatListMenuModal from "./ChatListMenuModal";
 import { modalActions } from "../../store/modalSlide";
 
-const customStyles = {
-  overlay: {
-    backgroundColor: `transparent`,
-  },
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-Modal.setAppElement("#root");
-
 function ChatList() {
   const { chatList, isLoading, currentChatItemId } = useSelector(
     (state) => state.chatListReducer
@@ -42,19 +27,19 @@ function ChatList() {
   const dispatch = useDispatch();
 
   function toggleMenu(e) {
-    const dimension = e.target.getBoundingClientRect();
-    const x = dimension.x;
-    const y = dimension.height + dimension.top + 8;
+    const target = e.target.closest(".menu");
+    const dimension = target.getBoundingClientRect();
+    const x = dimension.x - dimension.width;
+    const y = dimension.height + dimension.y;
     dispatch(modalActions.setCurrentModal(MODAL.CHATLISTMENU));
     dispatch(
       modalActions.setPosition({
-        top: x,
-        left: y,
+        left: x,
+        top: y,
         right: "auto",
         bottom: "auto",
       })
     );
-    // setPosition;
   }
 
   function switchActiveChatItem(chatRoomId) {
@@ -70,7 +55,10 @@ function ChatList() {
     <ActiveSidebar sidebarName={SIDEBAR.CHATLIST}>
       <div className="px-3">
         <SideBarHeader className="flex items-center justify-around px-3 relative">
-          <div className="text-2xl p-6 cursor-pointer" onClick={toggleMenu}>
+          <div
+            className="text-2xl p-6 cursor-pointer menu"
+            onClick={toggleMenu}
+          >
             <BsHddStack />
           </div>
           <SideBarSearchInput />
