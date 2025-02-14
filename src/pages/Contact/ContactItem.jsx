@@ -7,7 +7,7 @@ function ContactItem({ chatRoomId, roomInfo }) {
   return (
     <div
       onClick={() => dispatch(chatListActions.setCurrentChatRoomId(chatRoomId))}
-      className="flex rounded-lg w-full items-center py-3 cursor-pointer hover:bg-slate-300 px-4"
+      className="flex rounded-lg w-full h-[7rem] items-center py-3 cursor-pointer hover:bg-slate-300 px-4"
     >
       <img
         // src="https://static.vecteezy.com/system/resources/thumbnails/036/280/651/small_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg"

@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { profileActions } from "../store/profileSlice";
 import { useEffect } from "react";
 import DetailProfile from "./Profile/DetailProfile";
+import CustomModal from "../ui/CustomModal";
 function RoomProfile() {
   const { visible, profile, currentProfileId } = useSelector(
     (state) => state.profileReducer

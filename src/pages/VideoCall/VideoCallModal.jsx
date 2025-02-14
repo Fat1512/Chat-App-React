@@ -5,7 +5,6 @@ import { AuthenticationHeader, formatSecond } from "../../utils/helper";
 import { MODAL } from "../../utils/constants";
 
 function VideoCallModal({ currentModal }) {
-  const dispatch = useDispatch();
   const {
     time,
     currentChatRoomId,

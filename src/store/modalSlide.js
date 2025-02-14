@@ -4,6 +4,7 @@ import { MODAL } from "../utils/constants";
 const initialState = {
   currentModal: null,
   isActive: false,
+  position: {}, //x = ...   y = ...
 };
 
 const modal = createSlice({
@@ -12,6 +13,14 @@ const modal = createSlice({
   reducers: {
     setCurrentModal(state, action) {
       state.currentModal = action.payload;
+      state.position = {
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        marginRight: "-50%",
+        transform: "translate(-50%, -50%)",
+      };
     },
     setIsActive(state, action) {
       state.isActive = action.payload;
@@ -19,6 +28,10 @@ const modal = createSlice({
     resetState(state, action) {
       state.currentModal = null;
       state.isActive = false;
+      state.position = null;
+    },
+    setPosition(state, action) {
+      state.position = action.payload;
     },
   },
 });

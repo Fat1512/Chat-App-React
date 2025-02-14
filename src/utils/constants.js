@@ -1,5 +1,3 @@
-export const API_URL = `http://localhost:8080`;
-
 export const SIDEBAR = {
   SETTING: "SETTING",
   CHAT: "CHAT",
@@ -13,6 +11,8 @@ export const MESSAGE_STATUS = {
 };
 export const MODAL = {
   VIDEOCALL: "VIDEOCALL",
+  ADDCONTACT: "ADDCONTACT",
+  CHATLISTMENU: "CHATLISTMENU",
 };
 export const VIDEOCALL_STATUS = {
   RINGING: "Ringing...",
@@ -50,6 +50,7 @@ export const INIT_CHATBOT_CHATLIST_INFO = {
     roomType: "CHATBOT",
   },
 };
+
 export const INIT_CHATBOT_CHAT_INFO = {
   chatRoomId: "129ma-ddk202kdlld02202l",
   roomType: "CHATBOT",

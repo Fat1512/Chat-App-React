@@ -3,7 +3,7 @@ function Button({ children, onClick, disabled = false }) {
     <button
       onClick={onClick}
       disabled={disabled}
-      className="text-2xl py-4 px-6 bg-orange-500 rounded-lg text-white w-full"
+      className="text-2xl py-4 px-6 rounded-lg text-white w-full"
     >
       {children}
     </button>

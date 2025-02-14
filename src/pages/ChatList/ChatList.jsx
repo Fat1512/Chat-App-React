@@ -15,8 +15,10 @@ import OptionMenu from "../../ui/OptionMenu";
 import OptionItem from "../../ui/OptionItem";
 import { AnimatePresence, motion } from "motion/react";
 import ActiveSidebar from "../../ui/ActiveSidebar";
-import { SIDEBAR } from "../../utils/constants";
+import { MODAL, SIDEBAR } from "../../utils/constants";
 import { sidebarActions } from "../../store/sideBarSlice";
+import ChatListMenuModal from "./ChatListMenuModal";
+import { modalActions } from "../../store/modalSlide";
 
 const customStyles = {
   overlay: {
@@ -37,11 +39,22 @@ function ChatList() {
   const { chatList, isLoading, currentChatItemId } = useSelector(
     (state) => state.chatListReducer
   );
-  const [isOpenMenu, setOpenMenu] = useState(false);
   const dispatch = useDispatch();
 
-  function toggleMenu() {
-    setOpenMenu(!isOpenMenu);
+  function toggleMenu(e) {
+    const dimension = e.target.getBoundingClientRect();
+    const x = dimension.x;
+    const y = dimension.height + dimension.top + 8;
+    dispatch(modalActions.setCurrentModal(MODAL.CHATLISTMENU));
+    dispatch(
+      modalActions.setPosition({
+        top: x,
+        left: y,
+        right: "auto",
+        bottom: "auto",
+      })
+    );
+    // setPosition;
   }
 
   function switchActiveChatItem(chatRoomId) {
@@ -57,30 +70,9 @@ function ChatList() {
     <ActiveSidebar sidebarName={SIDEBAR.CHATLIST}>
       <div className="px-3">
         <SideBarHeader className="flex items-center justify-around px-3 relative">
-          <div className="text-2xl px-6 cursor-pointer" onClick={toggleMenu}>
+          <div className="text-2xl p-6 cursor-pointer" onClick={toggleMenu}>
             <BsHddStack />
           </div>
-
-          {isOpenMenu && (
-            <>
-              <OptionMenu>
-                <OptionItem
-                  onClick={() =>
-                    dispatch(sidebarActions.setCurrentSidebar(SIDEBAR.SETTING))
-                  }
-                >
-                  Setting
-                </OptionItem>
-                <OptionItem
-                  onClick={() =>
-                    dispatch(sidebarActions.setCurrentSidebar(SIDEBAR.CONTACT))
-                  }
-                >
-                  Contact
-                </OptionItem>
-              </OptionMenu>
-            </>
-          )}
           <SideBarSearchInput />
         </SideBarHeader>
         <div>
@@ -104,6 +96,7 @@ function ChatList() {
           )}
         </div>
       </div>
+      <ChatListMenuModal />
     </ActiveSidebar>
   );
 }

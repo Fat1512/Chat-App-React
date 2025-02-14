@@ -23,7 +23,7 @@ function ChatHeader({ currentChatRoomId }) {
         <img
           src={profile[currentProfileId].avatar}
           alt=""
-          className="w-[5rem] object-contain"
+          className="w-[5rem] h-[5rem] object-fit rounded-full"
         />
         <div className="flex justify-between w-full items-center">
           <div className="flex flex-col w-full text-xl pl-4">

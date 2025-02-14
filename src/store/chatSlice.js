@@ -1,7 +1,6 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialState = {
-  isLoading: false,
   chatHistory: {}, //cache fetched messages, key = chatRoomId
   currentChatId: null,
   visible: false,

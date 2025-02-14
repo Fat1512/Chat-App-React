@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from "react-modal";
-
-const customStyles = {
+import { useDispatch, useSelector } from "react-redux";
+import { modalActions } from "../store/modalSlide";
+let customStyles = {
   content: {
     top: "50%",
     left: "50%",
@@ -11,33 +12,25 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
   },
 };
-
 Modal.setAppElement("#root");
 
-function CustomModal({
-  children,
-  onClose,
-  modal,
-  currentModal,
-  shouldCloseOnOverlayClick = true,
-}) {
-  const [modalIsOpen, setIsOpen] = useState(modal == currentModal);
-  function openModal() {
-    setIsOpen(true);
-  }
-
+function CustomModal({ children, modal, shouldCloseOnOverlayClick = true }) {
+  const dispatch = useDispatch();
+  const { currentModal, position } = useSelector((state) => state.modalReducer);
   function afterOpenModal() {}
 
   function closeModal() {
-    setIsOpen(false);
-    onClose();
+    dispatch(modalActions.resetState());
   }
+
+  customStyles["content"] = position;
   return (
     <Modal
-      isOpen={modalIsOpen}
+      isOpen={currentModal == modal}
       onAfterOpen={afterOpenModal}
       onRequestClose={closeModal ? closeModal : () => {}}
       style={customStyles}
+      overlayClassName="fixed inset-0 bg-transparent"
       contentLabel="Example Modal"
       shouldCloseOnOverlayClick={shouldCloseOnOverlayClick}
     >

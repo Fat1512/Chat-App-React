@@ -14,7 +14,11 @@ function ProtectedRoute({ children }) {
   }, [isLoading, user?.isAuthenticated]);
 
   if (isLoading || !user?.isAuthenticated) {
-    return <Spinner />;
+    return (
+      <div className="flex h-screen">
+        <Spinner />
+      </div>
+    );
   }
   return children;
 }

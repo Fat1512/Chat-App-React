@@ -5,7 +5,7 @@ import { useState } from "react";
 
 function SideBar() {
   return (
-    <div className="w-[40rem] h-screen">
+    <div className="w-[40rem] h-screen flex">
       <ChatList />
       <Contact />
       <Setting />

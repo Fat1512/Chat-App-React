@@ -69,7 +69,7 @@ function ChatItem({
         // src="https://static.vecteezy.com/system/resources/thumbnails/036/280/651/small_2x/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-illustration-vector.jpg"
         src={roomInfo.avatar}
         alt=""
-        className="w-[5rem] object-contain"
+        className="w-[5rem] h-[5rem] object-fit rounded-full"
       />
       <div className="flex flex-col w-full text-2xl pl-4">
         <div className="flex justify-between">

@@ -1,23 +1,13 @@
-import { useDebugValue, useState } from "react";
 import { sidebarActions } from "../../store/sideBarSlice";
 import ActiveSidebar from "../../ui/ActiveSidebar";
-import { SIDEBAR } from "../../utils/constants";
+import { MODAL, SIDEBAR } from "../../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import SideBarSearchInput from "../SideBar/SideBarSearchInput";
 import SideBarHeader from "../SideBar/SideBarHeader";
-import Spinner from "../../ui/Spinner";
 import ContactItem from "./ContactItem";
-import Button from "../../ui/Button";
 import Modal from "react-modal";
-import Form from "../../ui/Form";
-import FormRow from "../../ui/FormRow";
-import { useForm } from "react-hook-form";
-import { NavLink } from "react-router-dom";
-import { addContact } from "../../services/contactAPI";
-import { contactActions } from "../../store/contactSlice";
-import { chatListActions } from "../../store/chatListSlice";
-import useSubscribe from "../../hooks/useSubscribe";
-import toast from "react-hot-toast";
+import { BiArrowBack, BiSolidAddToQueue } from "react-icons/bi";
+import { modalActions } from "../../store/modalSlide";
 
 const customStyles = {
   content: {
@@ -27,7 +17,7 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    backgroundColor: "orange",
+    backgroundColor: "white",
   },
 };
 
@@ -35,112 +25,20 @@ Modal.setAppElement("#root");
 
 function Contact() {
   const dispatch = useDispatch();
-  const { contactList, isLoading } = useSelector(
-    (state) => state.contactReducer
-  );
-  const { subscribeAllTheMessageEvent } = useSubscribe();
+  const { contactList } = useSelector((state) => state.contactReducer);
 
-  const { register, handleSubmit, formState } = useForm();
-  const { errors } = formState;
-  const [modalIsOpen, setIsOpen] = useState(false);
-
-  function captureName(e) {
-    setName(e.target.value);
-  }
-
-  function captureUsername(e) {
-    setUsername(e.target.value);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    // subtitle.style.color = "#f00";
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  async function success({ username, name }) {
-    try {
-      const data = await addContact({ username, name });
-
-      subscribeAllTheMessageEvent(data.chatRoomId);
-      dispatch(contactActions.setContactList([data]));
-      dispatch(
-        chatListActions.setNewChatListFromAddedContact({
-          chatRoomId: data.chatRoomId,
-          roomType: "PRIVATE",
-          lastestMessage: null,
-          totalUnreadMessages: 0,
-          roomInfo: data.roomInfo,
-        })
-      );
-    } catch (err) {
-      toast.error(err.response.data.message);
-    }
-  }
-  function error() {}
-  if (isLoading) return <Spinner />;
   return (
     <ActiveSidebar sidebarName={SIDEBAR.CONTACT}>
-      <div
-        onClick={() =>
-          dispatch(sidebarActions.setCurrentSidebar(SIDEBAR.CHATLIST))
-        }
-        className="text-2xl p-3 full-rounded cursor-pointer bg-slate-200"
-      >
-        back button
-      </div>
-      <div
-        onClick={openModal}
-        className="text-2xl p-3 full-rounded cursor-pointer bg-slate-200"
-      >
-        add contact
-      </div>
-      <Modal
-        isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-        ariaHideApp={false}
-      >
-        <Form onSubmit={handleSubmit(success, error)}>
-          <FormRow
-            label="name"
-            type="name"
-            name="name"
-            register={register}
-            option={{
-              required: "name is required",
-            }}
-            error={errors?.name?.message}
-          />
-          <FormRow
-            label="username"
-            type="username"
-            name="username"
-            register={register}
-            option={{
-              required: "username is required",
-            }}
-            error={errors?.username?.message}
-          />
-          <div className="flex justify-end text-2xl my-4">
-            <NavLink to="/">Forgot password</NavLink>
-          </div>
-          <div className="flex">
-            <Button>Them</Button>
-          </div>
-        </Form>
-      </Modal>
       <div className="px-3">
-        <SideBarHeader>
+        <SideBarHeader className="flex items-center justify-around px-3 relative">
+          <div
+            onClick={() =>
+              dispatch(sidebarActions.setCurrentSidebar(SIDEBAR.CHATLIST))
+            }
+            className="text-3xl p-4 full-rounded cursor-pointer"
+          >
+            <BiArrowBack />
+          </div>
           <SideBarSearchInput />
         </SideBarHeader>
         <div>
@@ -151,6 +49,15 @@ function Contact() {
               roomInfo={contactItem.roomInfo}
             />
           ))}
+        </div>
+
+        <div
+          onClick={() =>
+            dispatch(modalActions.setCurrentModal(MODAL.ADDCONTACT))
+          }
+          className="absolute bottom-10 right-10 rounded-full cursor-pointer p-9 bg-blue-300 text-4xl"
+        >
+          <BiSolidAddToQueue />
         </div>
       </div>
     </ActiveSidebar>
