@@ -12,8 +12,8 @@ function RegisterForm() {
 
   const { isLoading, register: registerUser } = useRegister();
 
-  function registerr({ name, username, password, repeatPassword }) {
-    registerUser({ name, username, password, repeatPassword });
+  function registerr({ name, email, username, password, repeatPassword }) {
+    registerUser({ name, email, username, password, repeatPassword });
   }
 
   function error() {}
@@ -39,6 +39,16 @@ function RegisterForm() {
           required: "username is required",
         }}
         error={errors?.username?.message}
+      />
+      <FormRow
+        label="Email"
+        type="email"
+        name="email"
+        register={register}
+        option={{
+          required: "email is required",
+        }}
+        error={errors?.email?.message}
       />
       <FormRow
         label="Password"

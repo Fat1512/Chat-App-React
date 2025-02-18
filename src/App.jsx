@@ -14,6 +14,7 @@ import { SocketProvider } from "./hooks/useSocket";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import MainContent from "./pages/MainContent";
+import CallbackOauth from "./pages/Authentication/CallbackOauth";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,18 +41,18 @@ function App() {
               </ProtectedRoute>
             }
           >
-            {/* <Route index element={<Test />} /> */}
             <Route index element={<MainContent />} />
           </Route>
           <Route path="/auth" element={<Authentication />}>
             <Route path="login" element={<LoginSection />} />
+            <Route path="login/callback" element={<CallbackOauth />} />
             <Route path="register" element={<RegisterSection />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
       <Toaster
-        position="top-center"
+        position="top-right"
         gutter={12}
         containerStyle={{ margin: "8px" }}
         toastOptions={{
@@ -65,8 +66,8 @@ function App() {
             fontSize: "16px",
             maxWidth: "500px",
             padding: "16px 24px",
-            backgroundColor: "#39e75f",
-            color: "white",
+            backgroundColor: "#ECECEC",
+            color: "black",
           },
         }}
       />{" "}

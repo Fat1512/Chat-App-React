@@ -3,7 +3,7 @@ import Logo from "../ui/Logo";
 
 function Authentication() {
   return (
-    <div className="px-52 py-5 min-h-screen	bg-orange-100">
+    <div className="px-52 py-5 min-h-screen	chat-bg">
       <Logo />
       <div className="py-20 flex-col items-start">
         <div className="w-1/3">

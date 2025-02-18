@@ -8,7 +8,7 @@ import {
 } from "../utils/helper";
 import { refreshToken } from "../services/tokenAPI";
 import toast from "react-hot-toast";
-import { BASE_URL } from "../utils/APIUrl";
+import { BASE_URL } from "../utils/Url";
 
 const SocketContext = createContext();
 

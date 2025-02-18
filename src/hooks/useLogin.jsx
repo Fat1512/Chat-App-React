@@ -8,9 +8,9 @@ function useLogin() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isLoading, mutate: login } = useMutation({
-    mutationFn: ({ username, password }) => loginAPI({ username, password }),
+    mutationFn: ({ usernameOrEmail, password }) =>
+      loginAPI({ usernameOrEmail, password }),
     onSuccess: (user) => {
-      // delete user.tokenDTO;
       setLocalStorageToken(user.tokenDTO);
 
       queryClient.setQueryData(["user"], {
@@ -19,6 +19,7 @@ function useLogin() {
       navigate("/");
     },
     onError: (err) => {
+      console.log(err);
       toast.error(err.response.data.message);
     },
   });

@@ -18,12 +18,24 @@ export async function uploadEditAvatarAPI(FormData) {
   return res.data.data;
 }
 
-export async function loginAPI({ username, password }) {
+export async function loginAPI({ usernameOrEmail, password }) {
   const res = await API.post("api/v1/auth/login", {
-    username: username,
+    usernameOrEmail: usernameOrEmail,
     password: password,
   });
-  console.log(res);
+  if (res.status != 200) throw new Error(res.data.message);
+  const data = res.data.data;
+
+  data.isAuthenticated = true;
+
+  return data;
+}
+
+export async function loginOauthAPI({ email, name }) {
+  const res = await API.post("api/v1/auth/oauth/login", {
+    email: email,
+    name: name,
+  });
   if (res.status != 200) throw new Error(res.data.message);
   const data = res.data.data;
 
@@ -34,17 +46,19 @@ export async function loginAPI({ username, password }) {
 
 export async function registerAPI({
   name,
+  email,
   username,
   password,
   repeatPassword,
 }) {
   const res = await API.post("api/v1/auth/register", {
     name: name,
+    email: email,
     username: username,
     password: password,
     confirmedPassword: repeatPassword,
   });
-  if (res.status != 200 && res.status != 201) throw new Error(res.data.message);
+  if (res.status != 200 || res.status != 201) throw new Error(res.data.message);
 }
 
 export async function logoutAPI() {

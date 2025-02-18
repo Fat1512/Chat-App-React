@@ -6,13 +6,13 @@ import { useNavigate } from "react-router-dom";
 function useRegister() {
   const navigate = useNavigate();
   const { isLoading, mutate: register } = useMutation({
-    mutationFn: ({ name, username, password, repeatPassword }) =>
-      registerAPI({ name, username, password, repeatPassword }),
+    mutationFn: ({ name, email, username, password, repeatPassword }) =>
+      registerAPI({ name, email, username, password, repeatPassword }),
     onSuccess: () => {
       navigate("/auth/login");
     },
     onError: (err) => {
-      toast.error(err.message);
+      toast.error(err.response.data.message);
     },
   });
   return { isLoading, register };

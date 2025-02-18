@@ -2,7 +2,7 @@ import axios from "axios";
 import axiosRetry from "axios-retry";
 import { getAccessToken, setLocalStorageToken } from "./helper";
 import { refreshToken } from "../services/tokenAPI";
-import { BASE_URL } from "./APIUrl";
+import { BASE_URL } from "./Url";
 
 let retryQueue = [];
 let isRefresh = false;
