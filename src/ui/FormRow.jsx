@@ -6,6 +6,7 @@ function FormRow({ ...props }) {
     <div className="flex py-3 text-2xl content-center flex-col">
       <Label>{props?.label}</Label>
       <Input
+        valueInput={props?.valueInput}
         register={props?.register}
         name={props?.name}
         type={props?.type}

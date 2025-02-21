@@ -8,9 +8,6 @@ function useUploadAvatar() {
   //   const { currentUser } = useUser();
   const { isLoading, mutate: uploadAvatar } = useMutation({
     mutationFn: (formData) => uploadEditAvatarAPI(formData),
-    onSuccess: () => {
-      toast.success("Uploaded successfully");
-    },
     onError: (err) => {
       toast.error(err.message);
     },

@@ -8,6 +8,7 @@ import ModalComponent from "./ModalComponent";
 import Chat from "./Chat/Chat";
 import CustomModal from "../ui/CustomModal";
 import FullPage from "../ui/FullPage";
+import UserInfoCard from "./UserInfoCard";
 
 function MainContent() {
   const { loaded } = useInit();

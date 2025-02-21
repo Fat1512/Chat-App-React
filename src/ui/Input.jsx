@@ -2,6 +2,7 @@ function Input({ ...props }) {
   return (
     <>
       <input
+        defaultValue={props.valueInput}
         type={props.type}
         {...(props.register
           ? { ...props.register(props.name, props.option) }

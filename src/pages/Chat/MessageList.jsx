@@ -41,7 +41,7 @@ function MessageList({ messageHistoryList, currentChat }) {
   return (
     <div
       ref={containerRef}
-      className="flex flex-col text-2xl text-wrap overflow-y-scroll pb-6"
+      className="flex flex-col text-2xl text-wrap overflow-y-scroll no-scrollbar pb-6"
     >
       {messageHistoryList.map((messageHistory) => {
         return (

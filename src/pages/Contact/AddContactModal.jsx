@@ -12,6 +12,7 @@ function AddContactModal({ currentModal }) {
 
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
+
   async function success({ username, name }) {
     addContact(
       { username, name },
@@ -37,33 +38,35 @@ function AddContactModal({ currentModal }) {
   return (
     <>
       <CustomModal modal={MODAL.ADDCONTACT} shouldCloseOnOverlayClick={true}>
-        <Form onSubmit={handleSubmit(success, error)}>
-          <FormRow
-            label="Name"
-            type="name"
-            name="name"
-            register={register}
-            option={{
-              required: "name is required",
-            }}
-            error={errors?.name?.message}
-          />
-          <FormRow
-            label="Username"
-            type="username"
-            name="username"
-            register={register}
-            option={{
-              required: "username is required",
-            }}
-            error={errors?.username?.message}
-          />
-          <div className="flex">
-            <button className="w-full text-2xl bg-white p-3 rounded-lg text-blue-700">
-              Add
-            </button>
-          </div>
-        </Form>
+        <div className="p-7">
+          <Form onSubmit={handleSubmit(success, error)}>
+            <FormRow
+              label="Name"
+              type="name"
+              name="name"
+              register={register}
+              option={{
+                required: "name is required",
+              }}
+              error={errors?.name?.message}
+            />
+            <FormRow
+              label="Username"
+              type="username"
+              name="username"
+              register={register}
+              option={{
+                required: "username is required",
+              }}
+              error={errors?.username?.message}
+            />
+            <div className="flex">
+              <button className="w-full text-2xl bg-white p-3 rounded-lg text-blue-700">
+                ADD
+              </button>
+            </div>
+          </Form>
+        </div>
       </CustomModal>
     </>
   );

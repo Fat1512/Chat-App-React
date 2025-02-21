@@ -49,7 +49,7 @@ function Chat() {
       {visible && (
         <>
           <ChatHeader currentChatRoomId={currentChat.chatRoomId} />
-          <div className="flex grow flex-col justify-end px-60 overflow-hidden">
+          <div className="flex grow flex-col justify-end px-28 scroll-smooth overflow-hidden">
             <MessageList
               currentChat={currentChat}
               isLast={currentChat.isLast}

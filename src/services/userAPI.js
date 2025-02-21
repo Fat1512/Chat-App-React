@@ -18,6 +18,16 @@ export async function uploadEditAvatarAPI(FormData) {
   return res.data.data;
 }
 
+export async function updateUserProfile(profileInfo) {
+  const res = await AUTH_REQUEST.post(
+    "/api/v1/users/update-profile",
+    profileInfo
+  );
+  if (res.status != 200) throw new Error(res.data.message);
+  console.log(res);
+  return res.data.data;
+}
+
 export async function loginAPI({ usernameOrEmail, password }) {
   const res = await API.post("api/v1/auth/login", {
     usernameOrEmail: usernameOrEmail,
