@@ -24,7 +24,6 @@ function Chat() {
 
       getChatDetail(currentChatItemId, {
         onSuccess: (data) => {
-          console.log(data);
           dispatch(
             chatActions.setChatHistory({
               ...data,

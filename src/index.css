@@ -93,3 +93,15 @@ img {
   color: #fff;
   background-color: royalblue;
 }
+
+.custom-menu {
+  @apply bg-white rounded-md shadow-lg border border-gray-200 p-2 min-w-[150px];
+}
+
+.custom-menu .p-menuitem-link {
+  @apply block px-4 py-2 text-black text-3xl;
+}
+
+.custom-menu .p-menuitem-link:hover {
+  @apply bg-gray-100;
+}

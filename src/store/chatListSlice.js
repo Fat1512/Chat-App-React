@@ -41,6 +41,12 @@ const chatList = createSlice({
     resetUnreadMessageCount(state, action) {
       state.chatList[action.payload.chatRoomId].totalUnreadMessages = 0;
     },
+
+    resetState(state, action) {
+      state.isLoading = true;
+      state.chatList = {};
+      state.currentChatItemId = null; //chatRoomId
+    },
   },
 });
 

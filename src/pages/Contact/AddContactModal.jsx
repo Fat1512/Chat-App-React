@@ -5,21 +5,29 @@ import CustomModal from "../../ui/CustomModal";
 import { MODAL } from "../../utils/constants";
 import FormRow from "../../ui/FormRow";
 import Form from "../../ui/Form";
+import { useDispatch, useSelector } from "react-redux";
+import { contactActions } from "../../store/contactSlice";
+import { chatListActions } from "../../store/chatListSlice";
 
-function AddContactModal({ currentModal }) {
+function AddContactModal() {
   const { addContact } = useAddContact();
   const { subscribeAllTheMessageEvent } = useSubscribe();
-
+  const { chatList } = useSelector((state) => state.chatListReducer);
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
-
+  const dispatch = useDispatch();
   async function success({ username, name }) {
     addContact(
       { username, name },
       {
         onSuccess: (data) => {
-          subscribeAllTheMessageEvent(data.chatRoomId);
+          console.log(data);
           dispatch(contactActions.setContactList([data]));
+
+          //In case user has been added in group by another user -> avoid duplicating the
+          if (chatList[data.chatRoomId]) return;
+          console.log("didn't exist");
+          subscribeAllTheMessageEvent(data.chatRoomId);
           dispatch(
             chatListActions.setNewChatListFromAddedContact({
               chatRoomId: data.chatRoomId,

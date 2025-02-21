@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { uploadMessageImages } from "../services/chatRoomAPI";
+import { uploadMessageImages } from "../services/chatRoomService";
 import { IMAGE_LIMIT_SIZE, MESSAGE_TYPE } from "../utils/constants";
 import toast from "react-hot-toast";
 

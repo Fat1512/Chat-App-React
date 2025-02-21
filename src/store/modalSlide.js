@@ -25,13 +25,13 @@ const modal = createSlice({
     setIsActive(state, action) {
       state.isActive = action.payload;
     },
+    setPosition(state, action) {
+      state.position = action.payload;
+    },
     resetState(state, action) {
       state.currentModal = null;
       state.isActive = false;
       state.position = null;
-    },
-    setPosition(state, action) {
-      state.position = action.payload;
     },
   },
 });

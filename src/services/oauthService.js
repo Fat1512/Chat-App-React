@@ -6,7 +6,7 @@ export async function getOauthURLAPI() {
   return res.data.data;
 }
 
-export async function loginOauthAPI(authorizationCode) {
+export async function loginoauthService(authorizationCode) {
   const res = await API.post("/api/v1/auth/oauth/login", {
     authorizationCode: authorizationCode,
   });

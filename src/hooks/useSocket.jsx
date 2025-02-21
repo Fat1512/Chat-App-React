@@ -6,7 +6,7 @@ import {
   removeLocalStorageToken,
   setLocalStorageToken,
 } from "../utils/helper";
-import { refreshToken } from "../services/tokenAPI";
+import { refreshToken } from "../services/tokenService";
 import toast from "react-hot-toast";
 import { BASE_URL } from "../utils/Url";
 

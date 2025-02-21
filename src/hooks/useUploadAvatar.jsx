@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { uploadEditAvatarAPI } from "../services/userAPI";
+import { uploadEditAvatarAPI } from "../services/userService";
 import toast from "react-hot-toast";
 import { IMAGE_LIMIT_SIZE } from "../utils/constants";
 import useUser from "./useUser";

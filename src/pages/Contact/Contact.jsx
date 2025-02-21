@@ -8,6 +8,9 @@ import ContactItem from "./ContactItem";
 import Modal from "react-modal";
 import { BiArrowBack, BiSolidAddToQueue } from "react-icons/bi";
 import { modalActions } from "../../store/modalSlide";
+import { ContextMenu } from "primereact/contextmenu";
+import { useRef } from "react";
+import { Button } from "primereact/button";
 
 const customStyles = {
   content: {
@@ -26,7 +29,6 @@ Modal.setAppElement("#root");
 function Contact() {
   const dispatch = useDispatch();
   const { contactList } = useSelector((state) => state.contactReducer);
-
   return (
     <ActiveSidebar sidebarName={SIDEBAR.CONTACT}>
       <div className="px-3">
@@ -44,7 +46,8 @@ function Contact() {
         <div>
           {Object.values(contactList).map((contactItem) => (
             <ContactItem
-              key={contactItem.chatRoomId}
+              key={contactItem.contactId}
+              contactId={contactItem.contactId}
               chatRoomId={contactItem.chatRoomId}
               roomInfo={contactItem.roomInfo}
             />

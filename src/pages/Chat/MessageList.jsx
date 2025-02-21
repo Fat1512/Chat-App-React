@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import useUser from "../../hooks/useUser";
 import { formatDate, formatTime } from "../../utils/helper";
 import MessageItem from "./MessageItem";
-import { getMessagesAPI } from "../../services/messageAPI";
+import { getMessagesAPI } from "../../services/messageService";
 import { current } from "@reduxjs/toolkit";
 import { MESSAGE_PAGE_SIZE } from "../../utils/constants";
 import { useDispatch } from "react-redux";
@@ -46,7 +46,9 @@ function MessageList({ messageHistoryList, currentChat }) {
       {messageHistoryList.map((messageHistory) => {
         return (
           <div key={+messageHistory.day} className="flex flex-col">
-            <div className="text-center">{formatDate(+messageHistory.day)}</div>
+            <div className="text-center py-8">
+              {formatDate(+messageHistory.day)}
+            </div>
             {messageHistory.messages.map((message) => {
               return (
                 <MessageItem

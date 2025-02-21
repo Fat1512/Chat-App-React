@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AUTH_REQUEST } from "../utils/axiosConfig";
 import { useMutation } from "@tanstack/react-query";
-import { getChatDetailAPI } from "../services/chatRoomAPI";
+import { getChatDetailAPI } from "../services/chatRoomService";
 import { chatActions } from "../store/chatSlice";
 
 function useGetChatDetail() {

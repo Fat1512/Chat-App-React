@@ -32,6 +32,7 @@ function useInit() {
         subscribeAllTheMessageEvent(id);
       });
     }
+
     async function fetchContacts() {
       const res = await AUTH_REQUEST.get("/api/v1/contacts");
       if (res.status != 200) throw new Error("error");

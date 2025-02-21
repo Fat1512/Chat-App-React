@@ -11,7 +11,6 @@ export async function getMessagesAPI({
   size = MESSAGE_PAGE_SIZE,
   paddingOffset = MESSAGE_PADDING_OFFSET,
 }) {
-  console.log(paddingOffset);
   const res = await AUTH_REQUEST.get(
     `/api/v1/chatrooms/${chatRoomId}/messages?page=${page}&size=${size}&paddingOffset=${paddingOffset}`
   );

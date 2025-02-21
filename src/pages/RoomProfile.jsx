@@ -16,6 +16,7 @@ function RoomProfile() {
   const { currentChatId, chatHistory } = useSelector(
     (state) => state.chatReducer
   );
+
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("media");
 
@@ -29,7 +30,7 @@ function RoomProfile() {
       dispatch(profileActions.setCurrentProfileId(chatItem.chatRoomId));
     }
   }, [currentChatItemId]);
-  console.log(profile);
+
   return (
     <div
       className={`overflow-hidden transition-all ease-in-out text-2xl border border-1 ${

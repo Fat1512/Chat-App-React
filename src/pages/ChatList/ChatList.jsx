@@ -19,12 +19,44 @@ import { MODAL, SIDEBAR } from "../../utils/constants";
 import { sidebarActions } from "../../store/sideBarSlice";
 import ChatListMenuModal from "./ChatListMenuModal";
 import { modalActions } from "../../store/modalSlide";
+import { AuthenticationHeader } from "../../utils/helper";
+import useSubscribe from "../../hooks/useSubscribe";
+import useSocket from "../../hooks/useSocket";
+import useUser from "../../hooks/useUser";
+import { BiSolidAddToQueue } from "react-icons/bi";
 
 function ChatList() {
   const { chatList, isLoading, currentChatItemId } = useSelector(
     (state) => state.chatListReducer
   );
+  const chatListKeysCount = useSelector(
+    (state) => Object.keys(state.chatListReducer.chatList).length
+  );
+  const { stompClient } = useSocket();
+  const { user } = useUser();
+  const { subscribeAllTheMessageEvent } = useSubscribe();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const subObj = stompClient.subscribe(
+      `/topic/chatRoom/${user.id}/newChatRoom`,
+      (message) => {
+        //In case user has added another user in group
+        const body = JSON.parse(message.body);
+
+        if (chatList[body.chatRoomId]) return;
+
+        subscribeAllTheMessageEvent(body.chatRoomId);
+        dispatch(chatListActions.setChatList([body]));
+      },
+      AuthenticationHeader()
+    );
+
+    return () =>
+      stompClient.unsubscribe(subObj.id, {
+        ...AuthenticationHeader(),
+      });
+  }, [chatListKeysCount]);
 
   function toggleMenu(e) {
     const target = e.target.closest(".menu");
@@ -50,7 +82,7 @@ function ChatList() {
   if (isLoading) {
     return <Spinner />;
   }
-
+  console.log(chatListKeysCount);
   return (
     <ActiveSidebar sidebarName={SIDEBAR.CHATLIST}>
       <div className="px-3">
@@ -83,6 +115,12 @@ function ChatList() {
               )
           )}
         </div>
+      </div>
+      <div
+        onClick={() => dispatch(modalActions.setCurrentModal(MODAL.ADDCONTACT))}
+        className="absolute bottom-10 right-10 rounded-full cursor-pointer p-9 bg-blue-300 text-4xl"
+      >
+        <BiSolidAddToQueue />
       </div>
       <ChatListMenuModal />
     </ActiveSidebar>

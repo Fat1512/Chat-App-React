@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { formControlClasses } from "@mui/material";
-import { getOauthURLAPI, loginOauthAPI } from "../services/oauthAPI";
+import { getOauthURLAPI, loginoauthService } from "../services/oauthService";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { setLocalStorageToken } from "../utils/helper";
@@ -10,7 +10,7 @@ function useGoogleLogin() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isLoading, mutate: googleLogin } = useMutation({
-    mutationFn: (authorizationCode) => loginOauthAPI(authorizationCode),
+    mutationFn: (authorizationCode) => loginoauthService(authorizationCode),
     onSuccess: (user) => {
       setLocalStorageToken(user.tokenDTO);
 

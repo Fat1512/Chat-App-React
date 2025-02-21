@@ -115,6 +115,11 @@ const chat = createSlice({
         })),
       }));
     },
+    resetState(state, action) {
+      state.chatHistory = {};
+      state.currentChatId = null;
+      state.visible = false;
+    },
   },
 });
 

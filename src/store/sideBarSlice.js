@@ -15,6 +15,9 @@ const sidebar = createSlice({
     setCurrentSidebar(state, action) {
       state.currentActive = action.payload;
     },
+    resetState(state, action) {
+      state.currentActive = SIDEBAR.CHATLIST;
+    },
   },
 });
 

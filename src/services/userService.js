@@ -1,7 +1,7 @@
 import { setLocalStorageToken } from "../utils/helper";
 import { AUTH_REQUEST, API } from "../utils/axiosConfig";
 
-export async function getCurrentUserAPI() {
+export async function getCurrentuserService() {
   const res = await AUTH_REQUEST.get("/api/v1/users/profile");
 
   if (res.status != 200) throw new Error("error");
@@ -41,7 +41,7 @@ export async function loginAPI({ usernameOrEmail, password }) {
   return data;
 }
 
-export async function loginOauthAPI({ email, name }) {
+export async function loginoauthService({ email, name }) {
   const res = await API.post("api/v1/auth/oauth/login", {
     email: email,
     name: name,

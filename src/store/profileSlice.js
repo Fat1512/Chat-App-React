@@ -27,6 +27,11 @@ const profile = createSlice({
       if (!state.profile[action.payload.chatRoomId]) return;
       state.profile[action.payload.chatRoomId].status = action.payload.status;
     },
+    resetState(state, action) {
+      state.visible = false;
+      state.profile = {};
+      state.currentProfileId = null;
+    },
   },
 });
 
