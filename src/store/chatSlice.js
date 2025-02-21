@@ -22,11 +22,39 @@ const chat = createSlice({
     setIsLoading(state, action) {
       state.isLoading = action.payload;
     },
-    updateMessageHistory(state, { payload }) {
+    setIsLast(state, action) {
+      state.chatHistory[state.currentChatId].isLast = action.payload.isLast;
+    },
+    updatePaginationMessageHistory(state, action) {
+      const currentState = current(state);
+      const updateMessages = action.payload.content;
+      state.chatHistory[currentState.currentChatId].last = action.payload.last;
+      state.chatHistory[currentState.currentChatId].page = action.payload.page;
+
+      for (let i = updateMessages.length - 1; i >= 0; i--) {
+        const currentMessageHistory = currentState.chatHistory[
+          currentState.currentChatId
+        ].messageHistory.find(
+          (msgHistory) => msgHistory.day == updateMessages[i].day
+        );
+        if (currentMessageHistory) {
+          state.chatHistory[currentState.currentChatId].messageHistory
+            .find((msgHistory) => msgHistory.day == updateMessages[i].day)
+            .messages.unshift(...updateMessages[i].messages);
+        } else {
+          state.chatHistory[currentState.currentChatId].messageHistory.unshift({
+            day: updateMessages[i].day,
+            messages: updateMessages[i].messages,
+          });
+        }
+      }
+    },
+    appendMessageHistory(state, { payload }) {
       const currentState = current(state);
       //Check whether corresponding chatHistory has been loaded previously
       if (!currentState.chatHistory[payload.chatRoomId]) return;
 
+      state.chatHistory[payload.chatRoomId].paddingOffset += 1;
       //Check if today message obj has been created
       const currentHistory = currentState.chatHistory[
         payload.chatRoomId
@@ -93,3 +121,6 @@ const chat = createSlice({
 export const chatActions = chat.actions;
 
 export default chat.reducer;
+// {
+//   currentPage, size, isLast, paddingOffset;
+// }

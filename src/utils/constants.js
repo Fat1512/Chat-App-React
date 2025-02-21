@@ -34,6 +34,10 @@ export const REJECT_REASON = {
   BUSY: "BUSY",
 };
 export const IMAGE_LIMIT_SIZE = 20000000; //20MB
+export const MESSAGE_PAGE_SIZE = 20;
+export const MESSAGE_PAGE = 1;
+export const MESSAGE_PADDING_OFFSET = 0;
+
 export const INIT_CHATBOT_CHATLIST_INFO = {
   chatRoomId: "129ma-ddk202kdlld02202l",
   roomType: "CHATBOT",

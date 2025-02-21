@@ -2,15 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 import MessageList from "./MessageList";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { chatActions } from "../../store/chatSlice";
-import { AuthenticationHeader, getStartMiliOfDay } from "../../utils/helper";
-import { AUTH_REQUEST } from "../../utils/axiosConfig";
-import { profileActions } from "../../store/profileSlice";
 import Spinner from "../../ui/Spinner";
-import useSocket from "../../hooks/useSocket";
-import useChat from "../../hooks/useGetChatDetail";
 import useGetChatDetail from "../../hooks/useGetChatDetail";
+import { MESSAGE_PAGE, MESSAGE_PAGE_SIZE } from "../../utils/constants";
 
 function Chat() {
   const dispatch = useDispatch();
@@ -25,9 +21,18 @@ function Chat() {
     if (!currentChatItemId) return;
     else if (!chatHistory[currentChatItemId]) {
       dispatch(chatActions.setIsLoading(true));
+
       getChatDetail(currentChatItemId, {
         onSuccess: (data) => {
-          dispatch(chatActions.setChatHistory(data));
+          console.log(data);
+          dispatch(
+            chatActions.setChatHistory({
+              ...data,
+              page: MESSAGE_PAGE,
+              last: false,
+              paddingOffset: 0,
+            })
+          );
           dispatch(chatActions.setCurrentChatId(data.chatRoomId));
           dispatch(chatActions.setVisible(true));
           dispatch(chatActions.setIsLoading(false));
@@ -38,9 +43,7 @@ function Chat() {
       dispatch(chatActions.setVisible(true));
     }
   }, [currentChatItemId]);
-
   if (isLoading) return <Spinner />;
-
   return (
     <div className={`flex flex-col chat-bg grow h-screen ease-in-out`}>
       {visible && (
@@ -48,6 +51,9 @@ function Chat() {
           <ChatHeader currentChatRoomId={currentChat.chatRoomId} />
           <div className="flex grow flex-col justify-end px-60 overflow-hidden">
             <MessageList
+              currentChat={currentChat}
+              isLast={currentChat.isLast}
+              currentChatItemId={currentChatItemId}
               messageHistoryList={currentChat.messageHistory} //Object with key as day
             />
             <MessageInput chatRoomId={currentChat.chatRoomId} />

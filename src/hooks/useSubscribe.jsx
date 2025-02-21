@@ -85,7 +85,7 @@ function useSubscribe() {
           })
         );
         dispatch(
-          chatActions.updateMessageHistory({
+          chatActions.appendMessageHistory({
             chatRoomId: id,
             today: today,
             message: body,
