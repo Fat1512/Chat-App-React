@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useSocket from "./useSocket";
 import { chatListActions } from "../store/chatListSlice";
 import { contactActions } from "../store/contactSlice";
-import { AuthenticationHeader } from "../utils/helper";
+import { AuthenticationHeader, removeLocalStorageToken } from "../utils/helper";
 import { AUTH_REQUEST } from "../utils/axiosConfig";
 import { useDispatch } from "react-redux";
 import useSubscribe from "./useSubscribe";
@@ -45,6 +45,7 @@ function useInit() {
           const token = JSON.parse(message.body);
 
           if (token.authentication != AuthenticationHeader().Authorization) {
+            removeLocalStorageToken();
             window.location.reload();
           }
         },

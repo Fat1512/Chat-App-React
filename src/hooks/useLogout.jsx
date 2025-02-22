@@ -30,10 +30,6 @@ function useLogout() {
       }
     },
     onSuccess: () => {
-      stompClient.deactivate();
-      navigate("/auth/login");
-      removeLocalStorageToken();
-
       dispatch(chatActions.resetState());
       dispatch(chatListActions.resetState());
       dispatch(contactActions.resetState());
@@ -41,6 +37,8 @@ function useLogout() {
       dispatch(profileActions.resetState());
       dispatch(sidebarActions.resetState());
       dispatch(videoCallActions.resetState());
+      navigate("/auth/login");
+      removeLocalStorageToken();
     },
     onError: (err) => {
       toast.error(err.message);

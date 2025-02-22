@@ -53,17 +53,17 @@ function ChatList() {
     );
 
     return () =>
-      stompClient.unsubscribe(subObj.id, {
+      stompClient?.unsubscribe(subObj.id, {
         ...AuthenticationHeader(),
       });
-  }, [chatListKeysCount]);
+  }, [chatListKeysCount, stompClient]);
 
   function toggleMenu(e) {
     const target = e.target.closest(".menu");
     const dimension = target.getBoundingClientRect();
     const x = dimension.x - dimension.width;
     const y = dimension.height + dimension.y;
-    dispatch(modalActions.setCurrentModal(MODAL.CHATLISTMENU));
+    dispatch(modalActions.setCurrentModal(MODAL.CHATLIST_MENU));
     dispatch(
       modalActions.setPosition({
         left: x,
@@ -82,7 +82,6 @@ function ChatList() {
   if (isLoading) {
     return <Spinner />;
   }
-  console.log(chatListKeysCount);
   return (
     <ActiveSidebar sidebarName={SIDEBAR.CHATLIST}>
       <div className="px-3">
@@ -117,7 +116,9 @@ function ChatList() {
         </div>
       </div>
       <div
-        onClick={() => dispatch(modalActions.setCurrentModal(MODAL.ADDCONTACT))}
+        onClick={() =>
+          dispatch(sidebarActions.setCurrentSidebar(SIDEBAR.CREATEGROUP))
+        }
         className="absolute bottom-10 right-10 rounded-full cursor-pointer p-9 bg-blue-300 text-4xl"
       >
         <BiSolidAddToQueue />

@@ -5,7 +5,7 @@ import { sidebarActions } from "../store/sideBarSlice";
 function ActiveSidebar({ sidebarName, children }) {
   const { currentActive } = useSelector((state) => state.sideBarReducer);
   if (currentActive != sidebarName) return;
-  return <div className="w-full relative border-r-2">{children}</div>;
+  return <div className="w-full h-full relative border-r-2">{children}</div>;
 }
 
 export default ActiveSidebar;

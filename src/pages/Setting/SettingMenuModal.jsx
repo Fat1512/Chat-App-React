@@ -10,7 +10,7 @@ function SettingMenuModal() {
   const dispatch = useDispatch();
   return (
     <>
-      <CustomModal modal={MODAL.SETTINGMENU}>
+      <CustomModal modal={MODAL.SETTING_MENU}>
         <div className="p-2">
           <OptionMenu>
             <OptionItem

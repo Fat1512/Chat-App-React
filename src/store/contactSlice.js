@@ -3,6 +3,7 @@ import { createSlice, current } from "@reduxjs/toolkit";
 const initialState = {
   isLoading: true,
   contactList: {},
+  selectedContact: [],
 };
 
 const contact = createSlice({
@@ -32,6 +33,14 @@ const contact = createSlice({
     resetState(state, action) {
       state.isLoading = true;
       state.contactList = {};
+    },
+    setSelectedContact(state, action) {
+      const userId = action.payload;
+      const currentState = current(state);
+      const currentSelectedContact = currentState.selectedContact;
+      state.selectedContact = currentSelectedContact.includes(userId)
+        ? currentSelectedContact.filter((n) => n !== userId)
+        : [...currentSelectedContact, userId];
     },
   },
 });

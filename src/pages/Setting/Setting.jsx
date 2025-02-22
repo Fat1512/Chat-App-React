@@ -56,7 +56,7 @@ function Setting() {
             const dimension = target.getBoundingClientRect();
             const x = dimension.x;
             const y = dimension.height + dimension.y;
-            dispatch(modalActions.setCurrentModal(MODAL.SETTINGMENU));
+            dispatch(modalActions.setCurrentModal(MODAL.SETTING_MENU));
             dispatch(
               modalActions.setPosition({
                 left: x,

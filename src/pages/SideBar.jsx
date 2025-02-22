@@ -2,6 +2,7 @@ import ChatList from "./ChatList/ChatList";
 import Setting from "./Setting/Setting";
 import Contact from "./Contact/Contact";
 import { useState } from "react";
+import CreateGroup from "./Group/CreateGroup";
 
 function SideBar() {
   return (
@@ -9,6 +10,7 @@ function SideBar() {
       <ChatList />
       <Contact />
       <Setting />
+      <CreateGroup />
     </div>
   );
 }

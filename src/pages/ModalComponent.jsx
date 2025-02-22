@@ -5,15 +5,16 @@ import AddContactModal from "./Contact/AddContactModal";
 import { current } from "@reduxjs/toolkit";
 import LogoutModal from "./Setting/LogoutModal";
 import UserInfoModal from "../pages/Setting/UserInfoModal";
+import CreateGroupModal from "../pages/Group/CreateGroupModal";
+
 function ModalComponent() {
   const { currentModal } = useSelector((state) => state.modalReducer);
-
   const modal = (function () {
     switch (currentModal) {
       case MODAL.VIDEOCALL:
         return <VideoCallModal />;
         break;
-      case MODAL.ADDCONTACT:
+      case MODAL.ADD_CONTACT:
         return <AddContactModal />;
         break;
       case MODAL.LOGOUT:
@@ -21,6 +22,9 @@ function ModalComponent() {
         break;
       case MODAL.USERINFO:
         return <UserInfoModal />;
+        break;
+      case MODAL.CREATE_GROUP:
+        return <CreateGroupModal />;
         break;
     }
   })();

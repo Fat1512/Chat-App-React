@@ -10,7 +10,7 @@ function ChatListMenuModal() {
   const dispatch = useDispatch();
   return (
     <>
-      <CustomModal modal={MODAL.CHATLISTMENU}>
+      <CustomModal modal={MODAL.CHATLIST_MENU}>
         <div className="p-2 shadow-xl">
           <OptionMenu>
             <OptionItem

@@ -44,13 +44,13 @@ function ChatItem({
   }, [currentChatItemId, latestMessage, stompClient]);
 
   let displayMessageContent;
-  if (latestMessage.messageType == MESSAGE_TYPE.TEXT) {
+  if (latestMessage?.messageType == MESSAGE_TYPE.TEXT) {
     displayMessageContent = latestMessage?.content;
   }
-  if (latestMessage.messageType == MESSAGE_TYPE.VIDEOCALL) {
+  if (latestMessage?.messageType == MESSAGE_TYPE.VIDEOCALL) {
     displayMessageContent = "Video call";
   }
-  if (latestMessage.messageType == MESSAGE_TYPE.IMAGE) {
+  if (latestMessage?.messageType == MESSAGE_TYPE.IMAGE) {
     displayMessageContent = "Image";
   }
 

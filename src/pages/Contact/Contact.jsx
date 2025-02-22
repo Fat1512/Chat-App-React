@@ -56,7 +56,7 @@ function Contact() {
 
         <div
           onClick={() =>
-            dispatch(modalActions.setCurrentModal(MODAL.ADDCONTACT))
+            dispatch(modalActions.setCurrentModal(MODAL.ADD_CONTACT))
           }
           className="absolute bottom-10 right-10 rounded-full cursor-pointer p-9 bg-blue-300 text-4xl"
         >

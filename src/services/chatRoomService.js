@@ -11,3 +11,14 @@ export async function getChatDetailAPI(chatRoomId) {
   if (res.status != 200) throw new Error(res.data.message);
   return res.data.data;
 }
+
+export async function createGroupAPI({ groupName, membersId }) {
+  console.log({ groupName, membersId });
+  const res = await AUTH_REQUEST.post(`/api/v1/chatrooms/create-chatroom`, {
+    groupName: groupName,
+    membersId: [...membersId],
+  });
+
+  if (res.status != 200) throw new Error(res.data.message);
+  return res.data.data;
+}
